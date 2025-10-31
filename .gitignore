@@ -1,0 +1,68 @@
+# ==========================
+# Build system / CMake
+# ==========================
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+Testing/
+CTestTestfile.cmake
+
+# ==========================
+# Compiled object files
+# ==========================
+*.o
+*.obj
+*.lo
+*.la
+*.al
+*.mod
+*.smod
+
+# ==========================
+# Compiled static & shared libs
+# ==========================
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+
+# ==========================
+# Executables
+# ==========================
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# ==========================
+# Logs & dumps
+# ==========================
+*.log
+*.cache
+*.tmp
+*.swp
+*.swo
+*.bak
+*.old
+*.core
+*.dmp
+
+# ==========================
+# Visual Studio Code
+# ==========================
+.vscode/
+*.code-workspace
+
+# ==========================
+# OS-specific files
+# ==========================
+.DS_Store
+Thumbs.db
+desktop.ini
