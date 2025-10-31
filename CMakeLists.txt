@@ -1,16 +1,34 @@
 cmake_minimum_required(VERSION 3.16)
+project(GameEngine LANGUAGES CXX)
 
-project(TestEngine LANGUAGES CXX)
+# Configuración global
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
+# --- Archivos del motor ---
+# Meter aqui todos los archivos del motor
+file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/*.hpp"
+)
+
+# --- Archivos de la demo ---
+# file(GLOB_RECURSE DEMO_SOURCES CONFIGURE_DEPENDS
+#     "${CMAKE_CURRENT_SOURCE_DIR}/src/demo/*.cpp"
+# )
+
+# --- Archivo main ---
+set(MAIN_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+
+# --- Crear ejecutable ---
+add_executable(GameEngine
+    ${MAIN_SRC}
+    ${ENGINE_SOURCES}
+    #${DEMO_SOURCES}
+)
+
+# --- Raylib ---
 find_package(raylib REQUIRED)
-
-file(GLOB_RECURSE SOURCES src/*.cpp)
-file(GLOB_RECURSE HEADERS include/*.hpp)
-
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
-
-target_link_libraries(${PROJECT_NAME} raylib)
-
-target_include_directories(${PROJECT_NAME} PRIVATE include)
+target_link_libraries(GameEngine PRIVATE raylib)
+target_include_directories(GameEngine PRIVATE ${RAYLIB_INCLUDE_DIRS})
