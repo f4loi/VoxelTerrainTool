@@ -10,11 +10,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Meter aqui todos los archivos del motor
 file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/*.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/*.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/CMP/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/Systems/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/Managers/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/Entities/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/fachadaGrafica/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/fachadaGrafica/*.hpp"
+
 
 )
 
