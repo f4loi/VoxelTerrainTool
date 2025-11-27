@@ -10,6 +10,6 @@ private:
     int nextId = 0;
 public:
     EntityManager(){};
-    auto& CreateEntity();
-
+    Entity& CreateEntity();
+    void forAll(auto&& );
 };

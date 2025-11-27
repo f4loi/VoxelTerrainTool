@@ -1,3 +1,6 @@
 #pragma once
 
-bool isRendered = true;
+struct RenderCMP
+{
+    bool isRendered = true;
+};

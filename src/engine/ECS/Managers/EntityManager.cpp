@@ -7,9 +7,17 @@ EntityManager::EntityManager()
     nextId = 0;
 }
 
-auto& EntityManager::CreateEntity()
+Entity& EntityManager::CreateEntity()
 {
     auto &entity = entities.emplace_back();
     entity.SetId(nextId++);
     return entity;
+}
+
+void EntityManager::forAll(auto&& func)
+{
+    for (auto& entity : entities)
+    {
+        func(entity);
+    }
 }

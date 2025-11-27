@@ -1,7 +1,7 @@
-#include "raylib.h"
+#include "demo/game/Game.h"
 
 int main() {
-   
-    
+    Game game;
+    game.run();
     return 0;
 }
