@@ -1,6 +1,6 @@
 #pragma once
-#include "../fachadaGrafica/MotorRaylib.h"
-#include "../ECS/Managers/EntityManager.h"
+#include "../../fachadaGrafica/MotorRaylib.h"
+#include "../../ECS/Managers/EntityManager.h"
 
 class RenderSystem
 {

@@ -2,6 +2,6 @@
 
 struct PhysicCMP
 {
-    float x = 0.0f;
-    float y = 0.0f;
+    float x = 200.0f;
+    float y = 300.0f;
 };
