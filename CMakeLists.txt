@@ -11,6 +11,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/*.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/*.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/fachadaGrafica/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/fachadaGrafica/*.hpp"
+
 )
 
 # --- Archivos de la demo ---
