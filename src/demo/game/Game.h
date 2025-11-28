@@ -15,4 +15,6 @@ public:
     void Render();
     void Init();
     void run();
+
+    void createStarfield();
 };

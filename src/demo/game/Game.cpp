@@ -1,8 +1,11 @@
 #include "Game.h"
+#include <cstdlib>
+#include <ctime>
 
 void Game::Init()
 {
     renderSystem.Init();
+    createStarfield();
 }
 
 void Game::Update()
@@ -21,5 +24,18 @@ void Game::run()
     {
         Update();
         Render();
+    }
+}
+
+void Game::createStarfield()
+{
+    srand(time(nullptr));
+    const int starCount = 70;
+    for (int i = 0; i < starCount; ++i)
+    {
+        auto& star = em.CreateEntity();
+        star.GetPhysicCMP().x = static_cast<float>(rand() % 800);
+        star.GetPhysicCMP().y = static_cast<float>(rand() % 600);
+
     }
 }
