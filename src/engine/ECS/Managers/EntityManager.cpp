@@ -7,7 +7,7 @@ EntityManager::EntityManager()
     nextId = 0;
 }
 
-Entity& EntityManager::CreateEntity()
+Entity& EntityManager::CreateEntity() 
 {
     auto &entity = entities.emplace_back();
     entity.SetId(nextId++);

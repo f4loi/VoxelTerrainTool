@@ -3,7 +3,6 @@
 void Game::Init()
 {
     renderSystem.Init();
-    em.CreateEntity();
 }
 
 void Game::Update()
