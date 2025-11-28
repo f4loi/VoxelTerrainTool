@@ -10,6 +10,7 @@ void Game::Init()
 
 void Game::Update()
 {
+    physicSystem.Update(em);
 }
 
 void Game::Render()

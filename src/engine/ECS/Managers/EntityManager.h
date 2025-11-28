@@ -12,6 +12,12 @@ private:
 public:
     EntityManager();
     Entity& CreateEntity();
-    void forAll(auto&& );
+    void forAll(auto&& func)
+    {
+        for (auto& entity : entities)
+        {
+            func(entity);
+        }
+    }
     std::vector<Entity>& GetEntities() { return entities; }
 };

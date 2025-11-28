@@ -14,10 +14,3 @@ Entity& EntityManager::CreateEntity()
     return entity;
 }
 
-void EntityManager::forAll(auto&& func)
-{
-    for (auto& entity : entities)
-    {
-        func(entity);
-    }
-}

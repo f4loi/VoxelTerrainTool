@@ -11,5 +11,6 @@ public:
     virtual void EmpezarDrawing() = 0;
     virtual void TerminarDrawing() = 0;
     virtual void DrawRectangulo(int posX, int posY, int size, char r, char g, char b, char a) = 0;
+    virtual void borrarBackground(char r, char g, char b, char a) = 0;
 };
 

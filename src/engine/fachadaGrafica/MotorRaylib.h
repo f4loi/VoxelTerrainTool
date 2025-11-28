@@ -12,4 +12,5 @@ public:
     void EmpezarDrawing() override;
     void TerminarDrawing() override;
     void DrawRectangulo(int posX, int posY, int size, char r, char g, char b, char a) override;
+    void borrarBackground(char r, char g, char b, char a) override;
 };

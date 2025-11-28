@@ -15,9 +15,10 @@ void RenderSystem::Update(EntityManager& em)
     {
         auto x = entity.GetPhysicCMP().x;
         auto y = entity.GetPhysicCMP().y;
-        motorRaylib.DrawRectangulo(x, y, 50, 255, 0, 0, 255);
+        motorRaylib.DrawRectangulo(x, y, 15, 255, 0, 0, 255);
     }
 
+    motorRaylib.borrarBackground(0, 0, 0, 255);
     motorRaylib.TerminarDrawing();
 }
 

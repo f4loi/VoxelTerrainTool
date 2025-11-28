@@ -23,3 +23,7 @@ void MotorRaylib::TerminarDrawing() {
 void MotorRaylib::DrawRectangulo(int posX, int posY, int size, char r, char g, char b, char a) {
     DrawRectangle(posX, posY, size, size, Color{static_cast<unsigned char>(r), static_cast<unsigned char>(g), static_cast<unsigned char>(b), static_cast<unsigned char>(a)});
 }
+
+void MotorRaylib::borrarBackground(char r, char g, char b, char a) {
+    ClearBackground(Color{static_cast<unsigned char>(r), static_cast<unsigned char>(g), static_cast<unsigned char>(b), static_cast<unsigned char>(a)});
+}
