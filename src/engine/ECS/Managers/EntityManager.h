@@ -2,7 +2,7 @@
 
 #include "../Entities/Entity.h"
 #include <vector>
-
+#include <functional>
 
 class EntityManager
 {
@@ -12,12 +12,6 @@ private:
 public:
     EntityManager();
     Entity& CreateEntity();
-    void forAll(auto&& func)
-    {
-        for (auto& entity : entities)
-        {
-            func(entity);
-        }
-    }
+    void forAll( const std::function<void(Entity&)>& func );
     std::vector<Entity>& GetEntities() { return entities; }
 };

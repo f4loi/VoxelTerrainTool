@@ -14,3 +14,10 @@ Entity& EntityManager::CreateEntity()
     return entity;
 }
 
+void EntityManager::forAll( const std::function<void(Entity&)>& func )
+{
+    for (auto& entity : entities)
+    {
+        func(entity);
+    }
+}
