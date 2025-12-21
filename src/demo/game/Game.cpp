@@ -10,7 +10,20 @@ void Game::Init()
 
 void Game::Update()
 {
+
     inputSystem.Update(em);
+
+    em.forAll([&](EntityManager::EntityID id)
+              {
+        InputCMP* input = em.GetInput(id);
+        RenderCMP* render = em.GetRender(id);
+
+        if (input != nullptr && render != nullptr)
+        {
+           
+            render->isRendered = !input->isKeyLPressed;
+        } });
+
     physicSystem.Update(em);
 }
 
@@ -33,11 +46,21 @@ void Game::createStarfield()
 {
     srand(time(nullptr));
     const int starCount = 70;
+
     for (int i = 0; i < starCount; ++i)
     {
-        auto& star = em.CreateEntity();
-        star.GetPhysicCMP().x = static_cast<float>(rand() % 800);
-        star.GetPhysicCMP().y = static_cast<float>(rand() % 600);
+        auto starId = em.CreateEntity();
 
+        PhysicCMP physic;
+        physic.x = static_cast<float>(rand() % 800);
+        physic.y = static_cast<float>(rand() % 600);
+        em.AddPhysic(starId, physic);
+
+        RenderCMP render;
+        render.isRendered = true;
+        em.AddRender(starId, render);
+
+        InputCMP input;
+        em.AddInput(starId, input);
     }
 }

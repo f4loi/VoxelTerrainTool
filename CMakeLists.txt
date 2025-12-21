@@ -10,7 +10,6 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 
 # --- Archivos del motor (Engine) ---
-# ¡CORREGIDO! Se añade 'src/' a la ruta.
 file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/*.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/*.cpp"
@@ -28,7 +27,6 @@ file(GLOB_RECURSE DEMO_SOURCES CONFIGURE_DEPENDS
 )
 
 # --- Archivo main ---
-# Esta ruta ya estaba correcta
 set(MAIN_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
 
 # --- Crear ejecutable ---
@@ -38,12 +36,11 @@ add_executable(GameEngine
     ${DEMO_SOURCES}  
 )
 
-# --- Directorios de Inclusión (Imprescindible para encontrar los .h) ---
-# ¡CORREGIDO! Se añade 'src/' a las rutas de inclusión.
+# --- Directorios de Inc ---
 target_include_directories(GameEngine PRIVATE
     # Ruta base
     "${CMAKE_CURRENT_SOURCE_DIR}/src" 
-    # Rutas específicas del motor (incluyendo 'src/')
+    # Rutas específicas del motor
     "${CMAKE_CURRENT_SOURCE_DIR}/src/engine"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/CMP"

@@ -5,24 +5,21 @@
 class InputSystem
 {
 private:
-
 public:
-    void Update(EntityManager& em)
+    void Update(EntityManager &em)
     {
-        if (IsKeyDown(KEY_L))
-        {
-            em.forAll([](Entity& entity)
-            {
-                entity.GetInputCMP().isKeyLPressed = true;
-            });
-        }
-        else
-        {
-            em.forAll([](Entity& entity)
-            {
-                entity.GetInputCMP().isKeyLPressed = false;
-            });
-        }
-    }
 
+        bool isLPressed = IsKeyDown(KEY_L);
+
+        em.forAll([&em, isLPressed](EntityManager::EntityID id)
+                  {
+            
+            InputCMP* input = em.GetInput(id);
+
+            
+            if (input != nullptr)
+            {
+                input->isKeyLPressed = isLPressed;
+            } });
+    }
 };
