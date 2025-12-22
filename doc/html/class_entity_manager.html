@@ -1,0 +1,456 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.15.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>GameEngine: Referencia de la clase EntityManager</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<script type="text/javascript" src="clipboard.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript" src="cookie.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">GameEngine
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generado por Doxygen 1.15.0 -->
+<script type="text/javascript">
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+</script>
+<script type="text/javascript">
+$(function() { codefold.init(); });
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+$(function() {
+  initMenu('',true,false,'search.php','Buscar',true);
+  $(function() { init_search(); });
+});
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(function(){initNavTree('class_entity_manager.html','','class_entity_manager-members'); });
+</script>
+<div id="container">
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Cargando...</div>
+<div class="SRStatus" id="Searching">Buscando...</div>
+<div class="SRStatus" id="NoMatches">Nada coincide</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Referencia de la clase EntityManager</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Manager de entidades y sus componentes.  
+ <a href="#details">Más...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_entity_manager_8h_source.html">EntityManager.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-types" class="groupheader"><a id="pub-types" name="pub-types"></a>
+Tipos públicos</h2></td></tr>
+<tr class="memitem:a30c9b346ab1fb02d4b985383fafb8b46" id="r_a30c9b346ab1fb02d4b985383fafb8b46"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a> = int</td></tr>
+<tr class="memdesc:a30c9b346ab1fb02d4b985383fafb8b46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Alias para el identificador de una entidad. Se usa un entero simple para identificar cada objeto del juego.  <br /></td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 id="header-pub-methods" class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Métodos públicos</h2></td></tr>
+<tr class="memitem:a7555637657d090171be6ceee8451de0a" id="r_a7555637657d090171be6ceee8451de0a"><td class="memItemLeft" align="right" valign="top"><a id="a7555637657d090171be6ceee8451de0a" name="a7555637657d090171be6ceee8451de0a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>EntityManager</b> ()</td></tr>
+<tr class="memdesc:a7555637657d090171be6ceee8451de0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor por defecto. Inicializa los vectores de componentes. <br /></td></tr>
+<tr class="memitem:a7a27f518459593f7b8f351a4ee56c555" id="r_a7a27f518459593f7b8f351a4ee56c555"><td class="memItemLeft" align="right" valign="top"><a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7a27f518459593f7b8f351a4ee56c555">CreateEntity</a> ()</td></tr>
+<tr class="memdesc:a7a27f518459593f7b8f351a4ee56c555"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crea una nueva entidad vacía.  <br /></td></tr>
+<tr class="memitem:af18e5c553d7865ba1e2ca1fc1ee4dd8d" id="r_af18e5c553d7865ba1e2ca1fc1ee4dd8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af18e5c553d7865ba1e2ca1fc1ee4dd8d">AddPhysic</a> (<a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a> id, <a class="el" href="struct_physic_c_m_p.html">PhysicCMP</a> cmp)</td></tr>
+<tr class="memdesc:af18e5c553d7865ba1e2ca1fc1ee4dd8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asocia un componente físico a una entidad.  <br /></td></tr>
+<tr class="memitem:a049b831493da9e94057c1e93588333bd" id="r_a049b831493da9e94057c1e93588333bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_physic_c_m_p.html">PhysicCMP</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a049b831493da9e94057c1e93588333bd">GetPhysic</a> (<a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a> id)</td></tr>
+<tr class="memdesc:a049b831493da9e94057c1e93588333bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene el componente de fisicas de una entidad.  <br /></td></tr>
+<tr class="memitem:a35a42001f41fff0fa96c1d09404629fb" id="r_a35a42001f41fff0fa96c1d09404629fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a35a42001f41fff0fa96c1d09404629fb">AddRender</a> (<a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a> id, <a class="el" href="struct_render_c_m_p.html">RenderCMP</a> cmp)</td></tr>
+<tr class="memdesc:a35a42001f41fff0fa96c1d09404629fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asocia un componente de render a una entidad.  <br /></td></tr>
+<tr class="memitem:a2dec93e42b72bc823c9f6a79c4f9b5be" id="r_a2dec93e42b72bc823c9f6a79c4f9b5be"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_render_c_m_p.html">RenderCMP</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2dec93e42b72bc823c9f6a79c4f9b5be">GetRender</a> (<a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a> id)</td></tr>
+<tr class="memdesc:a2dec93e42b72bc823c9f6a79c4f9b5be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene el componente de fisicas de una entidad.  <br /></td></tr>
+<tr class="memitem:a44a35a59b35c099c9707e80bd20d20fc" id="r_a44a35a59b35c099c9707e80bd20d20fc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a44a35a59b35c099c9707e80bd20d20fc">AddInput</a> (<a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a> id, <a class="el" href="class_input_c_m_p.html">InputCMP</a> cmp)</td></tr>
+<tr class="memdesc:a44a35a59b35c099c9707e80bd20d20fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Asocia un componente de input a una entidad.  <br /></td></tr>
+<tr class="memitem:a13bdb7919ab6e4b34b2a058d1935d802" id="r_a13bdb7919ab6e4b34b2a058d1935d802"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_input_c_m_p.html">InputCMP</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a13bdb7919ab6e4b34b2a058d1935d802">GetInput</a> (<a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a> id)</td></tr>
+<tr class="memdesc:a13bdb7919ab6e4b34b2a058d1935d802"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtiene el componente de input de una entidad.  <br /></td></tr>
+<tr class="memitem:a7e2bed8fe5aa70313b1fe625f1a7350b" id="r_a7e2bed8fe5aa70313b1fe625f1a7350b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7e2bed8fe5aa70313b1fe625f1a7350b">forAll</a> (const std::function&lt; void(<a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a>)&gt; &amp;func)</td></tr>
+<tr class="memdesc:a7e2bed8fe5aa70313b1fe625f1a7350b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Itera sobre todas las entidades activas y ejecuta una funcion sobre ellas.  <br /></td></tr>
+<tr class="memitem:a4cd89650b81d7237b601651d1a4cf749" id="r_a4cd89650b81d7237b601651d1a4cf749"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a4cd89650b81d7237b601651d1a4cf749">GetEntities</a> ()</td></tr>
+<tr class="memdesc:a4cd89650b81d7237b601651d1a4cf749"><td class="mdescLeft">&#160;</td><td class="mdescRight">Devuelve la lista completa de entidades activas.  <br /></td></tr>
+</table>
+<a name="details" id="details"></a><h2 id="header-details" class="groupheader">Descripción detallada</h2>
+<div class="textblock"><p>Manager de entidades y sus componentes. </p>
+<ul>
+<li>Esta clase se escargar de crear y destruir entidades y de crear y asociar cmp a esas entidades </li>
+</ul>
+</div><a name="doc-typedef-members" id="doc-typedef-members"></a><h2 id="header-doc-typedef-members" class="groupheader">Documentación de los «Typedef» miembros de la clase</h2>
+<a id="a30c9b346ab1fb02d4b985383fafb8b46" name="a30c9b346ab1fb02d4b985383fafb8b46"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30c9b346ab1fb02d4b985383fafb8b46">&#9670;&#160;</a></span>EntityID</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityManager::EntityID</a> = int</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Alias para el identificador de una entidad. Se usa un entero simple para identificar cada objeto del juego. </p>
+<ul>
+<li></li>
+</ul>
+
+</div>
+</div>
+<a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Documentación de funciones miembro</h2>
+<a id="a44a35a59b35c099c9707e80bd20d20fc" name="a44a35a59b35c099c9707e80bd20d20fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44a35a59b35c099c9707e80bd20d20fc">&#9670;&#160;</a></span>AddInput()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EntityManager::AddInput </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a></td>          <td class="paramname"><span class="paramname"><em>id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_input_c_m_p.html">InputCMP</a></td>          <td class="paramname"><span class="paramname"><em>cmp</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Asocia un componente de input a una entidad. </p>
+<ul>
+<li><dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>El id de la entidad a la que se le añadirá el componente. </td></tr>
+    <tr><td class="paramname">cmp</td><td>El cmp <a class="el" href="class_input_c_m_p.html">InputCMP</a> . </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="af18e5c553d7865ba1e2ca1fc1ee4dd8d" name="af18e5c553d7865ba1e2ca1fc1ee4dd8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af18e5c553d7865ba1e2ca1fc1ee4dd8d">&#9670;&#160;</a></span>AddPhysic()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EntityManager::AddPhysic </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a></td>          <td class="paramname"><span class="paramname"><em>id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_physic_c_m_p.html">PhysicCMP</a></td>          <td class="paramname"><span class="paramname"><em>cmp</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Asocia un componente físico a una entidad. </p>
+<ul>
+<li><dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>El id de la entidad a la que se le añadirá el componente. </td></tr>
+    <tr><td class="paramname">cmp</td><td>El cmp <a class="el" href="struct_physic_c_m_p.html">PhysicCMP</a> . </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="a35a42001f41fff0fa96c1d09404629fb" name="a35a42001f41fff0fa96c1d09404629fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35a42001f41fff0fa96c1d09404629fb">&#9670;&#160;</a></span>AddRender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EntityManager::AddRender </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a></td>          <td class="paramname"><span class="paramname"><em>id</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_render_c_m_p.html">RenderCMP</a></td>          <td class="paramname"><span class="paramname"><em>cmp</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Asocia un componente de render a una entidad. </p>
+<ul>
+<li><dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>El id de la entidad a la que se le añadirá el componente. </td></tr>
+    <tr><td class="paramname">cmp</td><td>El cmp <a class="el" href="struct_render_c_m_p.html">RenderCMP</a> . </td></tr>
+  </table>
+  </dd>
+</dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="a7a27f518459593f7b8f351a4ee56c555" name="a7a27f518459593f7b8f351a4ee56c555"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a27f518459593f7b8f351a4ee56c555">&#9670;&#160;</a></span>CreateEntity()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityManager::EntityID</a> EntityManager::CreateEntity </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Crea una nueva entidad vacía. </p>
+<ul>
+<li>Genera un nuevo id único, redimensiona los vectores de componentes si es necesario y registra la entidad como activa.</li>
+<li><dl class="section return"><dt>Devuelve</dt><dd><a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46" title="Alias para el identificador de una entidad. Se usa un entero simple para identificar cada objeto del ...">EntityID</a> El id único de la entidad creada. </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="a7e2bed8fe5aa70313b1fe625f1a7350b" name="a7e2bed8fe5aa70313b1fe625f1a7350b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e2bed8fe5aa70313b1fe625f1a7350b">&#9670;&#160;</a></span>forAll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EntityManager::forAll </td>
+          <td>(</td>
+          <td class="paramtype">const std::function&lt; void(<a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a>)&gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>func</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Itera sobre todas las entidades activas y ejecuta una funcion sobre ellas. </p>
+<p>Recorre la lista interna de entidades vivas (<span class="tt">activeEntities</span>) y llama a la función proporcionada pasando el ID de la entidad actual.</p>
+<dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">func</td><td>funcion a procesar para cada entidad </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Gráfico de llamadas a esta función:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_entity_manager_a7e2bed8fe5aa70313b1fe625f1a7350b_icgraph.png" border="0" usemap="#aclass_entity_manager_a7e2bed8fe5aa70313b1fe625f1a7350b_icgraph" loading="lazy" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a4cd89650b81d7237b601651d1a4cf749" name="a4cd89650b81d7237b601651d1a4cf749"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4cd89650b81d7237b601651d1a4cf749">&#9670;&#160;</a></span>GetEntities()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; <a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a> &gt; &amp; EntityManager::GetEntities </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Devuelve la lista completa de entidades activas. </p>
+<dl class="section return"><dt>Devuelve</dt><dd>Referencia constante al vector de <a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46" title="Alias para el identificador de una entidad. Se usa un entero simple para identificar cada objeto del ...">EntityID</a>. </dd></dl>
+
+</div>
+</div>
+<a id="a13bdb7919ab6e4b34b2a058d1935d802" name="a13bdb7919ab6e4b34b2a058d1935d802"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13bdb7919ab6e4b34b2a058d1935d802">&#9670;&#160;</a></span>GetInput()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_input_c_m_p.html">InputCMP</a> * EntityManager::GetInput </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a></td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Obtiene el componente de input de una entidad. </p>
+<ul>
+<li><dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>El id de la entidad a consultar. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>InputCMP* Puntero al componente para poder modificarlo, o nullptr si no tiene. </dd></dl>
+</li>
+</ul>
+<div class="dynheader">
+Gráfico de llamadas a esta función:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_entity_manager_a13bdb7919ab6e4b34b2a058d1935d802_icgraph.png" border="0" usemap="#aclass_entity_manager_a13bdb7919ab6e4b34b2a058d1935d802_icgraph" loading="lazy" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a049b831493da9e94057c1e93588333bd" name="a049b831493da9e94057c1e93588333bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a049b831493da9e94057c1e93588333bd">&#9670;&#160;</a></span>GetPhysic()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_physic_c_m_p.html">PhysicCMP</a> * EntityManager::GetPhysic </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a></td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Obtiene el componente de fisicas de una entidad. </p>
+<ul>
+<li><dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>El id de la entidad a consultar. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>PhysicCMP* Puntero al componente para poder modificarlo, o nullptr si no tiene. </dd></dl>
+</li>
+</ul>
+<div class="dynheader">
+Gráfico de llamadas a esta función:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_entity_manager_a049b831493da9e94057c1e93588333bd_icgraph.png" border="0" usemap="#aclass_entity_manager_a049b831493da9e94057c1e93588333bd_icgraph" loading="lazy" alt=""/></div>
+</div>
+
+</div>
+</div>
+<a id="a2dec93e42b72bc823c9f6a79c4f9b5be" name="a2dec93e42b72bc823c9f6a79c4f9b5be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2dec93e42b72bc823c9f6a79c4f9b5be">&#9670;&#160;</a></span>GetRender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_render_c_m_p.html">RenderCMP</a> * EntityManager::GetRender </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="#a30c9b346ab1fb02d4b985383fafb8b46">EntityID</a></td>          <td class="paramname"><span class="paramname"><em>id</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Obtiene el componente de fisicas de una entidad. </p>
+<ul>
+<li><dl class="params"><dt>Parámetros</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>El id de la entidad a consultar. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Devuelve</dt><dd>RenderCMP* Puntero al componente para poder modificarlo, o nullptr si no tiene. </dd></dl>
+</li>
+</ul>
+
+</div>
+</div>
+<hr/>La documentación de esta clase está generada de los siguientes archivos:<ul>
+<li>src/engine/ECS/Managers/<a class="el" href="_entity_manager_8h_source.html">EntityManager.h</a></li>
+<li>src/engine/ECS/Managers/<b>EntityManager.cpp</b></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<div id="page-nav" class="page-nav-panel">
+<div id="page-nav-resize-handle"></div>
+<div id="page-nav-tree">
+<div id="page-nav-contents">
+</div><!-- page-nav-contents -->
+</div><!-- page-nav-tree -->
+</div><!-- page-nav -->
+</div><!-- container -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a href="class_entity_manager.html">EntityManager</a></li>
+    <li class="footer">Generado por <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.15.0 </li>
+  </ul>
+</div>
+</body>
+</html>
