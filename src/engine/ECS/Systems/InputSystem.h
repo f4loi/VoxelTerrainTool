@@ -15,7 +15,6 @@ public:
                   {
             
             InputCMP* input = em.GetInput(id);
-
             
             if (input != nullptr)
             {
