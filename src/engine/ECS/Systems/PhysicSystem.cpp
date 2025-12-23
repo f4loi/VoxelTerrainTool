@@ -2,7 +2,7 @@
 
 void PhysicSystem::Update(EntityManager &em)
 {
-    
+    //Explicar captura y error
     em.forAll([&em](EntityManager::EntityID id)
               {
        

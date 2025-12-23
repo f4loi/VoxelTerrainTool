@@ -12,23 +12,18 @@ EntityManager::EntityManager()
 
 EntityManager::EntityID EntityManager::CreateEntity()
 {
-    EntityID id = nextId++;
-
+    EntityID id {nextId};
+    nextId += 1; 
+    //explicar esto
     
     activeEntities.push_back(id);
 
-    
-    if (id >= physicComponents.size())
-    {
-        int newSize = id + 100;
-        physicComponents.resize(newSize);
-        renderComponents.resize(newSize);
-        inputComponents.resize(newSize);
-    }
+    //Error de resize
 
     return id;
 }
 
+//Cambiar a puntero a funcion, sin capturas
 void EntityManager::forAll(const std::function<void(EntityID)> &func)
 {
     
@@ -38,8 +33,8 @@ void EntityManager::forAll(const std::function<void(EntityID)> &func)
     }
 }
 
-
-void EntityManager::AddPhysic(EntityID id, PhysicCMP cmp)
+//Const correct arreglar
+void EntityManager::AddPhysic(EntityID id, PhysicCMP const&& cmp) 
 {
     
     if (id < physicComponents.size())
@@ -50,12 +45,14 @@ void EntityManager::AddPhysic(EntityID id, PhysicCMP cmp)
 
 PhysicCMP *EntityManager::GetPhysic(EntityID id)
 {
-    
+    PhysicCMP* phy{};
+
     if (id < physicComponents.size() && physicComponents[id].has_value())
     {
-        return &physicComponents[id].value();
+        //parentesis de orden
+        phy = &( physicComponents[id].value() );
     }
-    return nullptr;
+    return phy;
 }
 
 

@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <cstdlib>
 #include <ctime>
+#include <cstdint>
 
 void Game::Init()
 {
@@ -44,23 +45,24 @@ void Game::run()
 
 void Game::createStarfield()
 {
+    //pasar a helpers
     srand(time(nullptr));
-    const int starCount = 70;
+    const uint16_t starCount = 70;
 
-    for (int i = 0; i < starCount; ++i)
+    for (uint16_t i{}; i < starCount; i +=1)
     {
         auto starId = em.CreateEntity();
 
-        PhysicCMP physic;
+        PhysicCMP physic{};
         physic.x = static_cast<float>(rand() % 800);
         physic.y = static_cast<float>(rand() % 600);
-        em.AddPhysic(starId, physic);
+        em.AddPhysic(starId, PhysicCMP{});
 
-        RenderCMP render;
+        RenderCMP render{};
         render.isRendered = true;
         em.AddRender(starId, render);
 
-        InputCMP input;
+        InputCMP input{};
         em.AddInput(starId, input);
     }
 }
