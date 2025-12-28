@@ -33,4 +33,7 @@ public:
      * porque este sistema necesita modificar los datos de los componentes.
      */
     void Update(EntityManager &em);
+
+    static void UpdateOneEntity(Entity ent);
+
 };

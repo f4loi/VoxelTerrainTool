@@ -2,7 +2,7 @@
 
 EntityManager::EntityManager()
 {
-    
+
     activeEntities.reserve(100);
 
     physicComponents.reserve(100);
@@ -10,57 +10,55 @@ EntityManager::EntityManager()
     inputComponents.reserve(100);
 }
 
-EntityManager::EntityID EntityManager::CreateEntity()
+Entity::EntityID EntityManager::CreateEntity()
 {
-    EntityID id {nextId};
-    nextId += 1; 
-    //explicar esto
-    
-    physicComponents.push_back(std::nullopt); 
+    Entity::EntityID newId = static_cast<Entity::EntityID>(activeEntities.size());
+    Entity newEntity(this);
+    newEntity.setId(newId);
+
+    physicComponents.push_back(std::nullopt);
     renderComponents.push_back(std::nullopt);
     inputComponents.push_back(std::nullopt);
 
-    activeEntities.push_back(id);
+    activeEntities.push_back(newEntity);
 
-    
-
-    return id;
+    return newId;
 }
 
-//Cambiar a puntero a funcion, sin capturas
-void EntityManager::forAll(const std::function<void(EntityID)> &func)
+
+void EntityManager::forAll(void (*func)(Entity))
 {
-    
-    for (EntityID id : activeEntities)
+
+    for (size_t i = 0; i < activeEntities.size(); ++i)
     {
-        func(id);
+        
+        func(activeEntities[i]);
     }
 }
 
-//Const correct arreglar
-void EntityManager::AddPhysic(EntityID id, PhysicCMP const& cmp) 
+// Const correct arreglar
+void EntityManager::AddPhysic(Entity::EntityID id, PhysicCMP const &cmp)
 {
-    
+
     if (id < physicComponents.size())
     {
         physicComponents[id] = cmp;
     }
 }
 
-PhysicCMP *EntityManager::GetPhysic(EntityID id)
+PhysicCMP *EntityManager::GetPhysic(Entity::EntityID id)
 {
-    PhysicCMP* phy{};
+    PhysicCMP *phy{};
 
     if (id < physicComponents.size() && physicComponents[id].has_value())
     {
-        //parentesis de orden
-        phy = &( physicComponents[id].value() );
+        // parentesis de orden
+        phy = &(physicComponents[id].value());
     }
     return phy;
 }
 
-
-void EntityManager::AddRender(EntityID id, RenderCMP const& cmp)
+void EntityManager::AddRender(Entity::EntityID id, RenderCMP const &cmp)
 {
     if (id < renderComponents.size())
     {
@@ -68,16 +66,16 @@ void EntityManager::AddRender(EntityID id, RenderCMP const& cmp)
     }
 }
 
-RenderCMP *EntityManager::GetRender(EntityID id)
+RenderCMP *EntityManager::GetRender(Entity::EntityID id)
 {
     if (id < renderComponents.size() && renderComponents[id].has_value())
     {
-        return &( renderComponents[id].value() );
+        return &(renderComponents[id].value());
     }
     return nullptr;
 }
 
-void EntityManager::AddInput(EntityID id, InputCMP const& cmp)
+void EntityManager::AddInput(Entity::EntityID id, InputCMP const &cmp)
 {
     if (id < inputComponents.size())
     {
@@ -85,11 +83,11 @@ void EntityManager::AddInput(EntityID id, InputCMP const& cmp)
     }
 }
 
-InputCMP *EntityManager::GetInput(EntityID id)
+InputCMP *EntityManager::GetInput(Entity::EntityID id)
 {
     if (id < inputComponents.size() && inputComponents[id].has_value())
     {
-        return &( inputComponents[id].value() );
+        return &(inputComponents[id].value());
     }
     return nullptr;
 }

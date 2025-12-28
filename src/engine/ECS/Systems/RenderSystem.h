@@ -23,26 +23,22 @@ private:
      * @brief Instancia de la fachada gráfica.
      * Encapsula las llamadas de bajo nivel a la librería Raylib.
      */
-    MotorRaylib motorRaylib;
+    static MotorRaylib motorRaylib;
     
 public:
-    /**
+   /**
      * @brief Inicializa el contexto gráfico.
-     *
-     * Configura la ventana, resolución y carga los recursos necesarios
-     * antes de empezar el bucle de renderizado.
      */
     void Init();
 
     /**
-     * @brief Ejecuta el ciclo de renderizado de un frame.
-     *
-     * 1. Limpia la pantalla.
-     * 2. Itera sobre el EntityManage` buscando entidades con RenderCMP y PhysicCMP.
-     * 3. Dibuja cada entidad válida.
-     * 4. renderiza el frame en pantalla.
-     *
-     * @param em Referencia al manager de entidades para acceder a los componentes.
+     * @brief Prepara el frame y llama al forAll.
      */
     void Update(EntityManager& em);
+
+    /**
+     * @brief Función estática que procesa UNA entidad.
+     * Compatible con em.forAll.
+     */
+    static void UpdateOneEntity(Entity ent);
 };

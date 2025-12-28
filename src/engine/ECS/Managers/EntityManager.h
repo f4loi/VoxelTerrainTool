@@ -12,6 +12,8 @@
 #include <optional>
 #include <functional>
 
+
+#include "engine/ECS/Entity/Entity.h"
 #include "engine/ECS/CMP/PhysicCMP.h"
 #include "engine/ECS/CMP/RenderCMP.h"
 #include "engine/ECS/CMP/InputCMP.h"
@@ -23,16 +25,10 @@
  */
 class EntityManager
 {
-public:
-    /** * @brief Alias para el identificador de una entidad.
-     * Se usa un entero simple para identificar cada objeto del juego.
-     */
-    using EntityID = int;
-
 private:
-    int nextId = 0; ///< Entero que se utiliza para generar la siguiente id unica para una entidad
+    
 
-    std::vector<EntityID> activeEntities; ///< Utilizamos un vector de EntityID(que es un int) para guardar las entidades que estan activas
+    std::vector<Entity> activeEntities; ///< Utilizamos un vector de EntityID(que es un int) para guardar las entidades que estan activas
 
     /** * @brief Optional
      * * Para almacenar los componentes utilizamos optional, es una libreria que nos permite indicar si una entidad tiene un componente o no.
@@ -65,49 +61,49 @@ public:
      * y registra la entidad como activa.
      * * @return EntityID El id único de la entidad creada.
      */
-    EntityID CreateEntity();
+    Entity::EntityID CreateEntity();
 
     /**
      * @brief Asocia un componente físico a una entidad.
      * * @param id El id de la entidad a la que se le añadirá el componente.
      * @param cmp El cmp PhysicCMP .
      */
-    void AddPhysic(EntityID id, PhysicCMP const&);
+    void AddPhysic(Entity::EntityID id, PhysicCMP const&);
 
     /**
      * @brief Obtiene el componente de fisicas de una entidad.
      * * @param id El id de la entidad a consultar.
      * @return PhysicCMP* Puntero al componente para poder modificarlo, o nullptr si no tiene.
      */
-    PhysicCMP *GetPhysic(EntityID id);
+    PhysicCMP *GetPhysic(Entity::EntityID id);
 
     /**
      * @brief Asocia un componente de render a una entidad.
      * * @param id El id de la entidad a la que se le añadirá el componente.
      * @param cmp El cmp RenderCMP .
      */
-    void AddRender(EntityID id, RenderCMP const&);
+    void AddRender(Entity::EntityID id, RenderCMP const&);
 
     /**
      * @brief Obtiene el componente de fisicas de una entidad.
      * * @param id El id de la entidad a consultar.
      * @return RenderCMP* Puntero al componente para poder modificarlo, o nullptr si no tiene.
      */
-    RenderCMP *GetRender(EntityID id);
+    RenderCMP *GetRender(Entity::EntityID id);
 
     /**
      * @brief Asocia un componente de input a una entidad.
      * * @param id El id de la entidad a la que se le añadirá el componente.
      * @param cmp El cmp InputCMP .
      */
-    void AddInput(EntityID id, InputCMP const&);
+    void AddInput(Entity::EntityID id, InputCMP const&);
 
     /**
      * @brief Obtiene el componente de input de una entidad.
      * * @param id El id de la entidad a consultar.
      * @return InputCMP* Puntero al componente para poder modificarlo, o nullptr si no tiene.
      */
-    InputCMP *GetInput(EntityID id);
+    InputCMP *GetInput(Entity::EntityID id);
 
     /**
      * @brief Itera sobre todas las entidades activas y ejecuta una funcion sobre ellas.
@@ -117,12 +113,12 @@ public:
      *
      * @param func funcion a procesar para cada entidad
      */
-    void forAll(const std::function<void(EntityID)> &func);
+    void forAll(void (*func)(Entity));
 
 
     /**
      * @brief Devuelve la lista completa de entidades activas.
      * @return Referencia constante al vector de EntityID.
      */
-    const std::vector<EntityID> &GetEntities() { return activeEntities; }
+    const std::vector<Entity> &GetEntities() { return activeEntities; }
 };
