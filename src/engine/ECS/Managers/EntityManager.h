@@ -12,9 +12,9 @@
 #include <optional>
 #include <functional>
 
-#include "../CMP/PhysicCMP.h"
-#include "../CMP/RenderCMP.h"
-#include "../CMP/InputCMP.h"
+#include "engine/ECS/CMP/PhysicCMP.h"
+#include "engine/ECS/CMP/RenderCMP.h"
+#include "engine/ECS/CMP/InputCMP.h"
 
 /**
  * @class EntityManager
@@ -72,7 +72,7 @@ public:
      * * @param id El id de la entidad a la que se le añadirá el componente.
      * @param cmp El cmp PhysicCMP .
      */
-    void AddPhysic(EntityID id, PhysicCMP cmp);
+    void AddPhysic(EntityID id, PhysicCMP const&);
 
     /**
      * @brief Obtiene el componente de fisicas de una entidad.
@@ -86,7 +86,7 @@ public:
      * * @param id El id de la entidad a la que se le añadirá el componente.
      * @param cmp El cmp RenderCMP .
      */
-    void AddRender(EntityID id, RenderCMP cmp);
+    void AddRender(EntityID id, RenderCMP const&);
 
     /**
      * @brief Obtiene el componente de fisicas de una entidad.
@@ -100,7 +100,7 @@ public:
      * * @param id El id de la entidad a la que se le añadirá el componente.
      * @param cmp El cmp InputCMP .
      */
-    void AddInput(EntityID id, InputCMP cmp);
+    void AddInput(EntityID id, InputCMP const&);
 
     /**
      * @brief Obtiene el componente de input de una entidad.

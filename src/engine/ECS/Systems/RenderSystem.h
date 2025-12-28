@@ -5,8 +5,8 @@
  */
 
 #pragma once
-#include "../../fachadaGrafica/MotorRaylib.h"
-#include "../../ECS/Managers/EntityManager.h"
+#include "engine/IGrafica/MotorRaylib.h"
+#include "engine/ECS/Managers/EntityManager.h"
 
 /**
  * @class RenderSystem

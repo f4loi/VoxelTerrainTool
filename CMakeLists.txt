@@ -6,28 +6,20 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Flags (Tus flags están bien)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 
-# --- Archivos del motor (Engine) ---
-file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/CMP/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/Systems/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/Managers/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/Entities/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/fachadaGrafica/*.cpp"
-)
+# --- Archivos fuente ---
+# CONSEJO: GLOB_RECURSE es cómodo, pero a veces peligroso si añades archivos 
+# y CMake no se entera. Si tienes problemas, borra la caché de CMake.
+file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/*.cpp")
+file(GLOB_RECURSE DEMO_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/demo/game/*.cpp")
 
-# --- Archivos del juego/demo (Demo/Game) ---
-# ¡CORREGIDO! Se añade 'src/' a la ruta.
-file(GLOB_RECURSE DEMO_SOURCES CONFIGURE_DEPENDS
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/demo/game/*.cpp"
-)
-
-# --- Archivo main ---
 set(MAIN_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
+
+# --- Raylib ---
+find_package(raylib REQUIRED)
 
 # --- Crear ejecutable ---
 add_executable(GameEngine
@@ -36,23 +28,12 @@ add_executable(GameEngine
     ${DEMO_SOURCES}  
 )
 
-# --- Directorios de Inc ---
 target_include_directories(GameEngine PRIVATE
-    # Ruta base
+    
     "${CMAKE_CURRENT_SOURCE_DIR}/src" 
-    # Rutas específicas del motor
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/CMP"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/Entities"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/Managers"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ECS/Systems"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/fachadaGrafica"
-    # Ruta de los includes de la demo
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/demo/game"
+    
+    ${RAYLIB_INCLUDE_DIRS}
 )
 
-# --- Raylib ---
-find_package(raylib REQUIRED)
+
 target_link_libraries(GameEngine PRIVATE raylib)
-target_include_directories(GameEngine PRIVATE ${RAYLIB_INCLUDE_DIRS})

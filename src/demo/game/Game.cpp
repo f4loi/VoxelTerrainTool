@@ -56,7 +56,7 @@ void Game::createStarfield()
         PhysicCMP physic{};
         physic.x = static_cast<float>(rand() % 800);
         physic.y = static_cast<float>(rand() % 600);
-        em.AddPhysic(starId, PhysicCMP{});
+        em.AddPhysic(starId, physic);
 
         RenderCMP render{};
         render.isRendered = true;

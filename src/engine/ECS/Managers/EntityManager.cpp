@@ -16,9 +16,13 @@ EntityManager::EntityID EntityManager::CreateEntity()
     nextId += 1; 
     //explicar esto
     
+    physicComponents.push_back(std::nullopt); 
+    renderComponents.push_back(std::nullopt);
+    inputComponents.push_back(std::nullopt);
+
     activeEntities.push_back(id);
 
-    //Error de resize
+    
 
     return id;
 }
@@ -34,7 +38,7 @@ void EntityManager::forAll(const std::function<void(EntityID)> &func)
 }
 
 //Const correct arreglar
-void EntityManager::AddPhysic(EntityID id, PhysicCMP const&& cmp) 
+void EntityManager::AddPhysic(EntityID id, PhysicCMP const& cmp) 
 {
     
     if (id < physicComponents.size())
@@ -56,7 +60,7 @@ PhysicCMP *EntityManager::GetPhysic(EntityID id)
 }
 
 
-void EntityManager::AddRender(EntityID id, RenderCMP cmp)
+void EntityManager::AddRender(EntityID id, RenderCMP const& cmp)
 {
     if (id < renderComponents.size())
     {
@@ -68,12 +72,12 @@ RenderCMP *EntityManager::GetRender(EntityID id)
 {
     if (id < renderComponents.size() && renderComponents[id].has_value())
     {
-        return &renderComponents[id].value();
+        return &( renderComponents[id].value() );
     }
     return nullptr;
 }
 
-void EntityManager::AddInput(EntityID id, InputCMP cmp)
+void EntityManager::AddInput(EntityID id, InputCMP const& cmp)
 {
     if (id < inputComponents.size())
     {
@@ -85,7 +89,7 @@ InputCMP *EntityManager::GetInput(EntityID id)
 {
     if (id < inputComponents.size() && inputComponents[id].has_value())
     {
-        return &inputComponents[id].value();
+        return &( inputComponents[id].value() );
     }
     return nullptr;
 }
