@@ -2,5 +2,5 @@
 
 struct RenderCMP
 {
-    bool isRendered = true;
+    bool isRendered{true};
 };

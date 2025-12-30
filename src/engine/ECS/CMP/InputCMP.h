@@ -4,5 +4,5 @@
 class InputCMP
 {
 public:
-    bool isKeyLPressed = false;
+    bool isKeyLPressed{false};
 };

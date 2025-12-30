@@ -23,8 +23,8 @@ void RenderSystem::Update(EntityManager &em)
 void RenderSystem::UpdateOneEntity(Entity ent)
 {
 
-    EntityManager *manager = ent.getParent();
-    uint16_t id = ent.getNextId();
+    EntityManager *manager{ent.getParent()};
+    uint16_t id{ent.getNextId()};
 
     if (manager != nullptr)
     {

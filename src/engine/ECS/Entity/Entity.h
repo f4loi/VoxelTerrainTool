@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 class EntityManager;
 
 class Entity
@@ -13,12 +14,10 @@ public:
      */
     using EntityID = uint16_t;
 
-    Entity(EntityManager* parent) : parent(parent) {}
+    Entity(EntityManager *parent) : parent(parent) {}
 
+    EntityManager *getParent() { return parent; }
 
-    EntityManager* getParent(){return parent;}
-
-
-    uint16_t getNextId(){return nextId;}
+    uint16_t getNextId() { return nextId; }
     void setId(uint16_t newId) { nextId = newId; }
 };

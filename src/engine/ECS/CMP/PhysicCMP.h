@@ -9,7 +9,3 @@ struct PhysicCMP
 
     float vx {RandomHelpers::Random::Float(1.0f, 5.0f)};
 };
-
-
-//Crear utils con helpers rand global
-//Cambiar a llaves
