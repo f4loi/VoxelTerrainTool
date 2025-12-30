@@ -86,4 +86,9 @@ public:
      * @note Utilizado internamente durante Init().
      */
     void createStarfield();
+
+    /**
+     * @brief Función que procesa UNA entidad.
+     */
+    void static LogicaOneEntity(Entity ent);
 };

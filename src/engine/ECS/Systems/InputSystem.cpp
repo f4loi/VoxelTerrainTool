@@ -11,7 +11,7 @@ void InputSystem::UpdateOneEntity(Entity ent)
 
     EntityManager *manager = ent.getParent();
 
-    int id = ent.getNextId();
+    uint16_t id = ent.getNextId();
 
     if (manager != nullptr)
     {
