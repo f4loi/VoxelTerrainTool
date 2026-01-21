@@ -12,13 +12,13 @@ EntityManager::EntityManager()
 
 Entity::EntityID EntityManager::CreateEntity()
 {
-    Entity::EntityID newId = static_cast<Entity::EntityID>(activeEntities.size());
+    Entity::EntityID newId{static_cast<Entity::EntityID>(activeEntities.size())};
     Entity newEntity(this);
     newEntity.setId(newId);
 
-    physicComponents.push_back(std::nullopt);
-    renderComponents.push_back(std::nullopt);
-    inputComponents.push_back(std::nullopt);
+    physicComponents.emplace_back(std::nullopt);
+    renderComponents.emplace_back(std::nullopt);
+    inputComponents.emplace_back(std::nullopt);
 
     activeEntities.push_back(newEntity);
 

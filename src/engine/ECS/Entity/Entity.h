@@ -2,10 +2,11 @@
 #include <cstdint>
 class EntityManager;
 
+
 class Entity
 {
 private:
-    uint16_t nextId = 0; ///< Entero que se utiliza para generar la siguiente id unica para una entidad
+    uint16_t nextId{0}; ///< Entero que se utiliza para generar la siguiente id unica para una entidad
     EntityManager *parent;
 
 public:
@@ -18,6 +19,6 @@ public:
 
     EntityManager *getParent() { return parent; }
 
-    uint16_t getNextId() { return nextId; }
-    void setId(uint16_t newId) { nextId = newId; }
-};
+    EntityID getNextId() { return nextId; }
+    void setId(EntityID newId) { nextId = newId; }
+}; 
