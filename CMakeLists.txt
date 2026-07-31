@@ -1,39 +1,30 @@
 cmake_minimum_required(VERSION 3.16)
-project(GameEngine LANGUAGES CXX)
+project(VoxelEngine CXX)
 
-# Configuración global
-set(CMAKE_CXX_STANDARD 23)
+# --- FIX: Evita el error de compatibilidad con versiones antiguas en Raylib ---
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5 CACHE STRING "Bypass para Raylib" FORCE)
+
+# Exigir C++17 para los fold expressions y std::apply
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Flags
-set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
-
-# --- Archivos fuente ---
-file(GLOB_RECURSE ENGINE_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/engine/*.cpp")
-file(GLOB_RECURSE DEMO_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/demo/game/*.cpp")
-
-
-file(GLOB_RECURSE UTILS_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/utils/*.cpp")
-
-set(MAIN_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp")
-
-# --- Raylib ---
-find_package(raylib REQUIRED)
-
-# --- Crear ejecutable ---
-add_executable(GameEngine
-    ${MAIN_SRC}
-    ${ENGINE_SOURCES}
-    ${DEMO_SOURCES}
-    ${UTILS_SOURCES}  
+# Configuración para descargar e integrar Raylib automáticamente
+include(FetchContent)
+FetchContent_Declare(
+    raylib
+    URL https://github.com/raysan5/raylib/archive/refs/tags/5.0.tar.gz
 )
+FetchContent_MakeAvailable(raylib)
 
-target_include_directories(GameEngine PRIVATE
-    "${CMAKE_CURRENT_SOURCE_DIR}/src"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/utils"
-    ${RAYLIB_INCLUDE_DIRS}
-)
+# Recopilar todos los archivos fuente (.cpp) dentro de src
+file(GLOB_RECURSE SOURCES "src/*.cpp")
 
-target_link_libraries(GameEngine PRIVATE raylib)
+# Crear el ejecutable principal
+add_executable(${PROJECT_NAME} ${SOURCES})
+
+# Hace que todos los #include busquen desde la carpeta src/
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+# Enlazar la librería de Raylib con tu motor
+target_link_libraries(${PROJECT_NAME} PRIVATE raylib)
