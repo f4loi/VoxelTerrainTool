@@ -1,7 +1,7 @@
 # Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
 # file LICENSE.rst or https://cmake.org/licensing for details.
 
-cmake_minimum_required(VERSION 4.2.1)
+cmake_minimum_required(VERSION 4.4.2)
 
 # Reject any attempt to use a toolchain file. We must not use one because
 # we could be downloading it here. If the CMAKE_TOOLCHAIN_FILE environment
@@ -20,8 +20,8 @@ project(raylib-populate NONE)
 include(ExternalProject)
 ExternalProject_Add(raylib-populate
                      "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "TRUE" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "URL" "https://github.com/raysan5/raylib/archive/refs/tags/5.0.tar.gz"
-                    SOURCE_DIR          "C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/_deps/raylib-src"
-                    BINARY_DIR          "C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/_deps/raylib-build"
+                    SOURCE_DIR          "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-src"
+                    BINARY_DIR          "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-build"
                     CONFIGURE_COMMAND   ""
                     BUILD_COMMAND       ""
                     INSTALL_COMMAND     ""

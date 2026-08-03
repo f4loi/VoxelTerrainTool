@@ -10,7 +10,7 @@
 		],
 		"files" : 
 		[
-			"C:/msys64/mingw64/share/cmake/Modules/FindThreads.cmake",
+			"C:/Program Files/CMake/share/cmake-4.4/Modules/FindThreads.cmake",
 			"build/_deps/raylib-src/src/external/glfw/CMakeLists.txt"
 		],
 		"nodes" : 
@@ -39,7 +39,7 @@
 	"codemodelVersion" : 
 	{
 		"major" : 2,
-		"minor" : 9
+		"minor" : 11
 	},
 	"id" : "Threads::Threads::@abb1d9e801b084c7b6bd",
 	"imported" : true,

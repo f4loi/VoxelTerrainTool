@@ -12,7 +12,7 @@
 		],
 		"files" : 
 		[
-			"C:/msys64/mingw64/share/cmake/Modules/FindOpenGL.cmake",
+			"C:/Program Files/CMake/share/cmake-4.4/Modules/FindOpenGL.cmake",
 			"build/_deps/raylib-src/cmake/LibraryConfigurations.cmake",
 			"build/_deps/raylib-src/src/CMakeLists.txt"
 		],
@@ -44,13 +44,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 865,
+				"line" : 869,
 				"parent" : 4
 			},
 			{
 				"command" : 3,
 				"file" : 0,
-				"line" : 869,
+				"line" : 873,
 				"parent" : 4
 			}
 		]
@@ -58,7 +58,7 @@
 	"codemodelVersion" : 
 	{
 		"major" : 2,
-		"minor" : 9
+		"minor" : 11
 	},
 	"id" : "OpenGL::GLU::@4dc3a4644cf4ded08c01",
 	"imported" : true,

@@ -1,11 +1,11 @@
 {
 	"InstallScripts" : 
 	[
-		"C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/cmake_install.cmake",
-		"C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/_deps/raylib-build/cmake_install.cmake",
-		"C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/_deps/raylib-build/raylib/cmake_install.cmake",
-		"C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/_deps/raylib-build/raylib/external/glfw/cmake_install.cmake",
-		"C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/_deps/raylib-build/raylib/external/glfw/src/cmake_install.cmake"
+		"C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/cmake_install.cmake",
+		"C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-build/cmake_install.cmake",
+		"C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-build/raylib/cmake_install.cmake",
+		"C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-build/raylib/external/glfw/cmake_install.cmake",
+		"C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-build/raylib/external/glfw/src/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

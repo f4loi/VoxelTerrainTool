@@ -8,12 +8,12 @@
 	"codemodelVersion" : 
 	{
 		"major" : 2,
-		"minor" : 9
+		"minor" : 11
 	},
 	"installers" : [],
 	"paths" : 
 	{
-		"build" : "_deps/raylib-build",
-		"source" : "build/_deps/raylib-src"
+		"build" : ".",
+		"source" : "."
 	}
 }

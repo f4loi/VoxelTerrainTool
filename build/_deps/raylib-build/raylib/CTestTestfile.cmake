@@ -1,6 +1,6 @@
 # CMake generated Testfile for 
-# Source directory: C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/_deps/raylib-src/src
-# Build directory: C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/_deps/raylib-build/raylib
+# Source directory: C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-src/src
+# Build directory: C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-build/raylib
 # 
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.

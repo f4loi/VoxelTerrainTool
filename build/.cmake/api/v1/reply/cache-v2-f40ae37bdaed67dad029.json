@@ -39,7 +39,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/addr2line.exe"
+			"value" : "C:/msys64/ucrt64/bin/addr2line.exe"
 		},
 		{
 			"name" : "CMAKE_AR",
@@ -55,7 +55,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/ar.exe"
+			"value" : "C:/msys64/ucrt64/bin/ar.exe"
 		},
 		{
 			"name" : "CMAKE_BUILD_TYPE",
@@ -63,7 +63,7 @@
 			[
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "Build type for single-configuration generators (Makefile Generators, Ninja, etc.). Typical values: Debug, Release, RelWithDebInfo, MinSizeRel; custom build types may also be defined."
 				}
 			],
 			"type" : "STRING",
@@ -79,7 +79,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "c:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build"
+			"value" : "c:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -103,7 +103,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "2"
+			"value" : "4"
 		},
 		{
 			"name" : "CMAKE_CACHE_PATCH_VERSION",
@@ -115,7 +115,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "1"
+			"value" : "2"
 		},
 		{
 			"name" : "CMAKE_COLOR_MAKEFILE",
@@ -143,7 +143,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/msys64/mingw64/bin/cmake.exe"
+			"value" : "C:/Program Files/CMake/bin/cmake.exe"
 		},
 		{
 			"name" : "CMAKE_CPACK_COMMAND",
@@ -155,7 +155,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/msys64/mingw64/bin/cpack.exe"
+			"value" : "C:/Program Files/CMake/bin/cpack.exe"
 		},
 		{
 			"name" : "CMAKE_CTEST_COMMAND",
@@ -167,7 +167,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/msys64/mingw64/bin/ctest.exe"
+			"value" : "C:/Program Files/CMake/bin/ctest.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER",
@@ -179,11 +179,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "Full path to the compiler used for language <LANG>. Set by CMake during compiler detection on the first configure; users may override on the command line to select a specific toolchain."
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/g++.exe"
+			"value" : "C:/msys64/ucrt64/bin/g++.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_AR",
@@ -199,7 +199,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/gcc-ar.exe"
+			"value" : "C:/msys64/ucrt64/bin/gcc-ar.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_COMPILER_RANLIB",
@@ -215,7 +215,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/gcc-ranlib.exe"
+			"value" : "C:/msys64/ucrt64/bin/gcc-ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_CXX_FLAGS",
@@ -323,11 +323,11 @@
 				},
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "C compiler"
 				}
 			],
-			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/gcc.exe"
+			"type" : "STRING",
+			"value" : "C:/msys64/ucrt64/bin/gcc.exe"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_AR",
@@ -343,7 +343,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/gcc-ar.exe"
+			"value" : "C:/msys64/ucrt64/bin/gcc-ar.exe"
 		},
 		{
 			"name" : "CMAKE_C_COMPILER_RANLIB",
@@ -359,7 +359,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/gcc-ranlib.exe"
+			"value" : "C:/msys64/ucrt64/bin/gcc-ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_C_FLAGS",
@@ -458,6 +458,18 @@
 			"value" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32"
 		},
 		{
+			"name" : "CMAKE_DIAGNOSTIC_INIT",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Set initial state for CMake diagnostics; used to persist state set by command-line options across invocations."
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "CMD_AUTHOR=WARN;CMD_DEPRECATED=WARN;CMD_EXPERIMENTAL=WARN;CMD_INSTALL_ABSOLUTE_DESTINATION=IGNORE;CMD_POLICY=WARN;CMD_UNINITIALIZED=IGNORE;CMD_UNUSED_CLI=IGNORE"
+		},
+		{
 			"name" : "CMAKE_DLLTOOL",
 			"properties" : 
 			[
@@ -471,7 +483,31 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/dlltool.exe"
+			"value" : "C:/msys64/ucrt64/bin/dlltool.exe"
+		},
+		{
+			"name" : "CMAKE_EDIT_COMMAND",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Path to cache edit program executable."
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "C:/Program Files/CMake/bin/cmake-gui.exe"
+		},
+		{
+			"name" : "CMAKE_ERROR_DEPRECATED",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Deprecated.  Use -W[no-]error=deprecated instead."
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "OFF"
 		},
 		{
 			"name" : "CMAKE_EXECUTABLE_FORMAT",
@@ -571,7 +607,7 @@
 			[
 				{
 					"name" : "HELPSTRING",
-					"value" : "No help, variable specified on the command line."
+					"value" : "Enable output of a compile_commands.json file listing the exact compiler invocation for each translation unit. Implemented by the Makefile and Ninja generators; ignored elsewhere."
 				}
 			],
 			"type" : "BOOL",
@@ -599,7 +635,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/CMakeFiles/pkgRedirects"
+			"value" : "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -683,7 +719,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine"
+			"value" : "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio"
 		},
 		{
 			"name" : "CMAKE_INSTALL_BINDIR",
@@ -967,7 +1003,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/ld.exe"
+			"value" : "C:/msys64/ucrt64/bin/ld.exe"
 		},
 		{
 			"name" : "CMAKE_LIST_FILE_NAME",
@@ -995,7 +1031,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/mingw32-make.exe"
+			"value" : "C:/msys64/ucrt64/bin/mingw32-make.exe"
 		},
 		{
 			"name" : "CMAKE_MODULE_LINKER_FLAGS",
@@ -1091,7 +1127,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/nm.exe"
+			"value" : "C:/msys64/ucrt64/bin/nm.exe"
 		},
 		{
 			"name" : "CMAKE_NUMBER_OF_MAKEFILES",
@@ -1119,7 +1155,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/objcopy.exe"
+			"value" : "C:/msys64/ucrt64/bin/objcopy.exe"
 		},
 		{
 			"name" : "CMAKE_OBJDUMP",
@@ -1135,7 +1171,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/objdump.exe"
+			"value" : "C:/msys64/ucrt64/bin/objdump.exe"
 		},
 		{
 			"name" : "CMAKE_PLATFORM_INFO_INITIALIZED",
@@ -1295,7 +1331,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/ranlib.exe"
+			"value" : "C:/msys64/ucrt64/bin/ranlib.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER",
@@ -1311,7 +1347,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/windres.exe"
+			"value" : "C:/msys64/ucrt64/bin/windres.exe"
 		},
 		{
 			"name" : "CMAKE_RC_COMPILER_WORKS",
@@ -1419,7 +1455,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/readelf.exe"
+			"value" : "C:/msys64/ucrt64/bin/readelf.exe"
 		},
 		{
 			"name" : "CMAKE_ROOT",
@@ -1431,7 +1467,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "C:/msys64/mingw64/share/cmake"
+			"value" : "C:/Program Files/CMake/share/cmake-4.4"
 		},
 		{
 			"name" : "CMAKE_SHARED_LINKER_FLAGS",
@@ -1639,7 +1675,7 @@
 				}
 			],
 			"type" : "FILEPATH",
-			"value" : "C:/msys64/mingw64/bin/strip.exe"
+			"value" : "C:/msys64/ucrt64/bin/strip.exe"
 		},
 		{
 			"name" : "CMAKE_TAPI",
@@ -1672,6 +1708,18 @@
 			],
 			"type" : "BOOL",
 			"value" : "FALSE"
+		},
+		{
+			"name" : "CMAKE_WARN_DEPRECATED",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "Deprecated.  Use -W[no-]deprecated instead."
+				}
+			],
+			"type" : "INTERNAL",
+			"value" : "ON"
 		},
 		{
 			"name" : "COMPILER_HAS_THOSE_TOGGLES",
@@ -1787,7 +1835,7 @@
 				}
 			],
 			"type" : "PATH",
-			"value" : "C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/_deps"
+			"value" : "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps"
 		},
 		{
 			"name" : "FETCHCONTENT_FULLY_DISCONNECTED",
@@ -1871,7 +1919,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/_deps/raylib-build/raylib/external/glfw"
+			"value" : "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-build/raylib/external/glfw"
 		},
 		{
 			"name" : "GLFW_BUILD_DOCS",
@@ -1991,7 +2039,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/_deps/raylib-src/src/external/glfw"
+			"value" : "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-src/src/external/glfw"
 		},
 		{
 			"name" : "GLFW_USE_HYBRID_HPG",
@@ -2143,7 +2191,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build"
+			"value" : "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build"
 		},
 		{
 			"name" : "VoxelEngine_IS_TOP_LEVEL",
@@ -2167,7 +2215,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine"
+			"value" : "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio"
 		},
 		{
 			"name" : "WITH_PIC",
@@ -2215,7 +2263,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/_deps/raylib-build/raylib"
+			"value" : "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-build/raylib"
 		},
 		{
 			"name" : "raylib_IS_TOP_LEVEL",
@@ -2251,7 +2299,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "C:/Users/Usuario/Desktop/CV(cosas varias)/Portfolio/BiomeVoxelEngine/build/_deps/raylib-src/src"
+			"value" : "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-src/src"
 		}
 	],
 	"kind" : "cache",
