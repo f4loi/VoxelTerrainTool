@@ -1,1 +1,1 @@
--IC:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src -I"C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-src/src" -I"C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-src/src/external/glfw/include"
+-IC:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src -I"C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/imgui-src" -I"C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/rlimgui-src" -I"C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-src/src"

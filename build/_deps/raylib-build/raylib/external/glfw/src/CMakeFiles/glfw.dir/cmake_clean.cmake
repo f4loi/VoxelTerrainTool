@@ -41,8 +41,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/glfw.dir/win32_window.c.obj.d"
   "CMakeFiles/glfw.dir/window.c.obj"
   "CMakeFiles/glfw.dir/window.c.obj.d"
-  "libglfw3.a"
-  "libglfw3.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

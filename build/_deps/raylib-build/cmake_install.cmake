@@ -38,9 +38,8 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for each subdirectory.
+  # Include the install script for the subdirectory.
   include("C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-build/raylib/cmake_install.cmake")
-
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT

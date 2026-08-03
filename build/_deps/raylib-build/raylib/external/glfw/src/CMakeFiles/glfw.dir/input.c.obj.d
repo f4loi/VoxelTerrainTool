@@ -227,6 +227,7 @@ _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/input.c.obj: \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\win32_joystick.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\win32_thread.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\win32_time.h \
+ C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-src/src/external/glfw/include/GLFW/glfw3native.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\mappings.h \
  C:/msys64/ucrt64/include/assert.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/float.h \

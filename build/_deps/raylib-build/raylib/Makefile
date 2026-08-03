@@ -338,30 +338,6 @@ rtextures.c.s:
 	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build && $(MAKE) $(MAKESILENT) -f _deps\raylib-build\raylib\CMakeFiles\raylib.dir\build.make _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtextures.c.s
 .PHONY : rtextures.c.s
 
-utils.obj: utils.c.obj
-.PHONY : utils.obj
-
-# target to build an object file
-utils.c.obj:
-	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build && $(MAKE) $(MAKESILENT) -f _deps\raylib-build\raylib\CMakeFiles\raylib.dir\build.make _deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.obj
-.PHONY : utils.c.obj
-
-utils.i: utils.c.i
-.PHONY : utils.i
-
-# target to preprocess a source file
-utils.c.i:
-	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build && $(MAKE) $(MAKESILENT) -f _deps\raylib-build\raylib\CMakeFiles\raylib.dir\build.make _deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.i
-.PHONY : utils.c.i
-
-utils.s: utils.c.s
-.PHONY : utils.s
-
-# target to generate assembly for a file
-utils.c.s:
-	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build && $(MAKE) $(MAKESILENT) -f _deps\raylib-build\raylib\CMakeFiles\raylib.dir\build.make _deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.s
-.PHONY : utils.c.s
-
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -395,9 +371,6 @@ help:
 	@echo ... rtextures.obj
 	@echo ... rtextures.i
 	@echo ... rtextures.s
-	@echo ... utils.obj
-	@echo ... utils.i
-	@echo ... utils.s
 .PHONY : help
 
 

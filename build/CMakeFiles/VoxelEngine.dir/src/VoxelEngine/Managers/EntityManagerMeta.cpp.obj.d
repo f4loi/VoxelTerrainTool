@@ -152,6 +152,7 @@ CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/EntityManagerMeta.cpp.obj: \
  C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/Entity/EntityMeta.h \
  C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/CMP/PhysicsCMP.h \
  C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/CMP/RenderCMP.h \
+ C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/CMP/ChunkCMP.h \
  C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/utils/slotmap.hpp \
  C:/msys64/ucrt64/include/c++/15.2.0/array \
  C:/msys64/ucrt64/include/c++/15.2.0/compare \

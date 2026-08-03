@@ -7,10 +7,11 @@
 #include "VoxelEngine/Entity/EntityMeta.h"
 #include "VoxelEngine/CMP/PhysicsCMP.h"
 #include "VoxelEngine/CMP/RenderCMP.h"
+#include "VoxelEngine/CMP/ChunkCMP.h"
 #include "utils/slotmap.hpp"
 
 // 1. Definimos todos los componentes de nuestro juego aquí
-using ComponentList = std::tuple<PhysicsCMP, RenderCMP>;
+using ComponentList = std::tuple<PhysicsCMP, RenderCMP, ChunkCMP>;
 
 // 2. Helper para transformar std::tuple<A, B> en std::tuple<Slotmap<A>, Slotmap<B>>
 template <typename Tuple>

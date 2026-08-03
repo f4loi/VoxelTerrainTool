@@ -11,8 +11,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/raylib.dir/rtext.c.obj.d"
   "CMakeFiles/raylib.dir/rtextures.c.obj"
   "CMakeFiles/raylib.dir/rtextures.c.obj.d"
-  "CMakeFiles/raylib.dir/utils.c.obj"
-  "CMakeFiles/raylib.dir/utils.c.obj.d"
   "libraylib.a"
   "libraylib.pdb"
 )

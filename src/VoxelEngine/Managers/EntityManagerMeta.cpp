@@ -12,8 +12,6 @@ EntityMeta EntityManagerMeta::createEntity()
     EntityMeta newEntity(this);
     newEntity.setId(newId);
 
-    // METAPROGRAMACIÓN (C++17 std::apply + fold expression): 
-    // Añadimos una clave inválida (9999) a TODOS los vectores de claves de la tupla a la vez.
     std::apply([](auto&... keyVectors) {
         (keyVectors.push_back({ 9999, 0 }), ...);
     }, keys);

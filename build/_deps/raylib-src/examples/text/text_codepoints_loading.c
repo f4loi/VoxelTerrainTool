@@ -1,13 +1,15 @@
 /*******************************************************************************************
 *
-*   raylib [text] example - Codepoints loading
+*   raylib [text] example - codepoints loading
 *
-*   Example originally created with raylib 4.2, last time updated with raylib 2.5
+*   Example complexity rating: [★★★☆] 3/4
+*
+*   Example originally created with raylib 4.2, last time updated with raylib 4.2
 *
 *   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
 *   BSD-like license that allows static linking with closed source software
 *
-*   Copyright (c) 2022-2023 Ramon Santamaria (@raysan5)
+*   Copyright (c) 2022-2025 Ramon Santamaria (@raysan5)
 *
 ********************************************************************************************/
 
@@ -21,6 +23,9 @@
 // this text will be scanned to get all the required codepoints
 static char *text = "いろはにほへと　ちりぬるを\nわかよたれそ　つねならむ\nうゐのおくやま　けふこえて\nあさきゆめみし　ゑひもせす";
 
+//------------------------------------------------------------------------------------
+// Module Functions Declaration
+//------------------------------------------------------------------------------------
 // Remove codepoint duplicates if requested
 static int *CodepointRemoveDuplicates(int *codepoints, int codepointCount, int *codepointResultCount);
 
@@ -36,7 +41,8 @@ int main(void)
 
     InitWindow(screenWidth, screenHeight, "raylib [text] example - codepoints loading");
 
-    // Get codepoints from text
+    // Convert each utf-8 character into its
+    // corresponding codepoint in the font file
     int codepointCount = 0;
     int *codepoints = LoadCodepoints(text, &codepointCount);
 
@@ -52,15 +58,14 @@ int main(void)
     // Set bilinear scale filter for better font scaling
     SetTextureFilter(font.texture, TEXTURE_FILTER_BILINEAR);
 
-    SetTextLineSpacing(54);         // Set line spacing for multiline text (when line breaks are included '\n')
+    SetTextLineSpacing(20);         // Set line spacing for multiline text (when line breaks are included '\n')
 
     // Free codepoints, atlas has already been generated
-    free(codepointsNoDups);
+    RL_FREE(codepointsNoDups);
 
     bool showFontAtlas = false;
 
     int codepointSize = 0;
-    int codepoint = 0;
     char *ptr = text;
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
@@ -77,13 +82,13 @@ int main(void)
         if (IsKeyPressed(KEY_RIGHT))
         {
             // Get next codepoint in string and move pointer
-            codepoint = GetCodepointNext(ptr, &codepointSize);
+            GetCodepointNext(ptr, &codepointSize);
             ptr += codepointSize;
         }
         else if (IsKeyPressed(KEY_LEFT))
         {
             // Get previous codepoint in string and move pointer
-            codepoint = GetCodepointPrevious(ptr, &codepointSize);
+            GetCodepointPrevious(ptr, &codepointSize);
             ptr -= codepointSize;
         }
         //----------------------------------------------------------------------------------
@@ -106,7 +111,7 @@ int main(void)
             }
             else
             {
-                // Draw provided text with laoded font, containing all required codepoint glyphs
+                // Draw provided text with loaded font, containing all required codepoint glyphs
                 DrawTextEx(font, text, (Vector2) { 160, 110 }, 48, 5, BLACK);
             }
 
@@ -126,12 +131,15 @@ int main(void)
     return 0;
 }
 
+//------------------------------------------------------------------------------------
+// Module Functions Definition
+//------------------------------------------------------------------------------------
 // Remove codepoint duplicates if requested
 // WARNING: This process could be a bit slow if there text to process is very long
 static int *CodepointRemoveDuplicates(int *codepoints, int codepointCount, int *codepointsResultCount)
 {
     int codepointsNoDupsCount = codepointCount;
-    int *codepointsNoDups = (int *)calloc(codepointCount, sizeof(int));
+    int *codepointsNoDups = (int *)RL_CALLOC(codepointCount, sizeof(int));
     memcpy(codepointsNoDups, codepoints, codepointCount*sizeof(int));
 
     // Remove duplicates

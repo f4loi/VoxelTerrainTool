@@ -1,21 +1,21 @@
 # Setup the project and settings
 project(raylib C)
-set(PROJECT_VERSION 4.5.0)
-set(API_VERSION 450)
+set(PROJECT_VERSION 6.0.0)
+set(API_VERSION 600)
 
 include(GNUInstallDirs)
 include(JoinPaths)
 
 # Sets build type if not set by now
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-    if(RAYLIB_IS_MAIN)
+    if(PROJECT_IS_TOP_LEVEL)
         set(default_build_type Debug)
     else()
         message(WARNING "Default build type is not set (CMAKE_BUILD_TYPE)")
     endif()
 
     message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
-    
+
     set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE STRING "Choose the type of build." FORCE)
     set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
 endif()
@@ -23,6 +23,7 @@ endif()
 # Used as public API to be included into other projects
 set(raylib_public_headers
     raylib.h
+    rcamera.h
     rlgl.h
     raymath.h
     )
@@ -30,12 +31,20 @@ set(raylib_public_headers
 # Sources to be compiled
 set(raylib_sources
     rcore.c
-    rmodels.c
     rshapes.c
     rtext.c
     rtextures.c
-    utils.c
     )
+
+# Only build raudio if it's enabled
+if (NOT DEFINED SUPPORT_MODULE_RAUDIO OR SUPPORT_MODULE_RAUDIO)
+    list(APPEND raylib_sources raudio.c)
+endif()
+
+# Only build rmodels if it's enabled
+if (NOT DEFINED SUPPORT_MODULE_RMODELS OR SUPPORT_MODULE_RMODELS)
+    list(APPEND raylib_sources rmodels.c)
+endif()
 
 # <root>/cmake/GlfwImport.cmake handles the details around the inclusion of glfw
 if (NOT ${PLATFORM} MATCHES "Web")
@@ -47,13 +56,11 @@ endif ()
 # Produces a variable LIBS_PRIVATE that will be used later
 include(LibraryConfigurations)
 
-if (USE_AUDIO)
-    MESSAGE(STATUS "Audio Backend: miniaudio")
-    list(APPEND raylib_sources raudio.c)
+if (DEFINED SUPPORT_MODULE_RAUDIO AND NOT SUPPORT_MODULE_RAUDIO)
+    MESSAGE(STATUS "Audio Backend: None (-DCUSTOMIZE_BUILD=ON -DSUPPORT_MODULE_RAUDIO=OFF)")
 else ()
-    MESSAGE(STATUS "Audio Backend: None (-DUSE_AUDIO=OFF)")
+    MESSAGE(STATUS "Audio Backend: miniaudio")
 endif ()
-
 
 add_library(raylib ${raylib_sources} ${raylib_public_headers})
 
@@ -62,16 +69,24 @@ if (NOT BUILD_SHARED_LIBS)
     add_library(raylib_static ALIAS raylib)
 else()
     MESSAGE(STATUS "Building raylib shared library")
-    if (WIN32)
-        target_compile_definitions(raylib
-                                   PRIVATE $<BUILD_INTERFACE:BUILD_LIBTYPE_SHARED>
-                                   INTERFACE $<INSTALL_INTERFACE:USE_LIBTYPE_SHARED>
-                                   )
-    endif ()
+    target_compile_definitions(raylib
+                               PRIVATE $<BUILD_INTERFACE:BUILD_LIBTYPE_SHARED>
+                               INTERFACE $<INSTALL_INTERFACE:USE_LIBTYPE_SHARED>
+                               )
 endif()
 
 if (${PLATFORM} MATCHES "Web")
-    target_link_options(raylib PRIVATE "-sUSE_GLFW=3")
+    target_link_options(raylib PUBLIC "-sUSE_GLFW=3" -sEXPORTED_RUNTIME_METHODS=ccall)
+    if(${GRAPHICS} MATCHES "GRAPHICS_API_OPENGL_ES3")
+        target_link_options(raylib PUBLIC "-sMIN_WEBGL_VERSION=2")
+        target_link_options(raylib PUBLIC "-sMAX_WEBGL_VERSION=2")
+    endif()
+endif()
+
+if (${PLATFORM} MATCHES "Android")
+    # Wrap fopen at link time so all code (including third-party libs) goes
+    # through __wrap_fopen, which handles Android APK asset loading
+    target_link_options(raylib PUBLIC -Wl,--wrap=fopen)
 endif()
 
 set_target_properties(raylib PROPERTIES
@@ -84,7 +99,27 @@ if (WITH_PIC OR BUILD_SHARED_LIBS)
     set_property(TARGET raylib PROPERTY POSITION_INDEPENDENT_CODE ON)
 endif ()
 
-target_link_libraries(raylib "${LIBS_PRIVATE}")
+if (BUILD_SHARED_LIBS)
+    # Hide raylib's symbols by default so RLAPI can expose them
+    set_property(TARGET raylib PROPERTY C_VISIBILITY_PRESET hidden)
+endif ()
+
+target_link_libraries(raylib PRIVATE $<BUILD_INTERFACE:${LIBS_PRIVATE}>)
+target_link_libraries(raylib PUBLIC ${LIBS_PUBLIC})
+
+# Static libraries must export their private link dependencies for installed consumers.
+# LINK_ONLY keeps those dependencies out of the compile interface.
+if (NOT BUILD_SHARED_LIBS)
+    set(raylib_install_private_libs ${LIBS_PRIVATE})
+
+    if (NOT glfw3_FOUND)
+        list(REMOVE_ITEM raylib_install_private_libs glfw)
+    endif()
+
+    foreach(lib IN LISTS raylib_install_private_libs)
+        target_link_libraries(raylib INTERFACE $<INSTALL_INTERFACE:$<LINK_ONLY:${lib}>>)
+    endforeach()
+endif()
 
 # Sets some compile time definitions for the pre-processor
 # If CUSTOMIZE_BUILD option is on you will not use config.h by default
@@ -104,6 +139,21 @@ target_include_directories(raylib
 
 # Copy the header files to the build directory for convenience
 file(COPY ${raylib_public_headers} DESTINATION "include")
+if (PLATFORM STREQUAL "Desktop")
+    if (UNIX AND NOT APPLE)
+        if (GLFW_BUILD_X11)
+            find_package(X11 REQUIRED)
+
+            target_compile_definitions(raylib PRIVATE _GLFW_X11)
+
+            target_link_libraries(raylib PRIVATE
+                ${X11_LIBRARIES}
+            )
+
+            message(STATUS "X11 support enabled for raylib")
+        endif()
+    endif()
+endif()
 
 # Includes information on how the library will be installed on the system
 # when cmake --install is run

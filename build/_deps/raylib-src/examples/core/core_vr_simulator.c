@@ -1,13 +1,15 @@
 /*******************************************************************************************
 *
-*   raylib [core] example - VR Simulator (Oculus Rift CV1 parameters)
+*   raylib [core] example - vr simulator
+*
+*   Example complexity rating: [★★★☆] 3/4
 *
 *   Example originally created with raylib 2.5, last time updated with raylib 4.0
 *
 *   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
 *   BSD-like license that allows static linking with closed source software
 *
-*   Copyright (c) 2017-2023 Ramon Santamaria (@raysan5)
+*   Copyright (c) 2017-2025 Ramon Santamaria (@raysan5)
 *
 ********************************************************************************************/
 
@@ -39,7 +41,6 @@ int main(void)
         .vResolution = 1200,                 // Vertical resolution in pixels
         .hScreenSize = 0.133793f,            // Horizontal size in meters
         .vScreenSize = 0.0669f,              // Vertical size in meters
-        .vScreenCenter = 0.04678f,           // Screen center in meters
         .eyeToScreenDistance = 0.041f,       // Distance between eye and display in meters
         .lensSeparationDistance = 0.07f,     // Lens separation distance in meters
         .interpupillaryDistance = 0.07f,     // IPD (distance between pupils) in meters
@@ -60,7 +61,7 @@ int main(void)
     VrStereoConfig config = LoadVrStereoConfig(device);
 
     // Distortion shader (uses device lens distortion and chroma)
-    Shader distortion = LoadShader(0, TextFormat("resources/distortion%i.fs", GLSL_VERSION));
+    Shader distortion = LoadShader(0, TextFormat("resources/shaders/glsl%i/distortion.fs", GLSL_VERSION));
 
     // Update distortion shader with lens and distortion-scale parameters
     SetShaderValue(distortion, GetShaderLocation(distortion, "leftLensCenter"),
@@ -101,7 +102,7 @@ int main(void)
 
     DisableCursor();                    // Limit cursor to relative movement inside the window
 
-    SetTargetFPS(90);                   // Set our game to run at 90 frames-per-second
+    SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
 
     // Main game loop
@@ -126,7 +127,7 @@ int main(void)
                 EndMode3D();
             EndVrStereoMode();
         EndTextureMode();
-        
+
         BeginDrawing();
             ClearBackground(RAYWHITE);
             BeginShaderMode(distortion);

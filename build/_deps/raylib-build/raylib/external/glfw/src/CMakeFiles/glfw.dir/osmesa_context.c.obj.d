@@ -1,24 +1,14 @@
 _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.obj: \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\osmesa_context.c \
- C:/msys64/ucrt64/include/stdlib.h C:/msys64/ucrt64/include/corecrt.h \
- C:/msys64/ucrt64/include/_mingw.h C:/msys64/ucrt64/include/_mingw_mac.h \
- C:/msys64/ucrt64/include/_mingw_secapi.h \
- C:/msys64/ucrt64/include/vadefs.h \
- C:/msys64/ucrt64/include/sdks/_mingw_ddk.h \
- C:/msys64/ucrt64/include/corecrt_wstdlib.h \
- C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/limits.h \
- C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
- C:/msys64/ucrt64/include/limits.h C:/msys64/ucrt64/include/crtdefs.h \
- C:/msys64/ucrt64/include/sec_api/stdlib_s.h \
- C:/msys64/ucrt64/include/malloc.h \
- C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mm_malloc.h \
- C:/msys64/ucrt64/include/errno.h C:/msys64/ucrt64/include/string.h \
- C:/msys64/ucrt64/include/sec_api/string_s.h \
- C:/msys64/ucrt64/include/assert.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\internal.h \
  C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-src/src/external/glfw/include/GLFW/glfw3.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stddef.h \
- C:/msys64/ucrt64/include/stddef.h \
+ C:/msys64/ucrt64/include/stddef.h C:/msys64/ucrt64/include/crtdefs.h \
+ C:/msys64/ucrt64/include/corecrt.h C:/msys64/ucrt64/include/_mingw.h \
+ C:/msys64/ucrt64/include/_mingw_mac.h \
+ C:/msys64/ucrt64/include/_mingw_secapi.h \
+ C:/msys64/ucrt64/include/vadefs.h \
+ C:/msys64/ucrt64/include/sdks/_mingw_ddk.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \
  C:/msys64/ucrt64/include/stdint.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\platform.h \
@@ -41,6 +31,8 @@ _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c
  C:/msys64/ucrt64/include/ctype.h C:/msys64/ucrt64/include/apiset.h \
  C:/msys64/ucrt64/include/psdk_inc/intrin-impl.h \
  C:/msys64/ucrt64/include/basetsd.h C:/msys64/ucrt64/include/guiddef.h \
+ C:/msys64/ucrt64/include/string.h \
+ C:/msys64/ucrt64/include/sec_api/string_s.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/x86intrin.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/x86gprintrin.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/ia32intrin.h \
@@ -84,6 +76,14 @@ _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/immintrin.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mmintrin.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/xmmintrin.h \
+ C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mm_malloc.h \
+ C:/msys64/ucrt64/include/stdlib.h \
+ C:/msys64/ucrt64/include/corecrt_wstdlib.h \
+ C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/limits.h \
+ C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/syslimits.h \
+ C:/msys64/ucrt64/include/limits.h \
+ C:/msys64/ucrt64/include/sec_api/stdlib_s.h \
+ C:/msys64/ucrt64/include/malloc.h C:/msys64/ucrt64/include/errno.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/emmintrin.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/pmmintrin.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/tmmintrin.h \
@@ -226,4 +226,6 @@ _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\null_joystick.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\win32_joystick.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\win32_thread.h \
- C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\win32_time.h
+ C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\win32_time.h \
+ C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-src/src/external/glfw/include/GLFW/glfw3native.h \
+ C:/msys64/ucrt64/include/assert.h

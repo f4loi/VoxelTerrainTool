@@ -5,7 +5,7 @@
 *   This example has been created using raylib 1.0 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
 *
-*   Copyright (c) 2013-2023 Ramon Santamaria (@raysan5)
+*   Copyright (c) 2013-2024 Ramon Santamaria (@raysan5)
 *
 ********************************************************************************************/
 
@@ -19,7 +19,7 @@ int main()
     int screenHeight = 450;
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-    
+
     SetTargetFPS(60);
     //--------------------------------------------------------------------------------------
 
@@ -44,7 +44,7 @@ int main()
     }
 
     // De-Initialization
-    //--------------------------------------------------------------------------------------   
+    //--------------------------------------------------------------------------------------
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 

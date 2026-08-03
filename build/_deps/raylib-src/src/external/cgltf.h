@@ -1,7 +1,7 @@
 /**
  * cgltf - a single-file glTF 2.0 parser written in C99.
  *
- * Version: 1.13
+ * Version: 1.15
  *
  * Website: https://github.com/jkuhlmann/cgltf
  *
@@ -63,9 +63,14 @@
  * By passing null for the output pointer, users can find out how many floats are required in the
  * output buffer.
  *
+ * `cgltf_accessor_unpack_indices` reads in the index data from an accessor. Assumes that
+ * `cgltf_load_buffers` has already been called. By passing null for the output pointer, users can
+ * find out how many indices are required in the output buffer. Returns 0 if the accessor is
+ * sparse or if the output component size is less than the accessor's component size.
+ *
  * `cgltf_num_components` is a tiny utility that tells you the dimensionality of
  * a certain accessor type. This can be used before `cgltf_accessor_unpack_floats` to help allocate
- * the necessary amount of memory. `cgltf_component_size` and `cgltf_calc_size` exist for 
+ * the necessary amount of memory. `cgltf_component_size` and `cgltf_calc_size` exist for
  * similar purposes.
  *
  * `cgltf_accessor_read_float` reads a certain element from a non-sparse accessor and converts it to
@@ -75,7 +80,7 @@
  *
  * `cgltf_accessor_read_uint` is similar to its floating-point counterpart, but limited to reading
  * vector types and does not support matrix types. The passed-in element size is the number of uints
- * in the output buffer, which should be in the range [1, 4]. Returns false if the passed-in 
+ * in the output buffer, which should be in the range [1, 4]. Returns false if the passed-in
  * element_size is too small, or if the accessor is sparse.
  *
  * `cgltf_accessor_read_index` is similar to its floating-point counterpart, but it returns size_t
@@ -136,7 +141,7 @@ typedef struct cgltf_memory_options
 typedef struct cgltf_file_options
 {
 	cgltf_result(*read)(const struct cgltf_memory_options* memory_options, const struct cgltf_file_options* file_options, const char* path, cgltf_size* size, void** data);
-	void (*release)(const struct cgltf_memory_options* memory_options, const struct cgltf_file_options* file_options, void* data);
+	void (*release)(const struct cgltf_memory_options* memory_options, const struct cgltf_file_options* file_options, void* data, cgltf_size size);
 	void* user_data;
 } cgltf_file_options;
 
@@ -197,6 +202,7 @@ typedef enum cgltf_type
 
 typedef enum cgltf_primitive_type
 {
+	cgltf_primitive_type_invalid,
 	cgltf_primitive_type_points,
 	cgltf_primitive_type_lines,
 	cgltf_primitive_type_line_loop,
@@ -290,6 +296,7 @@ typedef enum cgltf_meshopt_compression_filter {
 	cgltf_meshopt_compression_filter_octahedral,
 	cgltf_meshopt_compression_filter_quaternion,
 	cgltf_meshopt_compression_filter_exponential,
+	cgltf_meshopt_compression_filter_color,
 	cgltf_meshopt_compression_filter_max_enum
 } cgltf_meshopt_compression_filter;
 
@@ -302,6 +309,7 @@ typedef struct cgltf_meshopt_compression
 	cgltf_size count;
 	cgltf_meshopt_compression_mode mode;
 	cgltf_meshopt_compression_filter filter;
+	cgltf_bool is_khr;
 } cgltf_meshopt_compression;
 
 typedef struct cgltf_buffer_view
@@ -370,13 +378,29 @@ typedef struct cgltf_image
 	cgltf_extension* extensions;
 } cgltf_image;
 
+typedef enum cgltf_filter_type {
+    cgltf_filter_type_undefined = 0,
+    cgltf_filter_type_nearest = 9728,
+    cgltf_filter_type_linear = 9729,
+    cgltf_filter_type_nearest_mipmap_nearest = 9984,
+    cgltf_filter_type_linear_mipmap_nearest = 9985,
+    cgltf_filter_type_nearest_mipmap_linear = 9986,
+    cgltf_filter_type_linear_mipmap_linear = 9987
+} cgltf_filter_type;
+
+typedef enum cgltf_wrap_mode {
+    cgltf_wrap_mode_clamp_to_edge = 33071,
+    cgltf_wrap_mode_mirrored_repeat = 33648,
+    cgltf_wrap_mode_repeat = 10497
+} cgltf_wrap_mode;
+
 typedef struct cgltf_sampler
 {
 	char* name;
-	cgltf_int mag_filter;
-	cgltf_int min_filter;
-	cgltf_int wrap_s;
-	cgltf_int wrap_t;
+	cgltf_filter_type mag_filter;
+	cgltf_filter_type min_filter;
+	cgltf_wrap_mode wrap_s;
+	cgltf_wrap_mode wrap_t;
 	cgltf_extras extras;
 	cgltf_size extensions_count;
 	cgltf_extension* extensions;
@@ -389,6 +413,8 @@ typedef struct cgltf_texture
 	cgltf_sampler* sampler;
 	cgltf_bool has_basisu;
 	cgltf_image* basisu_image;
+	cgltf_bool has_webp;
+	cgltf_image* webp_image;
 	cgltf_extras extras;
 	cgltf_size extensions_count;
 	cgltf_extension* extensions;
@@ -492,12 +518,25 @@ typedef struct cgltf_iridescence
 	cgltf_texture_view iridescence_thickness_texture;
 } cgltf_iridescence;
 
+typedef struct cgltf_diffuse_transmission
+{
+	cgltf_texture_view diffuse_transmission_texture;
+	cgltf_float diffuse_transmission_factor;
+	cgltf_float diffuse_transmission_color_factor[3];
+	cgltf_texture_view diffuse_transmission_color_texture;
+} cgltf_diffuse_transmission;
+
 typedef struct cgltf_anisotropy
 {
 	cgltf_float anisotropy_strength;
 	cgltf_float anisotropy_rotation;
 	cgltf_texture_view anisotropy_texture;
 } cgltf_anisotropy;
+
+typedef struct cgltf_dispersion
+{
+	cgltf_float dispersion;
+} cgltf_dispersion;
 
 typedef struct cgltf_material
 {
@@ -512,7 +551,9 @@ typedef struct cgltf_material
 	cgltf_bool has_sheen;
 	cgltf_bool has_emissive_strength;
 	cgltf_bool has_iridescence;
+	cgltf_bool has_diffuse_transmission;
 	cgltf_bool has_anisotropy;
+	cgltf_bool has_dispersion;
 	cgltf_pbr_metallic_roughness pbr_metallic_roughness;
 	cgltf_pbr_specular_glossiness pbr_specular_glossiness;
 	cgltf_clearcoat clearcoat;
@@ -523,7 +564,9 @@ typedef struct cgltf_material
 	cgltf_volume volume;
 	cgltf_emissive_strength emissive_strength;
 	cgltf_iridescence iridescence;
+	cgltf_diffuse_transmission diffuse_transmission;
 	cgltf_anisotropy anisotropy;
+	cgltf_dispersion dispersion;
 	cgltf_texture_view normal_texture;
 	cgltf_texture_view occlusion_texture;
 	cgltf_texture_view emissive_texture;
@@ -728,6 +771,7 @@ typedef struct cgltf_data
 {
 	cgltf_file_type file_type;
 	void* file_data;
+	cgltf_size file_size;
 
 	cgltf_asset asset;
 
@@ -829,6 +873,8 @@ void cgltf_node_transform_world(const cgltf_node* node, cgltf_float* out_matrix)
 
 const uint8_t* cgltf_buffer_view_data(const cgltf_buffer_view* view);
 
+const cgltf_accessor* cgltf_find_accessor(const cgltf_primitive* prim, cgltf_attribute_type type, cgltf_int index);
+
 cgltf_bool cgltf_accessor_read_float(const cgltf_accessor* accessor, cgltf_size index, cgltf_float* out, cgltf_size element_size);
 cgltf_bool cgltf_accessor_read_uint(const cgltf_accessor* accessor, cgltf_size index, cgltf_uint* out, cgltf_size element_size);
 cgltf_size cgltf_accessor_read_index(const cgltf_accessor* accessor, cgltf_size index);
@@ -838,7 +884,7 @@ cgltf_size cgltf_component_size(cgltf_component_type component_type);
 cgltf_size cgltf_calc_size(cgltf_type type, cgltf_component_type component_type);
 
 cgltf_size cgltf_accessor_unpack_floats(const cgltf_accessor* accessor, cgltf_float* out, cgltf_size float_count);
-cgltf_size cgltf_accessor_unpack_indices(const cgltf_accessor* accessor, cgltf_uint* out, cgltf_size index_count);
+cgltf_size cgltf_accessor_unpack_indices(const cgltf_accessor* accessor, void* out, cgltf_size out_component_size, cgltf_size index_count);
 
 /* this function is deprecated and will be removed in the future; use cgltf_extras::data instead */
 cgltf_result cgltf_copy_extras_json(const cgltf_data* data, const cgltf_extras* extras, char* dest, cgltf_size* dest_size);
@@ -938,8 +984,8 @@ static int jsmn_parse(jsmn_parser *parser, const char *js, size_t len, jsmntok_t
 
 
 #ifndef CGLTF_CONSTS
-static const cgltf_size GlbHeaderSize = 12;
-static const cgltf_size GlbChunkHeaderSize = 8;
+#define GlbHeaderSize 12
+#define GlbChunkHeaderSize 8
 static const uint32_t GlbVersion = 2;
 static const uint32_t GlbMagic = 0x46546C67;
 static const uint32_t GlbMagicJsonChunk = 0x4E4F534A;
@@ -1033,7 +1079,7 @@ static cgltf_result cgltf_default_file_read(const struct cgltf_memory_options* m
 		fclose(file);
 		return cgltf_result_out_of_memory;
 	}
-	
+
 	cgltf_size read_size = fread(file_data, 1, file_size, file);
 
 	fclose(file);
@@ -1056,9 +1102,10 @@ static cgltf_result cgltf_default_file_read(const struct cgltf_memory_options* m
 	return cgltf_result_success;
 }
 
-static void cgltf_default_file_release(const struct cgltf_memory_options* memory_options, const struct cgltf_file_options* file_options, void* data)
+static void cgltf_default_file_release(const struct cgltf_memory_options* memory_options, const struct cgltf_file_options* file_options, void* data, cgltf_size size)
 {
 	(void)file_options;
+	(void)size;
 	void (*memfree)(void*, void*) = memory_options->free_func ? memory_options->free_func : &cgltf_default_free;
 	memfree(memory_options->user_data, data);
 }
@@ -1141,7 +1188,7 @@ cgltf_result cgltf_parse(const cgltf_options* options, const void* data, cgltf_s
 	// JSON chunk: length
 	uint32_t json_length;
 	memcpy(&json_length, json_chunk, 4);
-	if (GlbHeaderSize + GlbChunkHeaderSize + json_length > size)
+	if (json_length > size - GlbHeaderSize - GlbChunkHeaderSize)
 	{
 		return cgltf_result_data_too_short;
 	}
@@ -1158,7 +1205,7 @@ cgltf_result cgltf_parse(const cgltf_options* options, const void* data, cgltf_s
 	const void* bin = NULL;
 	cgltf_size bin_size = 0;
 
-	if (GlbHeaderSize + GlbChunkHeaderSize + json_length + GlbChunkHeaderSize <= size)
+	if (GlbChunkHeaderSize <= size - GlbHeaderSize - GlbChunkHeaderSize - json_length)
 	{
 		// We can read another chunk
 		const uint8_t* bin_chunk = json_chunk + json_length;
@@ -1166,7 +1213,7 @@ cgltf_result cgltf_parse(const cgltf_options* options, const void* data, cgltf_s
 		// Bin chunk: length
 		uint32_t bin_length;
 		memcpy(&bin_length, bin_chunk, 4);
-		if (GlbHeaderSize + GlbChunkHeaderSize + json_length + GlbChunkHeaderSize + bin_length > size)
+		if (bin_length > size - GlbHeaderSize - GlbChunkHeaderSize - json_length - GlbChunkHeaderSize)
 		{
 			return cgltf_result_data_too_short;
 		}
@@ -1205,7 +1252,7 @@ cgltf_result cgltf_parse_file(const cgltf_options* options, const char* path, cg
 	}
 
 	cgltf_result (*file_read)(const struct cgltf_memory_options*, const struct cgltf_file_options*, const char*, cgltf_size*, void**) = options->file.read ? options->file.read : &cgltf_default_file_read;
-	void (*file_release)(const struct cgltf_memory_options*, const struct cgltf_file_options*, void* data) = options->file.release ? options->file.release : cgltf_default_file_release;
+	void (*file_release)(const struct cgltf_memory_options*, const struct cgltf_file_options*, void* data, cgltf_size size) = options->file.release ? options->file.release : cgltf_default_file_release;
 
 	void* file_data = NULL;
 	cgltf_size file_size = 0;
@@ -1219,11 +1266,12 @@ cgltf_result cgltf_parse_file(const cgltf_options* options, const char* path, cg
 
 	if (result != cgltf_result_success)
 	{
-		file_release(&options->memory, &options->file, file_data);
+		file_release(&options->memory, &options->file, file_data, file_size);
 		return result;
 	}
 
 	(*out_data)->file_data = file_data;
+	(*out_data)->file_size = file_size;
 
 	return cgltf_result_success;
 }
@@ -1552,6 +1600,9 @@ cgltf_result cgltf_validate(cgltf_data* data)
 	{
 		cgltf_accessor* accessor = &data->accessors[i];
 
+		CGLTF_ASSERT_IF(data->accessors[i].component_type == cgltf_component_type_invalid, cgltf_result_invalid_gltf);
+		CGLTF_ASSERT_IF(data->accessors[i].type == cgltf_type_invalid, cgltf_result_invalid_gltf);
+
 		cgltf_size element_size = cgltf_calc_size(accessor->type, accessor->component_type);
 
 		if (accessor->buffer_view)
@@ -1565,7 +1616,7 @@ cgltf_result cgltf_validate(cgltf_data* data)
 		{
 			cgltf_accessor_sparse* sparse = &accessor->sparse;
 
-			cgltf_size indices_component_size = cgltf_calc_size(cgltf_type_scalar, sparse->indices_component_type);
+			cgltf_size indices_component_size = cgltf_component_size(sparse->indices_component_type);
 			cgltf_size indices_req_size = sparse->indices_byte_offset + indices_component_size * sparse->count;
 			cgltf_size values_req_size = sparse->values_byte_offset + element_size * sparse->count;
 
@@ -1612,8 +1663,8 @@ cgltf_result cgltf_validate(cgltf_data* data)
 			CGLTF_ASSERT_IF((mc->mode == cgltf_meshopt_compression_mode_triangles || mc->mode == cgltf_meshopt_compression_mode_indices) && mc->filter != cgltf_meshopt_compression_filter_none, cgltf_result_invalid_gltf);
 
 			CGLTF_ASSERT_IF(mc->filter == cgltf_meshopt_compression_filter_octahedral && mc->stride != 4 && mc->stride != 8, cgltf_result_invalid_gltf);
-
 			CGLTF_ASSERT_IF(mc->filter == cgltf_meshopt_compression_filter_quaternion && mc->stride != 8, cgltf_result_invalid_gltf);
+			CGLTF_ASSERT_IF(mc->filter == cgltf_meshopt_compression_filter_color && mc->stride != 4 && mc->stride != 8, cgltf_result_invalid_gltf);
 		}
 	}
 
@@ -1631,43 +1682,48 @@ cgltf_result cgltf_validate(cgltf_data* data)
 
 		for (cgltf_size j = 0; j < data->meshes[i].primitives_count; ++j)
 		{
+			CGLTF_ASSERT_IF(data->meshes[i].primitives[j].type == cgltf_primitive_type_invalid, cgltf_result_invalid_gltf);
 			CGLTF_ASSERT_IF(data->meshes[i].primitives[j].targets_count != data->meshes[i].primitives[0].targets_count, cgltf_result_invalid_gltf);
 
-			if (data->meshes[i].primitives[j].attributes_count)
+			CGLTF_ASSERT_IF(data->meshes[i].primitives[j].attributes_count == 0, cgltf_result_invalid_gltf);
+
+			cgltf_accessor* first = data->meshes[i].primitives[j].attributes[0].data;
+
+			CGLTF_ASSERT_IF(first->count == 0, cgltf_result_invalid_gltf);
+
+			for (cgltf_size k = 0; k < data->meshes[i].primitives[j].attributes_count; ++k)
 			{
-				cgltf_accessor* first = data->meshes[i].primitives[j].attributes[0].data;
+				CGLTF_ASSERT_IF(data->meshes[i].primitives[j].attributes[k].data->count != first->count, cgltf_result_invalid_gltf);
+			}
 
-				for (cgltf_size k = 0; k < data->meshes[i].primitives[j].attributes_count; ++k)
+			for (cgltf_size k = 0; k < data->meshes[i].primitives[j].targets_count; ++k)
+			{
+				for (cgltf_size m = 0; m < data->meshes[i].primitives[j].targets[k].attributes_count; ++m)
 				{
-					CGLTF_ASSERT_IF(data->meshes[i].primitives[j].attributes[k].data->count != first->count, cgltf_result_invalid_gltf);
+					CGLTF_ASSERT_IF(data->meshes[i].primitives[j].targets[k].attributes[m].data->count != first->count, cgltf_result_invalid_gltf);
 				}
+			}
 
-				for (cgltf_size k = 0; k < data->meshes[i].primitives[j].targets_count; ++k)
-				{
-					for (cgltf_size m = 0; m < data->meshes[i].primitives[j].targets[k].attributes_count; ++m)
-					{
-						CGLTF_ASSERT_IF(data->meshes[i].primitives[j].targets[k].attributes[m].data->count != first->count, cgltf_result_invalid_gltf);
-					}
-				}
+			cgltf_accessor* indices = data->meshes[i].primitives[j].indices;
 
-				cgltf_accessor* indices = data->meshes[i].primitives[j].indices;
+			CGLTF_ASSERT_IF(indices &&
+				indices->component_type != cgltf_component_type_r_8u &&
+				indices->component_type != cgltf_component_type_r_16u &&
+				indices->component_type != cgltf_component_type_r_32u, cgltf_result_invalid_gltf);
 
-				CGLTF_ASSERT_IF(indices &&
-					indices->component_type != cgltf_component_type_r_8u &&
-					indices->component_type != cgltf_component_type_r_16u &&
-					indices->component_type != cgltf_component_type_r_32u, cgltf_result_invalid_gltf);
+			CGLTF_ASSERT_IF(indices && indices->type != cgltf_type_scalar, cgltf_result_invalid_gltf);
+			CGLTF_ASSERT_IF(indices && indices->stride != cgltf_component_size(indices->component_type), cgltf_result_invalid_gltf);
 
-				if (indices && indices->buffer_view && indices->buffer_view->buffer->data)
-				{
-					cgltf_size index_bound = cgltf_calc_index_bound(indices->buffer_view, indices->offset, indices->component_type, indices->count);
+			if (indices && indices->buffer_view && indices->buffer_view->buffer->data)
+			{
+				cgltf_size index_bound = cgltf_calc_index_bound(indices->buffer_view, indices->offset, indices->component_type, indices->count);
 
-					CGLTF_ASSERT_IF(index_bound >= first->count, cgltf_result_data_too_short);
-				}
+				CGLTF_ASSERT_IF(index_bound >= first->count, cgltf_result_data_too_short);
+			}
 
-				for (cgltf_size k = 0; k < data->meshes[i].primitives[j].mappings_count; ++k)
-				{
-					CGLTF_ASSERT_IF(data->meshes[i].primitives[j].mappings[k].variant >= data->variants_count, cgltf_result_invalid_gltf);
-				}
+			for (cgltf_size k = 0; k < data->meshes[i].primitives[j].mappings_count; ++k)
+			{
+				CGLTF_ASSERT_IF(data->meshes[i].primitives[j].mappings[k].variant >= data->variants_count, cgltf_result_invalid_gltf);
 			}
 		}
 	}
@@ -1676,7 +1732,20 @@ cgltf_result cgltf_validate(cgltf_data* data)
 	{
 		if (data->nodes[i].weights && data->nodes[i].mesh)
 		{
-			CGLTF_ASSERT_IF (data->nodes[i].mesh->primitives_count && data->nodes[i].mesh->primitives[0].targets_count != data->nodes[i].weights_count, cgltf_result_invalid_gltf);
+			CGLTF_ASSERT_IF(data->nodes[i].mesh->primitives_count && data->nodes[i].mesh->primitives[0].targets_count != data->nodes[i].weights_count, cgltf_result_invalid_gltf);
+		}
+
+		if (data->nodes[i].has_mesh_gpu_instancing)
+		{
+			CGLTF_ASSERT_IF(data->nodes[i].mesh == NULL, cgltf_result_invalid_gltf);
+			CGLTF_ASSERT_IF(data->nodes[i].mesh_gpu_instancing.attributes_count == 0, cgltf_result_invalid_gltf);
+
+			cgltf_accessor* first = data->nodes[i].mesh_gpu_instancing.attributes[0].data;
+
+			for (cgltf_size k = 0; k < data->nodes[i].mesh_gpu_instancing.attributes_count; ++k)
+			{
+				CGLTF_ASSERT_IF(data->nodes[i].mesh_gpu_instancing.attributes[k].data->count != first->count, cgltf_result_invalid_gltf);
+			}
 		}
 	}
 
@@ -1724,8 +1793,13 @@ cgltf_result cgltf_validate(cgltf_data* data)
 
 			cgltf_size values = channel->sampler->interpolation == cgltf_interpolation_type_cubic_spline ? 3 : 1;
 
-			CGLTF_ASSERT_IF(channel->sampler->input->count * components * values != channel->sampler->output->count, cgltf_result_data_too_short);
+			CGLTF_ASSERT_IF(channel->sampler->input->count * components * values != channel->sampler->output->count, cgltf_result_invalid_gltf);
 		}
+	}
+
+	for (cgltf_size i = 0; i < data->variants_count; ++i)
+	{
+		CGLTF_ASSERT_IF(!data->variants[i].name, cgltf_result_invalid_gltf);
 	}
 
 	return cgltf_result_success;
@@ -1781,7 +1855,7 @@ void cgltf_free(cgltf_data* data)
 		return;
 	}
 
-	void (*file_release)(const struct cgltf_memory_options*, const struct cgltf_file_options*, void* data) = data->file.release ? data->file.release : cgltf_default_file_release;
+	void (*file_release)(const struct cgltf_memory_options*, const struct cgltf_file_options*, void* data, cgltf_size size) = data->file.release ? data->file.release : cgltf_default_file_release;
 
 	data->memory.free_func(data->memory.user_data, data->asset.copyright);
 	data->memory.free_func(data->memory.user_data, data->asset.generator);
@@ -1816,7 +1890,7 @@ void cgltf_free(cgltf_data* data)
 
 		if (data->buffers[i].data_free_method == cgltf_data_free_method_file_release)
 		{
-			file_release(&data->memory, &data->file, data->buffers[i].data);
+			file_release(&data->memory, &data->file, data->buffers[i].data, data->buffers[i].size);
 		}
 		else if (data->buffers[i].data_free_method == cgltf_data_free_method_memory_free)
 		{
@@ -1902,7 +1976,7 @@ void cgltf_free(cgltf_data* data)
 
 	data->memory.free_func(data->memory.user_data, data->materials);
 
-	for (cgltf_size i = 0; i < data->images_count; ++i) 
+	for (cgltf_size i = 0; i < data->images_count; ++i)
 	{
 		data->memory.free_func(data->memory.user_data, data->images[i].name);
 		data->memory.free_func(data->memory.user_data, data->images[i].uri);
@@ -2055,7 +2129,7 @@ void cgltf_free(cgltf_data* data)
 
 	data->memory.free_func(data->memory.user_data, data->extensions_required);
 
-	file_release(&data->memory, &data->file, data->file_data);
+	file_release(&data->memory, &data->file, data->file_data, data->file_size);
 
 	data->memory.free_func(data->memory.user_data, data);
 }
@@ -2271,11 +2345,58 @@ const uint8_t* cgltf_buffer_view_data(const cgltf_buffer_view* view)
 	return result;
 }
 
+const cgltf_accessor* cgltf_find_accessor(const cgltf_primitive* prim, cgltf_attribute_type type, cgltf_int index)
+{
+	for (cgltf_size i = 0; i < prim->attributes_count; ++i)
+	{
+		const cgltf_attribute* attr = &prim->attributes[i];
+		if (attr->type == type && attr->index == index)
+			return attr->data;
+	}
+
+	return NULL;
+}
+
+static const uint8_t* cgltf_find_sparse_index(const cgltf_accessor* accessor, cgltf_size needle)
+{
+	const cgltf_accessor_sparse* sparse = &accessor->sparse;
+	const uint8_t* index_data = cgltf_buffer_view_data(sparse->indices_buffer_view);
+	const uint8_t* value_data = cgltf_buffer_view_data(sparse->values_buffer_view);
+
+	if (index_data == NULL || value_data == NULL)
+		return NULL;
+
+	index_data += sparse->indices_byte_offset;
+	value_data += sparse->values_byte_offset;
+
+	cgltf_size index_stride = cgltf_component_size(sparse->indices_component_type);
+
+	cgltf_size offset = 0;
+	cgltf_size length = sparse->count;
+
+	while (length)
+	{
+		cgltf_size rem = length % 2;
+		length /= 2;
+
+		cgltf_size index = cgltf_component_read_index(index_data + (offset + length) * index_stride, sparse->indices_component_type);
+		offset += index < needle ? length + rem : 0;
+	}
+
+	if (offset == sparse->count)
+		return NULL;
+
+	cgltf_size index = cgltf_component_read_index(index_data + offset * index_stride, sparse->indices_component_type);
+	return index == needle ? value_data + offset * accessor->stride : NULL;
+}
+
 cgltf_bool cgltf_accessor_read_float(const cgltf_accessor* accessor, cgltf_size index, cgltf_float* out, cgltf_size element_size)
 {
 	if (accessor->is_sparse)
 	{
-		return 0;
+		const uint8_t* element = cgltf_find_sparse_index(accessor, index);
+		if (element)
+			return cgltf_element_read_float(element, accessor->type, accessor->component_type, accessor->normalized, out, element_size);
 	}
 	if (accessor->buffer_view == NULL)
 	{
@@ -2419,11 +2540,13 @@ cgltf_bool cgltf_accessor_read_uint(const cgltf_accessor* accessor, cgltf_size i
 {
 	if (accessor->is_sparse)
 	{
-		return 0;
+		const uint8_t* element = cgltf_find_sparse_index(accessor, index);
+		if (element)
+			return cgltf_element_read_uint(element, accessor->type, accessor->component_type, out, element_size);
 	}
 	if (accessor->buffer_view == NULL)
 	{
-		memset(out, 0, element_size * sizeof( cgltf_uint ));
+		memset(out, 0, element_size * sizeof(cgltf_uint));
 		return 1;
 	}
 	const uint8_t* element = cgltf_buffer_view_data(accessor->buffer_view);
@@ -2439,7 +2562,9 @@ cgltf_size cgltf_accessor_read_index(const cgltf_accessor* accessor, cgltf_size 
 {
 	if (accessor->is_sparse)
 	{
-		return 0; // This is an error case, but we can't communicate the error with existing interface.
+		const uint8_t* element = cgltf_find_sparse_index(accessor, index);
+		if (element)
+			return cgltf_component_read_index(element, accessor->component_type);
 	}
 	if (accessor->buffer_view == NULL)
 	{
@@ -2550,20 +2675,28 @@ cgltf_size cgltf_animation_channel_index(const cgltf_animation* animation, const
 	return (cgltf_size)(object - animation->channels);
 }
 
-cgltf_size cgltf_accessor_unpack_indices(const cgltf_accessor* accessor, cgltf_uint* out, cgltf_size index_count)
+cgltf_size cgltf_accessor_unpack_indices(const cgltf_accessor* accessor, void* out, cgltf_size out_component_size, cgltf_size index_count)
 {
 	if (out == NULL)
 	{
 		return accessor->count;
 	}
 
-	index_count = accessor->count < index_count ? accessor->count : index_count;
+	cgltf_size numbers_per_element = cgltf_num_components(accessor->type);
+	cgltf_size available_numbers = accessor->count * numbers_per_element;
+
+	index_count = available_numbers < index_count ? available_numbers : index_count;
+	cgltf_size index_component_size = cgltf_component_size(accessor->component_type);
 
 	if (accessor->is_sparse)
 	{
 		return 0;
 	}
 	if (accessor->buffer_view == NULL)
+	{
+		return 0;
+	}
+	if (index_component_size > out_component_size)
 	{
 		return 0;
 	}
@@ -2574,18 +2707,37 @@ cgltf_size cgltf_accessor_unpack_indices(const cgltf_accessor* accessor, cgltf_u
 	}
 	element += accessor->offset;
 
-	if (accessor->component_type == cgltf_component_type_r_32u && accessor->stride == sizeof(cgltf_uint))
+	if (index_component_size == out_component_size && accessor->stride == out_component_size * numbers_per_element)
 	{
-		memcpy(out, element, index_count * sizeof(cgltf_uint));
+		memcpy(out, element, index_count * index_component_size);
+		return index_count;
 	}
-	else
-	{
-		cgltf_uint* dest = out;
 
-		for (cgltf_size index = 0; index < index_count; index++, dest++, element += accessor->stride)
+	// Data couldn't be copied with memcpy due to stride being larger than the component size.
+	// OR
+	// The component size of the output array is larger than the component size of the index data, so index data will be padded.
+	switch (out_component_size)
+	{
+	case 1:
+		for (cgltf_size index = 0; index < index_count; index++, element += accessor->stride)
 		{
-			*dest = (cgltf_uint)cgltf_component_read_index(element, accessor->component_type);
+			((uint8_t*)out)[index] = (uint8_t)cgltf_component_read_index(element, accessor->component_type);
 		}
+		break;
+	case 2:
+		for (cgltf_size index = 0; index < index_count; index++, element += accessor->stride)
+		{
+			((uint16_t*)out)[index] = (uint16_t)cgltf_component_read_index(element, accessor->component_type);
+		}
+		break;
+	case 4:
+		for (cgltf_size index = 0; index < index_count; index++, element += accessor->stride)
+		{
+			((uint32_t*)out)[index] = (uint32_t)cgltf_component_read_index(element, accessor->component_type);
+		}
+		break;
+	default:
+		return 0;
 	}
 
 	return index_count;
@@ -2596,7 +2748,7 @@ cgltf_size cgltf_accessor_unpack_indices(const cgltf_accessor* accessor, cgltf_u
 #define CGLTF_ERROR_LEGACY -3
 
 #define CGLTF_CHECK_TOKTYPE(tok_, type_) if ((tok_).type != (type_)) { return CGLTF_ERROR_JSON; }
-#define CGLTF_CHECK_TOKTYPE_RETTYPE(tok_, type_, ret_) if ((tok_).type != (type_)) { return (ret_)CGLTF_ERROR_JSON; }
+#define CGLTF_CHECK_TOKTYPE_RET(tok_, type_, ret_) if ((tok_).type != (type_)) { return ret_; }
 #define CGLTF_CHECK_KEY(tok_) if ((tok_).type != JSMN_STRING || (tok_).size == 0) { return CGLTF_ERROR_JSON; } /* checking size for 0 verifies that a value follows the key */
 
 #define CGLTF_PTRINDEX(type, idx) (type*)((cgltf_size)idx + 1)
@@ -2623,12 +2775,13 @@ static int cgltf_json_to_int(jsmntok_t const* tok, const uint8_t* json_chunk)
 
 static cgltf_size cgltf_json_to_size(jsmntok_t const* tok, const uint8_t* json_chunk)
 {
-	CGLTF_CHECK_TOKTYPE_RETTYPE(*tok, JSMN_PRIMITIVE, cgltf_size);
+	CGLTF_CHECK_TOKTYPE_RET(*tok, JSMN_PRIMITIVE, 0);
 	char tmp[128];
 	int size = (size_t)(tok->end - tok->start) < sizeof(tmp) ? (int)(tok->end - tok->start) : (int)(sizeof(tmp) - 1);
 	strncpy(tmp, (const char*)json_chunk + tok->start, size);
 	tmp[size] = 0;
-	return (cgltf_size)CGLTF_ATOLL(tmp);
+	long long res = CGLTF_ATOLL(tmp);
+	return res < 0 ? 0 : (cgltf_size)res;
 }
 
 static cgltf_float cgltf_json_to_float(jsmntok_t const* tok, const uint8_t* json_chunk)
@@ -2810,6 +2963,11 @@ static void cgltf_parse_attribute_type(const char* name, cgltf_attribute_type* o
 	if (us && *out_type != cgltf_attribute_type_invalid)
 	{
 		*out_index = CGLTF_ATOI(us + 1);
+		if (*out_index < 0)
+		{
+			*out_type = cgltf_attribute_type_invalid;
+			*out_index = 0;
+		}
 	}
 }
 
@@ -3142,6 +3300,31 @@ static int cgltf_parse_json_material_mappings(cgltf_options* options, jsmntok_t 
 	return i;
 }
 
+static cgltf_primitive_type cgltf_json_to_primitive_type(jsmntok_t const* tok, const uint8_t* json_chunk)
+{
+	int type = cgltf_json_to_int(tok, json_chunk);
+
+	switch (type)
+	{
+	case 0:
+		return cgltf_primitive_type_points;
+	case 1:
+		return cgltf_primitive_type_lines;
+	case 2:
+		return cgltf_primitive_type_line_loop;
+	case 3:
+		return cgltf_primitive_type_line_strip;
+	case 4:
+		return cgltf_primitive_type_triangles;
+	case 5:
+		return cgltf_primitive_type_triangle_strip;
+	case 6:
+		return cgltf_primitive_type_triangle_fan;
+	default:
+		return cgltf_primitive_type_invalid;
+	}
+}
+
 static int cgltf_parse_json_primitive(cgltf_options* options, jsmntok_t const* tokens, int i, const uint8_t* json_chunk, cgltf_primitive* out_prim)
 {
 	CGLTF_CHECK_TOKTYPE(tokens[i], JSMN_OBJECT);
@@ -3158,9 +3341,7 @@ static int cgltf_parse_json_primitive(cgltf_options* options, jsmntok_t const* t
 		if (cgltf_json_strcmp(tokens+i, json_chunk, "mode") == 0)
 		{
 			++i;
-			out_prim->type
-					= (cgltf_primitive_type)
-					cgltf_json_to_int(tokens+i, json_chunk);
+			out_prim->type = cgltf_json_to_primitive_type(tokens+i, json_chunk);
 			++i;
 		}
 		else if (cgltf_json_strcmp(tokens+i, json_chunk, "indices") == 0)
@@ -3410,7 +3591,7 @@ static int cgltf_parse_json_accessor_sparse(jsmntok_t const* tokens, int i, cons
 		if (cgltf_json_strcmp(tokens+i, json_chunk, "count") == 0)
 		{
 			++i;
-			out_sparse->count = cgltf_json_to_int(tokens + i, json_chunk);
+			out_sparse->count = cgltf_json_to_size(tokens + i, json_chunk);
 			++i;
 		}
 		else if (cgltf_json_strcmp(tokens+i, json_chunk, "indices") == 0)
@@ -3546,8 +3727,7 @@ static int cgltf_parse_json_accessor(cgltf_options* options, jsmntok_t const* to
 		else if (cgltf_json_strcmp(tokens+i, json_chunk, "count") == 0)
 		{
 			++i;
-			out_accessor->count =
-					cgltf_json_to_int(tokens+i, json_chunk);
+			out_accessor->count = cgltf_json_to_size(tokens+i, json_chunk);
 			++i;
 		}
 		else if (cgltf_json_strcmp(tokens+i, json_chunk, "type") == 0)
@@ -3700,7 +3880,7 @@ static int cgltf_parse_json_texture_view(cgltf_options* options, jsmntok_t const
 			out_texture_view->texcoord = cgltf_json_to_int(tokens + i, json_chunk);
 			++i;
 		}
-		else if (cgltf_json_strcmp(tokens + i, json_chunk, "scale") == 0) 
+		else if (cgltf_json_strcmp(tokens + i, json_chunk, "scale") == 0)
 		{
 			++i;
 			out_texture_view->scale = cgltf_json_to_float(tokens + i, json_chunk);
@@ -3769,11 +3949,11 @@ static int cgltf_parse_json_pbr_metallic_roughness(cgltf_options* options, jsmnt
 		if (cgltf_json_strcmp(tokens+i, json_chunk, "metallicFactor") == 0)
 		{
 			++i;
-			out_pbr->metallic_factor = 
+			out_pbr->metallic_factor =
 				cgltf_json_to_float(tokens + i, json_chunk);
 			++i;
 		}
-		else if (cgltf_json_strcmp(tokens+i, json_chunk, "roughnessFactor") == 0) 
+		else if (cgltf_json_strcmp(tokens+i, json_chunk, "roughnessFactor") == 0)
 		{
 			++i;
 			out_pbr->roughness_factor =
@@ -4193,6 +4373,52 @@ static int cgltf_parse_json_iridescence(cgltf_options* options, jsmntok_t const*
 	return i;
 }
 
+static int cgltf_parse_json_diffuse_transmission(cgltf_options* options, jsmntok_t const* tokens, int i, const uint8_t* json_chunk, cgltf_diffuse_transmission* out_diff_transmission)
+{
+	CGLTF_CHECK_TOKTYPE(tokens[i], JSMN_OBJECT);
+	int size = tokens[i].size;
+	++i;
+
+	// Defaults
+	cgltf_fill_float_array(out_diff_transmission->diffuse_transmission_color_factor, 3, 1.0f);
+	out_diff_transmission->diffuse_transmission_factor = 0.f;
+	
+	for (int j = 0; j < size; ++j)
+	{
+		CGLTF_CHECK_KEY(tokens[i]);
+
+		if (cgltf_json_strcmp(tokens + i, json_chunk, "diffuseTransmissionFactor") == 0)
+		{
+			++i;
+			out_diff_transmission->diffuse_transmission_factor = cgltf_json_to_float(tokens + i, json_chunk);
+			++i;
+		}
+		else if (cgltf_json_strcmp(tokens + i, json_chunk, "diffuseTransmissionTexture") == 0)
+		{
+			i = cgltf_parse_json_texture_view(options, tokens, i + 1, json_chunk, &out_diff_transmission->diffuse_transmission_texture);
+		}
+		else if (cgltf_json_strcmp(tokens + i, json_chunk, "diffuseTransmissionColorFactor") == 0)
+		{
+			i = cgltf_parse_json_float_array(tokens, i + 1, json_chunk, out_diff_transmission->diffuse_transmission_color_factor, 3);
+		}
+		else if (cgltf_json_strcmp(tokens + i, json_chunk, "diffuseTransmissionColorTexture") == 0)
+		{
+			i = cgltf_parse_json_texture_view(options, tokens, i + 1, json_chunk, &out_diff_transmission->diffuse_transmission_color_texture);
+		}
+		else
+		{
+			i = cgltf_skip_json(tokens, i + 1);
+		}
+
+		if (i < 0)
+		{
+			return i;
+		}
+	}
+
+	return i;
+}
+
 static int cgltf_parse_json_anisotropy(cgltf_options* options, jsmntok_t const* tokens, int i, const uint8_t* json_chunk, cgltf_anisotropy* out_anisotropy)
 {
 	CGLTF_CHECK_TOKTYPE(tokens[i], JSMN_OBJECT);
@@ -4234,6 +4460,37 @@ static int cgltf_parse_json_anisotropy(cgltf_options* options, jsmntok_t const* 
 	return i;
 }
 
+static int cgltf_parse_json_dispersion(jsmntok_t const* tokens, int i, const uint8_t* json_chunk, cgltf_dispersion* out_dispersion)
+{
+	CGLTF_CHECK_TOKTYPE(tokens[i], JSMN_OBJECT);
+	int size = tokens[i].size;
+	++i;
+
+
+	for (int j = 0; j < size; ++j)
+	{
+		CGLTF_CHECK_KEY(tokens[i]);
+
+		if (cgltf_json_strcmp(tokens + i, json_chunk, "dispersion") == 0)
+		{
+			++i;
+			out_dispersion->dispersion = cgltf_json_to_float(tokens + i, json_chunk);
+			++i;
+		}
+		else
+		{
+			i = cgltf_skip_json(tokens, i + 1);
+		}
+
+		if (i < 0)
+		{
+			return i;
+		}
+	}
+
+	return i;
+}
+
 static int cgltf_parse_json_image(cgltf_options* options, jsmntok_t const* tokens, int i, const uint8_t* json_chunk, cgltf_image* out_image)
 {
 	CGLTF_CHECK_TOKTYPE(tokens[i], JSMN_OBJECT);
@@ -4241,11 +4498,11 @@ static int cgltf_parse_json_image(cgltf_options* options, jsmntok_t const* token
 	int size = tokens[i].size;
 	++i;
 
-	for (int j = 0; j < size; ++j) 
+	for (int j = 0; j < size; ++j)
 	{
 		CGLTF_CHECK_KEY(tokens[i]);
 
-		if (cgltf_json_strcmp(tokens + i, json_chunk, "uri") == 0) 
+		if (cgltf_json_strcmp(tokens + i, json_chunk, "uri") == 0)
 		{
 			i = cgltf_parse_json_string(options, tokens, i + 1, json_chunk, &out_image->uri);
 		}
@@ -4290,8 +4547,8 @@ static int cgltf_parse_json_sampler(cgltf_options* options, jsmntok_t const* tok
 	(void)options;
 	CGLTF_CHECK_TOKTYPE(tokens[i], JSMN_OBJECT);
 
-	out_sampler->wrap_s = 10497;
-	out_sampler->wrap_t = 10497;
+	out_sampler->wrap_s = cgltf_wrap_mode_repeat;
+	out_sampler->wrap_t = cgltf_wrap_mode_repeat;
 
 	int size = tokens[i].size;
 	++i;
@@ -4308,28 +4565,28 @@ static int cgltf_parse_json_sampler(cgltf_options* options, jsmntok_t const* tok
 		{
 			++i;
 			out_sampler->mag_filter
-				= cgltf_json_to_int(tokens + i, json_chunk);
+				= (cgltf_filter_type)cgltf_json_to_int(tokens + i, json_chunk);
 			++i;
 		}
 		else if (cgltf_json_strcmp(tokens + i, json_chunk, "minFilter") == 0)
 		{
 			++i;
 			out_sampler->min_filter
-				= cgltf_json_to_int(tokens + i, json_chunk);
+				= (cgltf_filter_type)cgltf_json_to_int(tokens + i, json_chunk);
 			++i;
 		}
 		else if (cgltf_json_strcmp(tokens + i, json_chunk, "wrapS") == 0)
 		{
 			++i;
 			out_sampler->wrap_s
-				= cgltf_json_to_int(tokens + i, json_chunk);
+				= (cgltf_wrap_mode)cgltf_json_to_int(tokens + i, json_chunk);
 			++i;
 		}
-		else if (cgltf_json_strcmp(tokens + i, json_chunk, "wrapT") == 0) 
+		else if (cgltf_json_strcmp(tokens + i, json_chunk, "wrapT") == 0)
 		{
 			++i;
 			out_sampler->wrap_t
-				= cgltf_json_to_int(tokens + i, json_chunk);
+				= (cgltf_wrap_mode)cgltf_json_to_int(tokens + i, json_chunk);
 			++i;
 		}
 		else if (cgltf_json_strcmp(tokens + i, json_chunk, "extras") == 0)
@@ -4375,7 +4632,7 @@ static int cgltf_parse_json_texture(cgltf_options* options, jsmntok_t const* tok
 			out_texture->sampler = CGLTF_PTRINDEX(cgltf_sampler, cgltf_json_to_int(tokens + i, json_chunk));
 			++i;
 		}
-		else if (cgltf_json_strcmp(tokens + i, json_chunk, "source") == 0) 
+		else if (cgltf_json_strcmp(tokens + i, json_chunk, "source") == 0)
 		{
 			++i;
 			out_texture->image = CGLTF_PTRINDEX(cgltf_image, cgltf_json_to_int(tokens + i, json_chunk));
@@ -4425,6 +4682,34 @@ static int cgltf_parse_json_texture(cgltf_options* options, jsmntok_t const* tok
 						{
 							++i;
 							out_texture->basisu_image = CGLTF_PTRINDEX(cgltf_image, cgltf_json_to_int(tokens + i, json_chunk));
+							++i;
+						}
+						else
+						{
+							i = cgltf_skip_json(tokens, i + 1);
+						}
+						if (i < 0)
+						{
+							return i;
+						}
+					}
+				}
+				else if (cgltf_json_strcmp(tokens + i, json_chunk, "EXT_texture_webp") == 0)
+				{
+					out_texture->has_webp = 1;
+					++i;
+					CGLTF_CHECK_TOKTYPE(tokens[i], JSMN_OBJECT);
+					int num_properties = tokens[i].size;
+					++i;
+
+					for (int t = 0; t < num_properties; ++t)
+					{
+						CGLTF_CHECK_KEY(tokens[i]);
+
+						if (cgltf_json_strcmp(tokens + i, json_chunk, "source") == 0)
+						{
+							++i;
+							out_texture->webp_image = CGLTF_PTRINDEX(cgltf_image, cgltf_json_to_int(tokens + i, json_chunk));
 							++i;
 						}
 						else
@@ -4622,10 +4907,20 @@ static int cgltf_parse_json_material(cgltf_options* options, jsmntok_t const* to
 					out_material->has_iridescence = 1;
 					i = cgltf_parse_json_iridescence(options, tokens, i + 1, json_chunk, &out_material->iridescence);
 				}
+				else if (cgltf_json_strcmp(tokens + i, json_chunk, "KHR_materials_diffuse_transmission") == 0)
+				{
+					out_material->has_diffuse_transmission = 1;
+					i = cgltf_parse_json_diffuse_transmission(options, tokens, i + 1, json_chunk, &out_material->diffuse_transmission);
+				}
 				else if (cgltf_json_strcmp(tokens + i, json_chunk, "KHR_materials_anisotropy") == 0)
 				{
 					out_material->has_anisotropy = 1;
 					i = cgltf_parse_json_anisotropy(options, tokens, i + 1, json_chunk, &out_material->anisotropy);
+				}
+				else if (cgltf_json_strcmp(tokens + i, json_chunk, "KHR_materials_dispersion") == 0)
+				{
+					out_material->has_dispersion = 1;
+					i = cgltf_parse_json_dispersion(tokens, i + 1, json_chunk, &out_material->dispersion);
 				}
 				else
 				{
@@ -4786,7 +5081,7 @@ static int cgltf_parse_json_meshopt_compression(cgltf_options* options, jsmntok_
 		else if (cgltf_json_strcmp(tokens+i, json_chunk, "count") == 0)
 		{
 			++i;
-			out_meshopt_compression->count = cgltf_json_to_int(tokens+i, json_chunk);
+			out_meshopt_compression->count = cgltf_json_to_size(tokens+i, json_chunk);
 			++i;
 		}
 		else if (cgltf_json_strcmp(tokens+i, json_chunk, "mode") == 0)
@@ -4824,6 +5119,10 @@ static int cgltf_parse_json_meshopt_compression(cgltf_options* options, jsmntok_
 			else if (cgltf_json_strcmp(tokens+i, json_chunk, "EXPONENTIAL") == 0)
 			{
 				out_meshopt_compression->filter = cgltf_meshopt_compression_filter_exponential;
+			}
+			else if (cgltf_json_strcmp(tokens+i, json_chunk, "COLOR") == 0)
+			{
+				out_meshopt_compression->filter = cgltf_meshopt_compression_filter_color;
 			}
 			++i;
 		}
@@ -4933,6 +5232,12 @@ static int cgltf_parse_json_buffer_view(cgltf_options* options, jsmntok_t const*
 				if (cgltf_json_strcmp(tokens+i, json_chunk, "EXT_meshopt_compression") == 0)
 				{
 					out_buffer_view->has_meshopt_compression = 1;
+					i = cgltf_parse_json_meshopt_compression(options, tokens, i + 1, json_chunk, &out_buffer_view->meshopt_compression);
+				}
+				else if (cgltf_json_strcmp(tokens+i, json_chunk, "KHR_meshopt_compression") == 0)
+				{
+					out_buffer_view->has_meshopt_compression = 1;
+					out_buffer_view->meshopt_compression.is_khr = 1;
 					i = cgltf_parse_json_meshopt_compression(options, tokens, i + 1, json_chunk, &out_buffer_view->meshopt_compression);
 				}
 				else
@@ -6442,6 +6747,7 @@ static int cgltf_fixup_pointers(cgltf_data* data)
 	{
 		CGLTF_PTRFIXUP(data->textures[i].image, data->images, data->images_count);
 		CGLTF_PTRFIXUP(data->textures[i].basisu_image, data->images, data->images_count);
+		CGLTF_PTRFIXUP(data->textures[i].webp_image, data->images, data->images_count);
 		CGLTF_PTRFIXUP(data->textures[i].sampler, data->samplers, data->samplers_count);
 	}
 
@@ -6478,6 +6784,9 @@ static int cgltf_fixup_pointers(cgltf_data* data)
 
 		CGLTF_PTRFIXUP(data->materials[i].iridescence.iridescence_texture.texture, data->textures, data->textures_count);
 		CGLTF_PTRFIXUP(data->materials[i].iridescence.iridescence_thickness_texture.texture, data->textures, data->textures_count);
+
+		CGLTF_PTRFIXUP(data->materials[i].diffuse_transmission.diffuse_transmission_texture.texture, data->textures, data->textures_count);
+		CGLTF_PTRFIXUP(data->materials[i].diffuse_transmission.diffuse_transmission_color_texture.texture, data->textures, data->textures_count);
 
 		CGLTF_PTRFIXUP(data->materials[i].anisotropy.anisotropy_texture.texture, data->textures, data->textures_count);
 	}

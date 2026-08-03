@@ -227,6 +227,7 @@ _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/win32_monitor.c.
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\win32_joystick.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\win32_thread.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\win32_time.h \
+ C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-src/src/external/glfw/include/GLFW/glfw3native.h \
  C:/msys64/ucrt64/include/wchar.h \
  C:/msys64/ucrt64/include/corecrt_stdio_config.h \
  C:/msys64/ucrt64/include/_mingw_off_t.h \

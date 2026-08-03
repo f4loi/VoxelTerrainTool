@@ -180,20 +180,6 @@ depend:
 	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 1
 .PHONY : depend
 
-# Convenience name for target.
-_deps/raylib-build/CMakeFiles/uninstall.dir/rule:
-	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 _deps/raylib-build/CMakeFiles/uninstall.dir/rule
-.PHONY : _deps/raylib-build/CMakeFiles/uninstall.dir/rule
-
-# Convenience name for target.
-uninstall: _deps/raylib-build/CMakeFiles/uninstall.dir/rule
-.PHONY : uninstall
-
-# fast build rule for target.
-uninstall/fast:
-	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build && $(MAKE) $(MAKESILENT) -f _deps\raylib-build\CMakeFiles\uninstall.dir\build.make _deps/raylib-build/CMakeFiles/uninstall.dir/build
-.PHONY : uninstall/fast
-
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -208,7 +194,6 @@ help:
 	@echo ... package
 	@echo ... package_source
 	@echo ... rebuild_cache
-	@echo ... uninstall
 .PHONY : help
 
 

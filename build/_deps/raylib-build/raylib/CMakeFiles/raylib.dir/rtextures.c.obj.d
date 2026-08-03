@@ -10,7 +10,6 @@ _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtextures.c.obj: \
  C:/msys64/ucrt64/include/sdks/_mingw_ddk.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdbool.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\config.h \
- C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\utils.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\rlgl.h \
  C:/msys64/ucrt64/include/stdlib.h C:/msys64/ucrt64/include/corecrt.h \
  C:/msys64/ucrt64/include/corecrt_wstdlib.h \
@@ -35,7 +34,7 @@ _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtextures.c.obj: \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/emmintrin.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/xmmintrin.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/mmintrin.h \
- C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external/rl_gputex.h \
+ C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external/rltexgpu.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external/qoi.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external/stb_image_write.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external/stb_perlin.h \

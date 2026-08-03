@@ -86,26 +86,11 @@ _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rcore.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/raylib.dir/rcore.c.s"
 	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\rcore.c -o CMakeFiles\raylib.dir\rcore.c.s
 
-_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/flags.make
-_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/includes_C.rsp
-_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj: _deps/raylib-src/src/rmodels.c
-_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj"
-	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj -MF CMakeFiles\raylib.dir\rmodels.c.obj.d -o CMakeFiles\raylib.dir\rmodels.c.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\rmodels.c
-
-_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/raylib.dir/rmodels.c.i"
-	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\rmodels.c > CMakeFiles\raylib.dir\rmodels.c.i
-
-_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/raylib.dir/rmodels.c.s"
-	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\rmodels.c -o CMakeFiles\raylib.dir\rmodels.c.s
-
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rshapes.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/flags.make
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rshapes.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/includes_C.rsp
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rshapes.c.obj: _deps/raylib-src/src/rshapes.c
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rshapes.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rshapes.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rshapes.c.obj"
 	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rshapes.c.obj -MF CMakeFiles\raylib.dir\rshapes.c.obj.d -o CMakeFiles\raylib.dir\rshapes.c.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\rshapes.c
 
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rshapes.c.i: cmake_force
@@ -120,7 +105,7 @@ _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtext.c.obj: _deps/raylib-build/
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtext.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/includes_C.rsp
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtext.c.obj: _deps/raylib-src/src/rtext.c
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtext.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtext.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtext.c.obj"
 	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtext.c.obj -MF CMakeFiles\raylib.dir\rtext.c.obj.d -o CMakeFiles\raylib.dir\rtext.c.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\rtext.c
 
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtext.c.i: cmake_force
@@ -135,7 +120,7 @@ _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtextures.c.obj: _deps/raylib-bu
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtextures.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/includes_C.rsp
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtextures.c.obj: _deps/raylib-src/src/rtextures.c
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtextures.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtextures.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtextures.c.obj"
 	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtextures.c.obj -MF CMakeFiles\raylib.dir\rtextures.c.obj.d -o CMakeFiles\raylib.dir\rtextures.c.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\rtextures.c
 
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtextures.c.i: cmake_force
@@ -146,26 +131,11 @@ _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtextures.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/raylib.dir/rtextures.c.s"
 	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\rtextures.c -o CMakeFiles\raylib.dir\rtextures.c.s
 
-_deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/flags.make
-_deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/includes_C.rsp
-_deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.obj: _deps/raylib-src/src/utils.c
-_deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object _deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.obj"
-	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT _deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.obj -MF CMakeFiles\raylib.dir\utils.c.obj.d -o CMakeFiles\raylib.dir\utils.c.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\utils.c
-
-_deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/raylib.dir/utils.c.i"
-	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\utils.c > CMakeFiles\raylib.dir\utils.c.i
-
-_deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/raylib.dir/utils.c.s"
-	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\utils.c -o CMakeFiles\raylib.dir\utils.c.s
-
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/raudio.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/flags.make
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/raudio.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/includes_C.rsp
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/raudio.c.obj: _deps/raylib-src/src/raudio.c
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/raudio.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object _deps/raylib-build/raylib/CMakeFiles/raylib.dir/raudio.c.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object _deps/raylib-build/raylib/CMakeFiles/raylib.dir/raudio.c.obj"
 	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT _deps/raylib-build/raylib/CMakeFiles/raylib.dir/raudio.c.obj -MF CMakeFiles\raylib.dir\raudio.c.obj.d -o CMakeFiles\raylib.dir\raudio.c.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\raudio.c
 
 _deps/raylib-build/raylib/CMakeFiles/raylib.dir/raudio.c.i: cmake_force
@@ -176,15 +146,29 @@ _deps/raylib-build/raylib/CMakeFiles/raylib.dir/raudio.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/raylib.dir/raudio.c.s"
 	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\raudio.c -o CMakeFiles\raylib.dir\raudio.c.s
 
+_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/flags.make
+_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/includes_C.rsp
+_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj: _deps/raylib-src/src/rmodels.c
+_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj"
+	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj -MF CMakeFiles\raylib.dir\rmodels.c.obj.d -o CMakeFiles\raylib.dir\rmodels.c.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\rmodels.c
+
+_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/raylib.dir/rmodels.c.i"
+	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\rmodels.c > CMakeFiles\raylib.dir\rmodels.c.i
+
+_deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/raylib.dir/rmodels.c.s"
+	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && C:\msys64\ucrt64\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\rmodels.c -o CMakeFiles\raylib.dir\rmodels.c.s
+
 # Object files for target raylib
 raylib_OBJECTS = \
 "CMakeFiles/raylib.dir/rcore.c.obj" \
-"CMakeFiles/raylib.dir/rmodels.c.obj" \
 "CMakeFiles/raylib.dir/rshapes.c.obj" \
 "CMakeFiles/raylib.dir/rtext.c.obj" \
 "CMakeFiles/raylib.dir/rtextures.c.obj" \
-"CMakeFiles/raylib.dir/utils.c.obj" \
-"CMakeFiles/raylib.dir/raudio.c.obj"
+"CMakeFiles/raylib.dir/raudio.c.obj" \
+"CMakeFiles/raylib.dir/rmodels.c.obj"
 
 # External object files for target raylib
 raylib_EXTERNAL_OBJECTS = \
@@ -211,12 +195,11 @@ raylib_EXTERNAL_OBJECTS = \
 "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/wgl_context.c.obj"
 
 _deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rcore.c.obj
-_deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj
 _deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rshapes.c.obj
 _deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtext.c.obj
 _deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rtextures.c.obj
-_deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/utils.c.obj
 _deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/raudio.c.obj
+_deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/rmodels.c.obj
 _deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/context.c.obj
 _deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/init.c.obj
 _deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/input.c.obj
@@ -240,7 +223,7 @@ _deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/external/glfw/s
 _deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/wgl_context.c.obj
 _deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/build.make
 _deps/raylib-build/raylib/libraylib.a: _deps/raylib-build/raylib/CMakeFiles/raylib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking C static library libraylib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking C static library libraylib.a"
 	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && $(CMAKE_COMMAND) -P CMakeFiles\raylib.dir\cmake_clean_target.cmake
 	cd /d C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-build\raylib && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\raylib.dir\link.txt --verbose=$(VERBOSE)
 

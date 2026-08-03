@@ -2,19 +2,21 @@
 *
 *   raylib [shaders] example - basic lighting
 *
-*   NOTE: This example requires raylib OpenGL 3.3 or ES2 versions for shaders support,
-*         OpenGL 1.1 does not support shaders, recompile raylib to OpenGL 3.3 version.
+*   Example complexity rating: [★★★★] 4/4
 *
-*   NOTE: Shaders used in this example are #version 330 (OpenGL 3.3).
+*   NOTE: This example requires raylib OpenGL 3.3 or ES2 versions for shaders support,
+*         OpenGL 1.1 does not support shaders, recompile raylib to OpenGL 3.3 version
+*
+*   NOTE: Shaders used in this example are #version 330 (OpenGL 3.3)
 *
 *   Example originally created with raylib 3.0, last time updated with raylib 4.2
 *
-*   Example contributed by Chris Camacho (@codifies) and reviewed by Ramon Santamaria (@raysan5)
+*   Example contributed by Chris Camacho (@chriscamacho) and reviewed by Ramon Santamaria (@raysan5)
 *
 *   Example licensed under an unmodified zlib/libpng license, which is an OSI-certified,
 *   BSD-like license that allows static linking with closed source software
 *
-*   Copyright (c) 2019-2023 Chris Camacho (@codifies) and Ramon Santamaria (@raysan5)
+*   Copyright (c) 2019-2025 Chris Camacho (@chriscamacho) and Ramon Santamaria (@raysan5)
 *
 ********************************************************************************************/
 
@@ -52,26 +54,18 @@ int main(void)
     camera.fovy = 45.0f;                                // Camera field-of-view Y
     camera.projection = CAMERA_PERSPECTIVE;             // Camera projection type
 
-    // Load plane model from a generated mesh
-    Model model = LoadModelFromMesh(GenMeshPlane(10.0f, 10.0f, 3, 3));
-    Model cube = LoadModelFromMesh(GenMeshCube(2.0f, 4.0f, 2.0f));
-    
     // Load basic lighting shader
     Shader shader = LoadShader(TextFormat("resources/shaders/glsl%i/lighting.vs", GLSL_VERSION),
                                TextFormat("resources/shaders/glsl%i/lighting.fs", GLSL_VERSION));
     // Get some required shader locations
     shader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
-    // NOTE: "matModel" location name is automatically assigned on shader loading, 
+    // NOTE: "matModel" location name is automatically assigned on shader loading,
     // no need to get the location again if using that uniform name
     //shader.locs[SHADER_LOC_MATRIX_MODEL] = GetShaderLocation(shader, "matModel");
-    
+
     // Ambient light level (some basic lighting)
     int ambientLoc = GetShaderLocation(shader, "ambient");
     SetShaderValue(shader, ambientLoc, (float[4]){ 0.1f, 0.1f, 0.1f, 1.0f }, SHADER_UNIFORM_VEC4);
-
-    // Assign out lighting shader to model
-    model.materials[0].shader = shader;
-    cube.materials[0].shader = shader;
 
     // Create lights
     Light lights[MAX_LIGHTS] = { 0 };
@@ -93,13 +87,13 @@ int main(void)
         // Update the shader with the camera view vector (points towards { 0.0f, 0.0f, 0.0f })
         float cameraPos[3] = { camera.position.x, camera.position.y, camera.position.z };
         SetShaderValue(shader, shader.locs[SHADER_LOC_VECTOR_VIEW], cameraPos, SHADER_UNIFORM_VEC3);
-        
+
         // Check key inputs to enable/disable lights
         if (IsKeyPressed(KEY_Y)) { lights[0].enabled = !lights[0].enabled; }
         if (IsKeyPressed(KEY_R)) { lights[1].enabled = !lights[1].enabled; }
         if (IsKeyPressed(KEY_G)) { lights[2].enabled = !lights[2].enabled; }
         if (IsKeyPressed(KEY_B)) { lights[3].enabled = !lights[3].enabled; }
-        
+
         // Update light values (actually, only enable/disable them)
         for (int i = 0; i < MAX_LIGHTS; i++) UpdateLightValues(shader, lights[i]);
         //----------------------------------------------------------------------------------
@@ -112,8 +106,12 @@ int main(void)
 
             BeginMode3D(camera);
 
-                DrawModel(model, Vector3Zero(), 1.0f, WHITE);
-                DrawModel(cube, Vector3Zero(), 1.0f, WHITE);
+                BeginShaderMode(shader);
+
+                    DrawPlane(Vector3Zero(), (Vector2) { 10.0, 10.0 }, WHITE);
+                    DrawCube(Vector3Zero(), 2.0, 4.0, 2.0, WHITE);
+
+                EndShaderMode();
 
                 // Draw spheres to show where the lights are
                 for (int i = 0; i < MAX_LIGHTS; i++)
@@ -136,8 +134,6 @@ int main(void)
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    UnloadModel(model);     // Unload the model
-    UnloadModel(cube);      // Unload the model
     UnloadShader(shader);   // Unload shader
 
     CloseWindow();          // Close window and OpenGL context
