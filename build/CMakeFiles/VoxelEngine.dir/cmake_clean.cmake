@@ -25,6 +25,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/uiSys.cpp.obj.d"
   "CMakeFiles/VoxelEngine.dir/src/main.cpp.obj"
   "CMakeFiles/VoxelEngine.dir/src/main.cpp.obj.d"
+  "CMakeFiles/VoxelEngine.dir/src/utils/chunkMeshBuilder.cpp.obj"
+  "CMakeFiles/VoxelEngine.dir/src/utils/chunkMeshBuilder.cpp.obj.d"
   "VoxelEngine.exe"
   "VoxelEngine.exe.manifest"
   "VoxelEngine.pdb"

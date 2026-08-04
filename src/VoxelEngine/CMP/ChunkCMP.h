@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <vector>
+#include <raylib.h>
 
 constexpr int CHUNK_SIZE = 16;
 constexpr int CHUNK_VOLUME = CHUNK_SIZE * CHUNK_SIZE * CHUNK_SIZE;
@@ -18,7 +19,9 @@ struct ChunkCMP {
     int chunkZ{0};
     
     std::vector<VoxelType> voxels{std::vector<VoxelType>(CHUNK_VOLUME, VoxelType::EMPTY)};
-    
+    Model meshModel = { 0 };
+    bool isDirty = true;
+
     VoxelType GetVoxel(int x, int y, int z) const {
         if (x < 0 || x >= CHUNK_SIZE || y < 0 || y >= CHUNK_SIZE || z < 0 || z >= CHUNK_SIZE) 
             return VoxelType::EMPTY;
@@ -28,6 +31,7 @@ struct ChunkCMP {
     void SetVoxel(int x, int y, int z, VoxelType type) {
         if (x >= 0 && x < CHUNK_SIZE && y >= 0 && y < CHUNK_SIZE && z >= 0 && z < CHUNK_SIZE) {
             voxels[x + y * CHUNK_SIZE + z * CHUNK_SIZE * CHUNK_SIZE] = type;
+            isDirty = true;
         }
     }
 };

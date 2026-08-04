@@ -43,6 +43,12 @@
 },
 {
   "directory": "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP @CMakeFiles\\VoxelEngine.dir\\includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\VoxelEngine.dir\\src\\utils\\chunkMeshBuilder.cpp.obj -c C:\\Users\\f4loi\\Desktop\\Portfolio\\EnginePortfolio\\src\\utils\\chunkMeshBuilder.cpp",
+  "file": "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/utils/chunkMeshBuilder.cpp",
+  "output": "CMakeFiles/VoxelEngine.dir/src/utils/chunkMeshBuilder.cpp.obj"
+},
+{
+  "directory": "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build",
   "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -DGRAPHICS_API_OPENGL_33 -DPLATFORM_DESKTOP @CMakeFiles\\VoxelEngine.dir\\includes_CXX.rsp -g -std=c++17 -o CMakeFiles\\VoxelEngine.dir\\_deps\\imgui-src\\imgui.cpp.obj -c C:\\Users\\f4loi\\Desktop\\Portfolio\\EnginePortfolio\\build\\_deps\\imgui-src\\imgui.cpp",
   "file": "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/imgui-src/imgui.cpp",
   "output": "CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui.cpp.obj"

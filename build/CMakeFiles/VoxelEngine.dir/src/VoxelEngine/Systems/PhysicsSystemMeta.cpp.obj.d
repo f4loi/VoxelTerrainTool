@@ -154,6 +154,10 @@ CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/PhysicsSystemMeta.cpp.obj: \
  C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/CMP/PhysicsCMP.h \
  C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/CMP/RenderCMP.h \
  C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/CMP/ChunkCMP.h \
+ C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-src/src/raylib.h \
+ C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdarg.h \
+ C:/msys64/ucrt64/include/stdarg.h \
+ C:/msys64/ucrt64/include/_mingw_stdarg.h \
  C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/utils/slotmap.hpp \
  C:/msys64/ucrt64/include/c++/15.2.0/array \
  C:/msys64/ucrt64/include/c++/15.2.0/compare \

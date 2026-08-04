@@ -162,4 +162,5 @@ CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/array \
  C:/msys64/ucrt64/include/c++/15.2.0/compare \
  C:/msys64/ucrt64/include/c++/15.2.0/cassert \
- C:/msys64/ucrt64/include/assert.h
+ C:/msys64/ucrt64/include/assert.h \
+ C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/utils/ChunkMeshBuilder.h

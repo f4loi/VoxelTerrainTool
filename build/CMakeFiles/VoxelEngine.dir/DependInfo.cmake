@@ -21,6 +21,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/Systems/TerrainSystem.cpp" "CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.obj" "gcc" "CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.obj.d"
   "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/Systems/uiSys.cpp" "CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/uiSys.cpp.obj" "gcc" "CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/uiSys.cpp.obj.d"
   "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/main.cpp" "CMakeFiles/VoxelEngine.dir/src/main.cpp.obj" "gcc" "CMakeFiles/VoxelEngine.dir/src/main.cpp.obj.d"
+  "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/utils/chunkMeshBuilder.cpp" "CMakeFiles/VoxelEngine.dir/src/utils/chunkMeshBuilder.cpp.obj" "gcc" "CMakeFiles/VoxelEngine.dir/src/utils/chunkMeshBuilder.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

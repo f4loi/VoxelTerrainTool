@@ -544,6 +544,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\VoxelEngine.dir\build.make CMakeFiles/VoxelEngine.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/utils/chunkMeshBuilder.obj: src/utils/chunkMeshBuilder.cpp.obj
+.PHONY : src/utils/chunkMeshBuilder.obj
+
+# target to build an object file
+src/utils/chunkMeshBuilder.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\VoxelEngine.dir\build.make CMakeFiles/VoxelEngine.dir/src/utils/chunkMeshBuilder.cpp.obj
+.PHONY : src/utils/chunkMeshBuilder.cpp.obj
+
+src/utils/chunkMeshBuilder.i: src/utils/chunkMeshBuilder.cpp.i
+.PHONY : src/utils/chunkMeshBuilder.i
+
+# target to preprocess a source file
+src/utils/chunkMeshBuilder.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\VoxelEngine.dir\build.make CMakeFiles/VoxelEngine.dir/src/utils/chunkMeshBuilder.cpp.i
+.PHONY : src/utils/chunkMeshBuilder.cpp.i
+
+src/utils/chunkMeshBuilder.s: src/utils/chunkMeshBuilder.cpp.s
+.PHONY : src/utils/chunkMeshBuilder.s
+
+# target to generate assembly for a file
+src/utils/chunkMeshBuilder.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\VoxelEngine.dir\build.make CMakeFiles/VoxelEngine.dir/src/utils/chunkMeshBuilder.cpp.s
+.PHONY : src/utils/chunkMeshBuilder.cpp.s
+
 # Help Target
 help:
 	@echo The following are some of the valid targets for this Makefile:
@@ -601,6 +625,9 @@ help:
 	@echo ... src/main.obj
 	@echo ... src/main.i
 	@echo ... src/main.s
+	@echo ... src/utils/chunkMeshBuilder.obj
+	@echo ... src/utils/chunkMeshBuilder.i
+	@echo ... src/utils/chunkMeshBuilder.s
 .PHONY : help
 
 
