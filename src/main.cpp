@@ -1,97 +1,66 @@
 #include <raylib.h>
 #include "VoxelEngine/Managers/EntityManagerMeta.h"
 #include "VoxelEngine/Systems/RenderSystemMeta.h"
+#include "VoxelEngine/Managers/CameraManager.h"
 #include "VoxelEngine/Systems/uiSys.h"
-#include "Config\TerrainConfig.h"
+#include "VoxelEngine/Systems/TerrainSystem.h" // <-- Tu nuevo sistema
+#include "Config/TerrainConfig.h"
 
 int main()
 {
-
-    InitWindow(1024, 768, "Generador de Biomas Pro");
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+    InitWindow(1280, 720, "Generador de Biomas - Modo Editor");
     SetTargetFPS(60);
 
     EntityManagerMeta em;
     RenderSystemMeta renderSys;
     uiSys ui;
+    CameraManager camManager;
+    TerrainSystem terrainSys; // <-- Instanciamos el sistema
     TerrainConfig config;
 
     renderSys.Init();
     ui.Init();
+    camManager.Init();
+    terrainSys.Init(); // <-- Lo inicializamos
 
     config.LoadFromJson("config.json");
 
-    // 4. Creamos la entidad del Chunk en el ECS
     EntityMeta chunkEntity = em.createEntity();
     em.addComponent(chunkEntity.getNextId(), ChunkCMP{});
     em.addComponent(chunkEntity.getNextId(), RenderCMP{true});
 
+    config.needsRegen = true; 
+
     while (!renderSys.WindowShouldClose())
     {
+        // --- 1. ACTUALIZAR CÁMARA ---
+        camManager.Update(ui.GetIsViewport3DHovered());
 
-        if (config.needsRegen)
-        {
-            ChunkCMP *chunkData = em.getComponent<ChunkCMP>(chunkEntity.getNextId());
+        // --- 2. SISTEMA DE TERRENO (El Director de Orquesta) ---
+        if (config.needsRegen) terrainSys.GenerateTerrain(em, chunkEntity, config);
+        
+        if (config.isPainting) terrainSys.ApplyPaint(em, chunkEntity, config);
+        
+        if (config.needsMapUpdate) terrainSys.UpdateMapTexture(em, chunkEntity, config);
 
-            if (chunkData != nullptr)
-            {
 
-                Image noiseImage = GenImagePerlinNoise(CHUNK_SIZE, CHUNK_SIZE, config.seed, config.seed, config.noiseScale);
-                Color *colors = LoadImageColors(noiseImage);
+        // --- 3. RENDERIZAR MUNDO 3D (A textura invisible) ---
+        renderSys.Update(em, camManager.GetCamera());
 
-                for (int z = 0; z < CHUNK_SIZE; z++)
-                {
-                    for (int x = 0; x < CHUNK_SIZE; x++)
-                    {
-
-                        for (int y = 0; y < CHUNK_SIZE; y++)
-                        {
-                            chunkData->SetVoxel(x, y, z, VoxelType::EMPTY);
-                        }
-
-                        unsigned char noiseValue = colors[z * CHUNK_SIZE + x].r;
-                        int terrainHeight = (int)((noiseValue / 255.0f) * (CHUNK_SIZE - 2));
-
-                        for (int y = 0; y < CHUNK_SIZE; y++)
-                        {
-                            if (y <= terrainHeight)
-                            {
-                                if (y == terrainHeight)
-                                {
-
-                                    chunkData->SetVoxel(x, y, z, (y <= config.waterLevel) ? VoxelType::DIRT : VoxelType::GRASS);
-                                }
-                                else if (y > terrainHeight - 3)
-                                {
-                                    chunkData->SetVoxel(x, y, z, VoxelType::DIRT);
-                                }
-                                else
-                                {
-                                    chunkData->SetVoxel(x, y, z, VoxelType::STONE);
-                                }
-                            }
-                            else if (y <= config.waterLevel)
-                            {
-                                chunkData->SetVoxel(x, y, z, VoxelType::WATER);
-                            }
-                        }
-                    }
-                }
-                UnloadImageColors(colors);
-                UnloadImage(noiseImage);
-            }
-            config.needsRegen = false;
-        }
-
-        // --- RENDERIZADO ---
+        // --- 4. RENDERIZAR LA INTERFAZ FINAL ---
         BeginDrawing();
-        ClearBackground(SKYBLUE);
+        ClearBackground(DARKGRAY);
 
-        renderSys.Update(em);
-
-        ui.Draw(config);
+        // Le pasamos las texturas a la interfaz
+        ui.Draw(config, renderSys.GetTarget3D(), terrainSys.GetMapTexture());
 
         EndDrawing();
     }
+
+    // --- 5. LIMPIEZA ---
+    terrainSys.Unload(); 
+    renderSys.Unload(); 
     ui.Close();
     CloseWindow();
 

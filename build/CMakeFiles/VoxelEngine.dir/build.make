@@ -71,11 +71,26 @@ include CMakeFiles/VoxelEngine.dir/flags.make
 CMakeFiles/VoxelEngine.dir/codegen:
 .PHONY : CMakeFiles/VoxelEngine.dir/codegen
 
+CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.obj: CMakeFiles/VoxelEngine.dir/flags.make
+CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.obj: CMakeFiles/VoxelEngine.dir/includes_CXX.rsp
+CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.obj: C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/Managers/CameraManager.cpp
+CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.obj: CMakeFiles/VoxelEngine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.obj"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.obj -MF CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Managers\CameraManager.cpp.obj.d -o CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Managers\CameraManager.cpp.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine\Managers\CameraManager.cpp
+
+CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.i"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine\Managers\CameraManager.cpp > CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Managers\CameraManager.cpp.i
+
+CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.s"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine\Managers\CameraManager.cpp -o CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Managers\CameraManager.cpp.s
+
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/EntityManagerMeta.cpp.obj: CMakeFiles/VoxelEngine.dir/flags.make
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/EntityManagerMeta.cpp.obj: CMakeFiles/VoxelEngine.dir/includes_CXX.rsp
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/EntityManagerMeta.cpp.obj: C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/Managers/EntityManagerMeta.cpp
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/EntityManagerMeta.cpp.obj: CMakeFiles/VoxelEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/EntityManagerMeta.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/EntityManagerMeta.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/EntityManagerMeta.cpp.obj -MF CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Managers\EntityManagerMeta.cpp.obj.d -o CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Managers\EntityManagerMeta.cpp.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine\Managers\EntityManagerMeta.cpp
 
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/EntityManagerMeta.cpp.i: cmake_force
@@ -90,7 +105,7 @@ CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/PhysicsSystemMeta.cpp.obj: CM
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/PhysicsSystemMeta.cpp.obj: CMakeFiles/VoxelEngine.dir/includes_CXX.rsp
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/PhysicsSystemMeta.cpp.obj: C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/Systems/PhysicsSystemMeta.cpp
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/PhysicsSystemMeta.cpp.obj: CMakeFiles/VoxelEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/PhysicsSystemMeta.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/PhysicsSystemMeta.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/PhysicsSystemMeta.cpp.obj -MF CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Systems\PhysicsSystemMeta.cpp.obj.d -o CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Systems\PhysicsSystemMeta.cpp.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine\Systems\PhysicsSystemMeta.cpp
 
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/PhysicsSystemMeta.cpp.i: cmake_force
@@ -105,7 +120,7 @@ CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.obj: CMa
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.obj: CMakeFiles/VoxelEngine.dir/includes_CXX.rsp
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.obj: C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/Systems/RenderSystemMeta.cpp
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.obj: CMakeFiles/VoxelEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.obj -MF CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Systems\RenderSystemMeta.cpp.obj.d -o CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Systems\RenderSystemMeta.cpp.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine\Systems\RenderSystemMeta.cpp
 
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.i: cmake_force
@@ -116,11 +131,26 @@ CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.s: cmake
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.s"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine\Systems\RenderSystemMeta.cpp -o CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Systems\RenderSystemMeta.cpp.s
 
+CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.obj: CMakeFiles/VoxelEngine.dir/flags.make
+CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.obj: CMakeFiles/VoxelEngine.dir/includes_CXX.rsp
+CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.obj: C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/Systems/TerrainSystem.cpp
+CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.obj: CMakeFiles/VoxelEngine.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.obj"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.obj -MF CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Systems\TerrainSystem.cpp.obj.d -o CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Systems\TerrainSystem.cpp.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine\Systems\TerrainSystem.cpp
+
+CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.i"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine\Systems\TerrainSystem.cpp > CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Systems\TerrainSystem.cpp.i
+
+CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.s"
+	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine\Systems\TerrainSystem.cpp -o CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Systems\TerrainSystem.cpp.s
+
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/uiSys.cpp.obj: CMakeFiles/VoxelEngine.dir/flags.make
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/uiSys.cpp.obj: CMakeFiles/VoxelEngine.dir/includes_CXX.rsp
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/uiSys.cpp.obj: C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/Systems/uiSys.cpp
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/uiSys.cpp.obj: CMakeFiles/VoxelEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/uiSys.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/uiSys.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/uiSys.cpp.obj -MF CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Systems\uiSys.cpp.obj.d -o CMakeFiles\VoxelEngine.dir\src\VoxelEngine\Systems\uiSys.cpp.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine\Systems\uiSys.cpp
 
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/uiSys.cpp.i: cmake_force
@@ -135,7 +165,7 @@ CMakeFiles/VoxelEngine.dir/src/main.cpp.obj: CMakeFiles/VoxelEngine.dir/flags.ma
 CMakeFiles/VoxelEngine.dir/src/main.cpp.obj: CMakeFiles/VoxelEngine.dir/includes_CXX.rsp
 CMakeFiles/VoxelEngine.dir/src/main.cpp.obj: C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/main.cpp
 CMakeFiles/VoxelEngine.dir/src/main.cpp.obj: CMakeFiles/VoxelEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/VoxelEngine.dir/src/main.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/VoxelEngine.dir/src/main.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VoxelEngine.dir/src/main.cpp.obj -MF CMakeFiles\VoxelEngine.dir\src\main.cpp.obj.d -o CMakeFiles\VoxelEngine.dir\src\main.cpp.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\main.cpp
 
 CMakeFiles/VoxelEngine.dir/src/main.cpp.i: cmake_force
@@ -150,7 +180,7 @@ CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui.cpp.obj: CMakeFiles/VoxelEngine
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui.cpp.obj: CMakeFiles/VoxelEngine.dir/includes_CXX.rsp
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui.cpp.obj: _deps/imgui-src/imgui.cpp
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui.cpp.obj: CMakeFiles/VoxelEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui.cpp.obj -MF CMakeFiles\VoxelEngine.dir\_deps\imgui-src\imgui.cpp.obj.d -o CMakeFiles\VoxelEngine.dir\_deps\imgui-src\imgui.cpp.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\imgui-src\imgui.cpp
 
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui.cpp.i: cmake_force
@@ -165,7 +195,7 @@ CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_demo.cpp.obj: CMakeFiles/VoxelE
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_demo.cpp.obj: CMakeFiles/VoxelEngine.dir/includes_CXX.rsp
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_demo.cpp.obj: _deps/imgui-src/imgui_demo.cpp
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_demo.cpp.obj: CMakeFiles/VoxelEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_demo.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_demo.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_demo.cpp.obj -MF CMakeFiles\VoxelEngine.dir\_deps\imgui-src\imgui_demo.cpp.obj.d -o CMakeFiles\VoxelEngine.dir\_deps\imgui-src\imgui_demo.cpp.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\imgui-src\imgui_demo.cpp
 
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_demo.cpp.i: cmake_force
@@ -180,7 +210,7 @@ CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_draw.cpp.obj: CMakeFiles/VoxelE
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_draw.cpp.obj: CMakeFiles/VoxelEngine.dir/includes_CXX.rsp
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_draw.cpp.obj: _deps/imgui-src/imgui_draw.cpp
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_draw.cpp.obj: CMakeFiles/VoxelEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_draw.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_draw.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_draw.cpp.obj -MF CMakeFiles\VoxelEngine.dir\_deps\imgui-src\imgui_draw.cpp.obj.d -o CMakeFiles\VoxelEngine.dir\_deps\imgui-src\imgui_draw.cpp.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\imgui-src\imgui_draw.cpp
 
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_draw.cpp.i: cmake_force
@@ -195,7 +225,7 @@ CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_tables.cpp.obj: CMakeFiles/Voxe
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_tables.cpp.obj: CMakeFiles/VoxelEngine.dir/includes_CXX.rsp
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_tables.cpp.obj: _deps/imgui-src/imgui_tables.cpp
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_tables.cpp.obj: CMakeFiles/VoxelEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_tables.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_tables.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_tables.cpp.obj -MF CMakeFiles\VoxelEngine.dir\_deps\imgui-src\imgui_tables.cpp.obj.d -o CMakeFiles\VoxelEngine.dir\_deps\imgui-src\imgui_tables.cpp.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\imgui-src\imgui_tables.cpp
 
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_tables.cpp.i: cmake_force
@@ -210,7 +240,7 @@ CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_widgets.cpp.obj: CMakeFiles/Vox
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_widgets.cpp.obj: CMakeFiles/VoxelEngine.dir/includes_CXX.rsp
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_widgets.cpp.obj: _deps/imgui-src/imgui_widgets.cpp
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_widgets.cpp.obj: CMakeFiles/VoxelEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_widgets.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_widgets.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_widgets.cpp.obj -MF CMakeFiles\VoxelEngine.dir\_deps\imgui-src\imgui_widgets.cpp.obj.d -o CMakeFiles\VoxelEngine.dir\_deps\imgui-src\imgui_widgets.cpp.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\imgui-src\imgui_widgets.cpp
 
 CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui_widgets.cpp.i: cmake_force
@@ -225,7 +255,7 @@ CMakeFiles/VoxelEngine.dir/_deps/rlimgui-src/rlImGui.cpp.obj: CMakeFiles/VoxelEn
 CMakeFiles/VoxelEngine.dir/_deps/rlimgui-src/rlImGui.cpp.obj: CMakeFiles/VoxelEngine.dir/includes_CXX.rsp
 CMakeFiles/VoxelEngine.dir/_deps/rlimgui-src/rlImGui.cpp.obj: _deps/rlimgui-src/rlImGui.cpp
 CMakeFiles/VoxelEngine.dir/_deps/rlimgui-src/rlImGui.cpp.obj: CMakeFiles/VoxelEngine.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/VoxelEngine.dir/_deps/rlimgui-src/rlImGui.cpp.obj"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/VoxelEngine.dir/_deps/rlimgui-src/rlImGui.cpp.obj"
 	C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VoxelEngine.dir/_deps/rlimgui-src/rlImGui.cpp.obj -MF CMakeFiles\VoxelEngine.dir\_deps\rlimgui-src\rlImGui.cpp.obj.d -o CMakeFiles\VoxelEngine.dir\_deps\rlimgui-src\rlImGui.cpp.obj -c C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\rlimgui-src\rlImGui.cpp
 
 CMakeFiles/VoxelEngine.dir/_deps/rlimgui-src/rlImGui.cpp.i: cmake_force
@@ -238,9 +268,11 @@ CMakeFiles/VoxelEngine.dir/_deps/rlimgui-src/rlImGui.cpp.s: cmake_force
 
 # Object files for target VoxelEngine
 VoxelEngine_OBJECTS = \
+"CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.obj" \
 "CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/EntityManagerMeta.cpp.obj" \
 "CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/PhysicsSystemMeta.cpp.obj" \
 "CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.obj" \
+"CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.obj" \
 "CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/uiSys.cpp.obj" \
 "CMakeFiles/VoxelEngine.dir/src/main.cpp.obj" \
 "CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui.cpp.obj" \
@@ -253,9 +285,11 @@ VoxelEngine_OBJECTS = \
 # External object files for target VoxelEngine
 VoxelEngine_EXTERNAL_OBJECTS =
 
+VoxelEngine.exe: CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.obj
 VoxelEngine.exe: CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/EntityManagerMeta.cpp.obj
 VoxelEngine.exe: CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/PhysicsSystemMeta.cpp.obj
 VoxelEngine.exe: CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.obj
+VoxelEngine.exe: CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.obj
 VoxelEngine.exe: CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/uiSys.cpp.obj
 VoxelEngine.exe: CMakeFiles/VoxelEngine.dir/src/main.cpp.obj
 VoxelEngine.exe: CMakeFiles/VoxelEngine.dir/_deps/imgui-src/imgui.cpp.obj
@@ -269,7 +303,7 @@ VoxelEngine.exe: _deps/raylib-build/raylib/libraylib.a
 VoxelEngine.exe: CMakeFiles/VoxelEngine.dir/linkLibs.rsp
 VoxelEngine.exe: CMakeFiles/VoxelEngine.dir/objects1.rsp
 VoxelEngine.exe: CMakeFiles/VoxelEngine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable VoxelEngine.exe"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking CXX executable VoxelEngine.exe"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\VoxelEngine.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

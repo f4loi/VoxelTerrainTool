@@ -5,6 +5,7 @@
 #include "Config\thirdParties\json.hpp" 
 
 using json = nlohmann::json;
+enum class PaintMaterial { WATER, DIRT, GRASS };
 
 struct TerrainConfig {
     float noiseScale{4.0f};
@@ -13,6 +14,14 @@ struct TerrainConfig {
     
     bool needsRegen{true}; 
 
+    bool needsMapUpdate = true; // Para repintar el mapa 2D sin regenerar montañas
+    
+    int brushSize = 1;
+    PaintMaterial selectedMaterial = PaintMaterial::GRASS;
+    
+    bool isPainting = false;
+    int paintX = 0;
+    int paintZ = 0;
     
     void SaveToJson(const std::string& filepath) {
         json j;

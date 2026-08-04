@@ -163,6 +163,7 @@ CMakeFiles/VoxelEngine.dir/src/main.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/cassert \
  C:/msys64/ucrt64/include/assert.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine/Systems/RenderSystemMeta.h \
+ C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine/Managers/CameraManager.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine/Systems/uiSys.h \
  C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/Config\TerrainConfig.h \
  C:/msys64/ucrt64/include/c++/15.2.0/fstream \
@@ -267,4 +268,5 @@ CMakeFiles/VoxelEngine.dir/src/main.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/numeric \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_numeric.h \
  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_numeric_defs.h \
- C:/msys64/ucrt64/include/c++/15.2.0/any
+ C:/msys64/ucrt64/include/c++/15.2.0/any \
+ C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine/Systems/TerrainSystem.h

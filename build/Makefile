@@ -376,6 +376,30 @@ _deps/rlimgui-src/rlImGui.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\VoxelEngine.dir\build.make CMakeFiles/VoxelEngine.dir/_deps/rlimgui-src/rlImGui.cpp.s
 .PHONY : _deps/rlimgui-src/rlImGui.cpp.s
 
+src/VoxelEngine/Managers/CameraManager.obj: src/VoxelEngine/Managers/CameraManager.cpp.obj
+.PHONY : src/VoxelEngine/Managers/CameraManager.obj
+
+# target to build an object file
+src/VoxelEngine/Managers/CameraManager.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\VoxelEngine.dir\build.make CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.obj
+.PHONY : src/VoxelEngine/Managers/CameraManager.cpp.obj
+
+src/VoxelEngine/Managers/CameraManager.i: src/VoxelEngine/Managers/CameraManager.cpp.i
+.PHONY : src/VoxelEngine/Managers/CameraManager.i
+
+# target to preprocess a source file
+src/VoxelEngine/Managers/CameraManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\VoxelEngine.dir\build.make CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.i
+.PHONY : src/VoxelEngine/Managers/CameraManager.cpp.i
+
+src/VoxelEngine/Managers/CameraManager.s: src/VoxelEngine/Managers/CameraManager.cpp.s
+.PHONY : src/VoxelEngine/Managers/CameraManager.s
+
+# target to generate assembly for a file
+src/VoxelEngine/Managers/CameraManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\VoxelEngine.dir\build.make CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Managers/CameraManager.cpp.s
+.PHONY : src/VoxelEngine/Managers/CameraManager.cpp.s
+
 src/VoxelEngine/Managers/EntityManagerMeta.obj: src/VoxelEngine/Managers/EntityManagerMeta.cpp.obj
 .PHONY : src/VoxelEngine/Managers/EntityManagerMeta.obj
 
@@ -447,6 +471,30 @@ src/VoxelEngine/Systems/RenderSystemMeta.s: src/VoxelEngine/Systems/RenderSystem
 src/VoxelEngine/Systems/RenderSystemMeta.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\VoxelEngine.dir\build.make CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.s
 .PHONY : src/VoxelEngine/Systems/RenderSystemMeta.cpp.s
+
+src/VoxelEngine/Systems/TerrainSystem.obj: src/VoxelEngine/Systems/TerrainSystem.cpp.obj
+.PHONY : src/VoxelEngine/Systems/TerrainSystem.obj
+
+# target to build an object file
+src/VoxelEngine/Systems/TerrainSystem.cpp.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\VoxelEngine.dir\build.make CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.obj
+.PHONY : src/VoxelEngine/Systems/TerrainSystem.cpp.obj
+
+src/VoxelEngine/Systems/TerrainSystem.i: src/VoxelEngine/Systems/TerrainSystem.cpp.i
+.PHONY : src/VoxelEngine/Systems/TerrainSystem.i
+
+# target to preprocess a source file
+src/VoxelEngine/Systems/TerrainSystem.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\VoxelEngine.dir\build.make CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.i
+.PHONY : src/VoxelEngine/Systems/TerrainSystem.cpp.i
+
+src/VoxelEngine/Systems/TerrainSystem.s: src/VoxelEngine/Systems/TerrainSystem.cpp.s
+.PHONY : src/VoxelEngine/Systems/TerrainSystem.s
+
+# target to generate assembly for a file
+src/VoxelEngine/Systems/TerrainSystem.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\VoxelEngine.dir\build.make CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.s
+.PHONY : src/VoxelEngine/Systems/TerrainSystem.cpp.s
 
 src/VoxelEngine/Systems/uiSys.obj: src/VoxelEngine/Systems/uiSys.cpp.obj
 .PHONY : src/VoxelEngine/Systems/uiSys.obj
@@ -532,6 +580,9 @@ help:
 	@echo ... _deps/rlimgui-src/rlImGui.obj
 	@echo ... _deps/rlimgui-src/rlImGui.i
 	@echo ... _deps/rlimgui-src/rlImGui.s
+	@echo ... src/VoxelEngine/Managers/CameraManager.obj
+	@echo ... src/VoxelEngine/Managers/CameraManager.i
+	@echo ... src/VoxelEngine/Managers/CameraManager.s
 	@echo ... src/VoxelEngine/Managers/EntityManagerMeta.obj
 	@echo ... src/VoxelEngine/Managers/EntityManagerMeta.i
 	@echo ... src/VoxelEngine/Managers/EntityManagerMeta.s
@@ -541,6 +592,9 @@ help:
 	@echo ... src/VoxelEngine/Systems/RenderSystemMeta.obj
 	@echo ... src/VoxelEngine/Systems/RenderSystemMeta.i
 	@echo ... src/VoxelEngine/Systems/RenderSystemMeta.s
+	@echo ... src/VoxelEngine/Systems/TerrainSystem.obj
+	@echo ... src/VoxelEngine/Systems/TerrainSystem.i
+	@echo ... src/VoxelEngine/Systems/TerrainSystem.s
 	@echo ... src/VoxelEngine/Systems/uiSys.obj
 	@echo ... src/VoxelEngine/Systems/uiSys.i
 	@echo ... src/VoxelEngine/Systems/uiSys.s
