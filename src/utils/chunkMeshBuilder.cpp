@@ -31,6 +31,15 @@ Model ChunkMeshBuilder::BuildMesh(const ChunkCMP &chunk)
         }
     };
 
+    auto Darken = [](Color c, float factor) -> Color
+    {
+        return Color{
+            (unsigned char)(c.r * factor),
+            (unsigned char)(c.g * factor),
+            (unsigned char)(c.b * factor),
+            c.a};
+    };
+
     // Función auxiliar para añadir una cara cuadrada (2 triángulos = 6 vértices)
     auto AddFace = [&](Vector3 p1, Vector3 p2, Vector3 p3, Vector3 p4, Vector3 normal, Color c)
     {
@@ -50,7 +59,7 @@ Model ChunkMeshBuilder::BuildMesh(const ChunkCMP &chunk)
     for (int x = 0; x < CHUNK_SIZE; x++)
     {
         for (int y = 0; y < CHUNK_HEIGHT; y++)
-        { // 1. Cambiar CHUNK_SIZE por CHUNK_HEIGHT aquí
+        {
             for (int z = 0; z < CHUNK_SIZE; z++)
             {
 
@@ -58,50 +67,55 @@ Model ChunkMeshBuilder::BuildMesh(const ChunkCMP &chunk)
                 if (current == VoxelType::EMPTY)
                     continue;
 
-                Color c = GetVoxelColor(current);
+                Color baseColor = GetVoxelColor(current);
                 Vector3 pos = {(float)x, (float)y, (float)z};
 
-                // 2. CARA ARRIBA (+Y): Cambiar CHUNK_SIZE por CHUNK_HEIGHT aquí también
+                // 1. CARA ARRIBA (+Y): La luz da de lleno (100% de brillo)
                 if (y == CHUNK_HEIGHT - 1 || IsTransparent(chunk.GetVoxel(x, y + 1, z)))
                 {
                     AddFace({pos.x, pos.y + 1, pos.z + 1}, {pos.x + 1, pos.y + 1, pos.z + 1},
                             {pos.x + 1, pos.y + 1, pos.z}, {pos.x, pos.y + 1, pos.z},
-                            {0, 1, 0}, c);
+                            {0, 1, 0}, baseColor);
                 }
-                // 2. CARA ABAJO (-Y)
+
+                // 2. CARA ABAJO (-Y): Es el suelo/techo de cuevas (sombra total, 40% de brillo)
                 if (y == 0 || IsTransparent(chunk.GetVoxel(x, y - 1, z)))
                 {
                     AddFace({pos.x, pos.y, pos.z}, {pos.x + 1, pos.y, pos.z},
                             {pos.x + 1, pos.y, pos.z + 1}, {pos.x, pos.y, pos.z + 1},
-                            {0, -1, 0}, c);
+                            {0, -1, 0}, Darken(baseColor, 0.4f));
                 }
-                // 3. CARA DERECHA (+X)
+
+                // 3. CARA DERECHA (+X): (Luz lateral, 80% de brillo)
                 if (x == CHUNK_SIZE - 1 || IsTransparent(chunk.GetVoxel(x + 1, y, z)))
                 {
                     AddFace({pos.x + 1, pos.y, pos.z}, {pos.x + 1, pos.y + 1, pos.z},
                             {pos.x + 1, pos.y + 1, pos.z + 1}, {pos.x + 1, pos.y, pos.z + 1},
-                            {1, 0, 0}, c);
+                            {1, 0, 0}, Darken(baseColor, 0.8f));
                 }
-                // 4. CARA IZQUIERDA (-X)
+
+                // 4. CARA IZQUIERDA (-X): (Luz lateral, 80% de brillo)
                 if (x == 0 || IsTransparent(chunk.GetVoxel(x - 1, y, z)))
                 {
                     AddFace({pos.x, pos.y, pos.z + 1}, {pos.x, pos.y + 1, pos.z + 1},
                             {pos.x, pos.y + 1, pos.z}, {pos.x, pos.y, pos.z},
-                            {-1, 0, 0}, c);
+                            {-1, 0, 0}, Darken(baseColor, 0.8f));
                 }
-                // 5. CARA FRENTE (+Z)
+
+                // 5. CARA FRENTE (+Z): (Sombra frontal, 60% de brillo)
                 if (z == CHUNK_SIZE - 1 || IsTransparent(chunk.GetVoxel(x, y, z + 1)))
                 {
                     AddFace({pos.x + 1, pos.y, pos.z + 1}, {pos.x + 1, pos.y + 1, pos.z + 1},
                             {pos.x, pos.y + 1, pos.z + 1}, {pos.x, pos.y, pos.z + 1},
-                            {0, 0, 1}, c);
+                            {0, 0, 1}, Darken(baseColor, 0.6f));
                 }
-                // 6. CARA ATRÁS (-Z)
+
+                // 6. CARA ATRÁS (-Z): (Sombra trasera, 60% de brillo)
                 if (z == 0 || IsTransparent(chunk.GetVoxel(x, y, z - 1)))
                 {
                     AddFace({pos.x, pos.y, pos.z}, {pos.x, pos.y + 1, pos.z},
                             {pos.x + 1, pos.y + 1, pos.z}, {pos.x + 1, pos.y, pos.z},
-                            {0, 0, -1}, c);
+                            {0, 0, -1}, Darken(baseColor, 0.6f));
                 }
             }
         }

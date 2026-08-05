@@ -45,6 +45,7 @@ void RenderSystemMeta::UpdateOneEntity(EntityMeta ent) {
         if (chunk->meshModel.meshCount > 0) {
             Vector3 pos = { (float)chunk->chunkX * CHUNK_SIZE, 0.0f, (float)chunk->chunkZ * CHUNK_SIZE };
             DrawModel(chunk->meshModel, pos, 1.0f, WHITE);
+            
         }
     }
 }
