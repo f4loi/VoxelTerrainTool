@@ -1,11 +1,15 @@
 #include "VoxelEngine/Systems/RenderSystemMeta.h"
 #include "utils/ChunkMeshBuilder.h"
+#include <raymath.h>
+
+Camera3D RenderSystemMeta::currentCam = { 0 };
 
 void RenderSystemMeta::Init() {
     target3D = LoadRenderTexture(1920, 1080);
 }
 
 void RenderSystemMeta::Update(EntityManagerMeta &em, const Camera3D &camera) {
+    currentCam = camera;
     BeginTextureMode(target3D);
     ClearBackground(SKYBLUE);
     BeginMode3D(camera);
@@ -39,7 +43,8 @@ void RenderSystemMeta::UpdateOneEntity(EntityMeta ent) {
 
         // --- DIBUJO HIPER-RÁPIDO ---
         if (chunk->meshModel.meshCount > 0) {
-            DrawModel(chunk->meshModel, Vector3{ 0, 0, 0 }, 1.0f, WHITE);
+            Vector3 pos = { (float)chunk->chunkX * CHUNK_SIZE, 0.0f, (float)chunk->chunkZ * CHUNK_SIZE };
+            DrawModel(chunk->meshModel, pos, 1.0f, WHITE);
         }
     }
 }

@@ -5,7 +5,7 @@
 class RenderSystemMeta {
 private:
     RenderTexture2D target3D;
-
+    static Camera3D currentCam;
 public:
     void Init();
     void Update(EntityManagerMeta& em, const Camera3D& camera); 

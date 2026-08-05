@@ -24,24 +24,33 @@ void uiSys::Draw(TerrainConfig &config, RenderTexture2D *target3D, Texture2D *ma
 
     // --- 1. HERRAMIENTAS ZONA 2D ---
     ImGui::Text("GENERACIÓN");
-    if (ImGui::SliderFloat("Escala de Ruido", &config.noiseScale, 1.0f, 50.0f))
+    ImGui::SliderFloat("Escala de Ruido", &config.noiseScale, 0.5f, 3.0f, "%.2f");
+    if (ImGui::IsItemDeactivatedAfterEdit())
         config.needsRegen = true;
-    if (ImGui::SliderInt("Nivel de Agua", &config.waterLevel, 1, 15))
+
+    ImGui::SliderInt("Nivel de Agua", &config.waterLevel, 1, 128);
+    if (ImGui::IsItemDeactivatedAfterEdit())
         config.needsRegen = true;
 
     ImGui::Separator();
 
-    ImGui::Text("PINCEL DE TERRENO");
+    ImGui::Text("PINCEL DE BIOMAS");
+
+    if (ImGui::Button("Resetear Mundo y Pintura"))
+    {
+        config.needsRegen = true;
+    }
+
     ImGui::SliderInt("Tamaño del Pincel", &config.brushSize, 1, 5);
 
-    // Botones de radio para elegir material
-    int mat = (int)config.selectedMaterial;
-    ImGui::RadioButton("Agua", &mat, 0);
+    int biomeSelection = (int)config.selectedBiome;
+    ImGui::RadioButton("Prado (Plano)", &biomeSelection, 1);
     ImGui::SameLine();
-    ImGui::RadioButton("Tierra", &mat, 1);
+    ImGui::RadioButton("Montaña (Picos)", &biomeSelection, 2);
     ImGui::SameLine();
-    ImGui::RadioButton("Césped", &mat, 2);
-    config.selectedMaterial = (PaintMaterial)mat;
+    ImGui::RadioButton("Río (Agua)", &biomeSelection, 3);
+
+    config.selectedBiome = (PaintBiome)biomeSelection;
 
     ImGui::Separator();
 
@@ -75,9 +84,9 @@ void uiSys::Draw(TerrainConfig &config, RenderTexture2D *target3D, Texture2D *ma
 
             if (u >= 0.0f && u <= 1.0f && v >= 0.0f && v <= 1.0f)
             {
-                // Multiplicamos por el tamaño del chunk para obtener la coordenada exacta
-                config.paintX = (int)(u * CHUNK_SIZE);
-                config.paintZ = (int)(v * CHUNK_SIZE);
+                // Ahora multiplicamos por el tamaño TOTAL del mundo en píxeles (256)
+                config.paintX = (int)(u * WORLD_PIXELS);
+                config.paintZ = (int)(v * WORLD_PIXELS);
                 config.isPainting = true;
             }
         }

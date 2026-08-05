@@ -5,19 +5,19 @@
 #include "Config\thirdParties\json.hpp" 
 
 using json = nlohmann::json;
-enum class PaintMaterial { WATER, DIRT, GRASS };
+enum class PaintBiome { DEFAULT, PLAINS, MOUNTAIN, RIVER };
 
 struct TerrainConfig {
-    float noiseScale{4.0f};
-    int waterLevel{4};
+    float noiseScale{0.5f};
+    int waterLevel{32};
     int seed{12345};
     
     bool needsRegen{true}; 
 
-    bool needsMapUpdate = true; // Para repintar el mapa 2D sin regenerar montañas
+    bool needsMapUpdate = true;
     
     int brushSize = 1;
-    PaintMaterial selectedMaterial = PaintMaterial::GRASS;
+    PaintBiome selectedBiome = PaintBiome::PLAINS;
     
     bool isPainting = false;
     int paintX = 0;
@@ -45,8 +45,8 @@ struct TerrainConfig {
             file >> j;
 
             
-            noiseScale = j.value("noiseScale", 4.0f);
-            waterLevel = j.value("waterLevel", 4);
+            noiseScale = j.value("noiseScale", 0.5f);
+            waterLevel = j.value("waterLevel", 32);
             seed = j.value("seed", 12345);
 
             needsRegen = true;

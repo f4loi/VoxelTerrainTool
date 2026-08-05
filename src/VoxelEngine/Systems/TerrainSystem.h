@@ -9,9 +9,9 @@ private:
 
 public:
     void Init();
-    void GenerateTerrain(EntityManagerMeta& em, EntityMeta chunkEntity, TerrainConfig& config);
-    void ApplyPaint(EntityManagerMeta& em, EntityMeta chunkEntity, TerrainConfig& config);
-    void UpdateMapTexture(EntityManagerMeta& em, EntityMeta chunkEntity, TerrainConfig& config);
+    void GenerateTerrain(EntityManagerMeta& em, const std::vector<EntityMeta>& chunks, TerrainConfig& config);
+    void ApplyPaint(EntityManagerMeta& em, const std::vector<EntityMeta>& chunks, TerrainConfig& config);
+    void UpdateMapTexture(EntityManagerMeta& em, const std::vector<EntityMeta>& chunks, TerrainConfig& config);
     void Unload();
 
     // Getter para que la interfaz pueda dibujar el mapa 2D

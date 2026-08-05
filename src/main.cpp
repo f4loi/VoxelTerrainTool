@@ -26,11 +26,27 @@ int main()
 
     config.LoadFromJson("config.json");
 
-    EntityMeta chunkEntity = em.createEntity();
-    em.addComponent(chunkEntity.getNextId(), ChunkCMP{});
-    em.addComponent(chunkEntity.getNextId(), RenderCMP{true});
+    std::vector<EntityMeta> worldChunks;
+    worldChunks.reserve(WORLD_CHUNKS * WORLD_CHUNKS);
 
-    config.needsRegen = true; 
+    for (int x = 0; x < WORLD_CHUNKS; x++)
+    {
+        for (int z = 0; z < WORLD_CHUNKS; z++)
+        {
+            EntityMeta chunkEntity = em.createEntity();
+
+            ChunkCMP chunkData;
+            chunkData.chunkX = x;
+            chunkData.chunkZ = z;
+
+            em.addComponent(chunkEntity.getNextId(), chunkData);
+            em.addComponent(chunkEntity.getNextId(), RenderCMP{true});
+
+            worldChunks.push_back(chunkEntity);
+        }
+    }
+
+    config.needsRegen = true;
 
     while (!renderSys.WindowShouldClose())
     {
@@ -38,12 +54,14 @@ int main()
         camManager.Update(ui.GetIsViewport3DHovered());
 
         // --- 2. SISTEMA DE TERRENO (El Director de Orquesta) ---
-        if (config.needsRegen) terrainSys.GenerateTerrain(em, chunkEntity, config);
-        
-        if (config.isPainting) terrainSys.ApplyPaint(em, chunkEntity, config);
-        
-        if (config.needsMapUpdate) terrainSys.UpdateMapTexture(em, chunkEntity, config);
+        if (config.needsRegen)
+            terrainSys.GenerateTerrain(em, worldChunks, config);
 
+        if (config.isPainting)
+            terrainSys.ApplyPaint(em, worldChunks, config);
+
+        if (config.needsMapUpdate)
+            terrainSys.UpdateMapTexture(em, worldChunks, config);
 
         // --- 3. RENDERIZAR MUNDO 3D (A textura invisible) ---
         renderSys.Update(em, camManager.GetCamera());
@@ -59,8 +77,8 @@ int main()
     }
 
     // --- 5. LIMPIEZA ---
-    terrainSys.Unload(); 
-    renderSys.Unload(); 
+    terrainSys.Unload();
+    renderSys.Unload();
     ui.Close();
     CloseWindow();
 
