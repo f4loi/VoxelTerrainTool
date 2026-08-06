@@ -26,6 +26,10 @@ Model ChunkMeshBuilder::BuildMesh(const ChunkCMP &chunk)
             return GRAY;
         case VoxelType::WATER:
             return BLUE;
+        case VoxelType::SAND:
+            return Color{238, 214, 175, 255}; // Tono Arena
+        case VoxelType::SNOW:
+            return WHITE; // Nieve pura
         default:
             return WHITE;
         }
@@ -134,7 +138,7 @@ Model ChunkMeshBuilder::BuildMesh(const ChunkCMP &chunk)
     memcpy(mesh.normals, normals.data(), normals.size() * sizeof(float));
     memcpy(mesh.colors, colors.data(), colors.size() * sizeof(unsigned char));
 
-    UploadMesh(&mesh, false); // ¡Envía los vértices a la VRAM de la gráfica de una pasada!
+    UploadMesh(&mesh, false);
 
     Model model = LoadModelFromMesh(mesh);
     return model;

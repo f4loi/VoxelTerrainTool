@@ -15,9 +15,10 @@ enum class VoxelType : uint8_t
     DIRT,
     GRASS,
     WATER,
-    STONE
+    STONE,
+    SAND,
+    SNOW
 };
-
 
 enum class BiomeType : uint8_t
 {
@@ -36,7 +37,6 @@ struct ChunkCMP
     Model meshModel = {0};
     bool isDirty = true;
 
-   
     BiomeType biomeMap[CHUNK_SIZE * CHUNK_SIZE] = {BiomeType::DEFAULT};
     uint8_t noiseMap[CHUNK_SIZE * CHUNK_SIZE] = {0};
 

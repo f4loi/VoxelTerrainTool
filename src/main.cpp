@@ -50,6 +50,28 @@ int main()
 
     while (!renderSys.WindowShouldClose())
     {
+        if (config.needsLoad)
+        {
+            config.LoadFromJson("config.json");
+            config.needsRegen = true;
+            config.needsLoad = false;
+        }
+        if (config.needsSave)
+        {
+            config.SaveToJson("config.json");
+            config.needsSave = false;
+        }
+        if (config.needsUndoSave)
+        {
+            terrainSys.SaveUndoState(em, worldChunks);
+            config.needsUndoSave = false;
+        }
+        if (config.needsUndo)
+        {
+            terrainSys.Undo(em, worldChunks, config);
+            config.needsUndo = false;
+        }
+
         // --- 1. ACTUALIZAR CÁMARA ---
         camManager.Update(ui.GetIsViewport3DHovered());
 

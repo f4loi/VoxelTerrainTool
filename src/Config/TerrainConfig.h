@@ -8,12 +8,17 @@ using json = nlohmann::json;
 enum class PaintBiome { DEFAULT, PLAINS, MOUNTAIN, RIVER };
 
 struct TerrainConfig {
-    float noiseScale{0.5f};
+    float noiseScale{0.1f};
     int waterLevel{32};
     int seed{12345};
     
-    bool needsRegen{true}; 
 
+    bool isSquareBrush = false;
+    bool needsRegen{true}; 
+    bool needsUndoSave = false; // Avisa de que vamos a empezar a pintar
+    bool needsUndo = false;     // Pide dar un paso atrás
+    bool needsSave = false;     // Pide guardar config
+    bool needsLoad = false;     // Pide cargar config
     bool needsMapUpdate = true;
     
     int brushSize = 1;
@@ -45,7 +50,7 @@ struct TerrainConfig {
             file >> j;
 
             
-            noiseScale = j.value("noiseScale", 0.5f);
+            noiseScale = j.value("noiseScale", 0.1f);
             waterLevel = j.value("waterLevel", 32);
             seed = j.value("seed", 12345);
 

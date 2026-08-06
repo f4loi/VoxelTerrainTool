@@ -1656,6 +1656,7 @@ CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/RenderSystemMeta.cpp.obj: C:/
 
 CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.obj: C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/Systems/TerrainSystem.cpp \
   _deps/raylib-src/src/raylib.h \
+  _deps/raylib-src/src/raymath.h \
   C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/Config/TerrainConfig.h \
   C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/Config/thirdParties/json.hpp \
   C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/VoxelEngine/CMP/ChunkCMP.h \
@@ -1831,6 +1832,7 @@ CMakeFiles/VoxelEngine.dir/src/VoxelEngine/Systems/TerrainSystem.cpp.obj: C:/Use
   C:/msys64/ucrt64/include/c++/15.2.0/limits \
   C:/msys64/ucrt64/include/c++/15.2.0/locale \
   C:/msys64/ucrt64/include/c++/15.2.0/map \
+  C:/msys64/ucrt64/include/c++/15.2.0/math.h \
   C:/msys64/ucrt64/include/c++/15.2.0/memory \
   C:/msys64/ucrt64/include/c++/15.2.0/new \
   C:/msys64/ucrt64/include/c++/15.2.0/numeric \

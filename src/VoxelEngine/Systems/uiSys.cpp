@@ -23,8 +23,16 @@ void uiSys::Draw(TerrainConfig &config, RenderTexture2D *target3D, Texture2D *ma
     ImGui::Begin("Entorno 2D");
 
     // --- 1. HERRAMIENTAS ZONA 2D ---
-    ImGui::Text("GENERACIÓN");
-    ImGui::SliderFloat("Escala de Ruido", &config.noiseScale, 0.5f, 3.0f, "%.2f");
+    ImGui::Text("SISTEMA DE ARCHIVOS");
+    if (ImGui::Button("Guardar Config (JSON)"))
+        config.needsSave = true;
+    ImGui::SameLine();
+    if (ImGui::Button("Cargar Config (JSON)"))
+        config.needsLoad = true;
+
+    ImGui::Separator();
+    ImGui::Text("GENERACIÓN BASE");
+    ImGui::SliderFloat("Escala de Ruido", &config.noiseScale, 0.01f, 1.5f, "%.2f");
     if (ImGui::IsItemDeactivatedAfterEdit())
         config.needsRegen = true;
 
@@ -33,24 +41,36 @@ void uiSys::Draw(TerrainConfig &config, RenderTexture2D *target3D, Texture2D *ma
         config.needsRegen = true;
 
     ImGui::Separator();
-
     ImGui::Text("PINCEL DE BIOMAS");
 
-    if (ImGui::Button("Resetear Mundo y Pintura"))
-    {
+    // Atajo de teclado (Ctrl + Z)
+    if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_Z))
+        config.needsUndo = true;
+    if (ImGui::Button("Deshacer (Ctrl+Z)"))
+        config.needsUndo = true;
+    ImGui::SameLine();
+    if (ImGui::Button("Resetear Mundo"))
         config.needsRegen = true;
+
+    // Forma del Pincel (Desplegable)
+    const char *shapeNames[] = {"Círculo (Suave)", "Cubo (Plano)"};
+    int currentShape = config.isSquareBrush ? 1 : 0;
+    if (ImGui::Combo("Forma", &currentShape, shapeNames, 2))
+    {
+        config.isSquareBrush = (currentShape == 1);
     }
 
-    ImGui::SliderInt("Tamaño del Pincel", &config.brushSize, 1, 5);
+    ImGui::SliderInt("Tamaño del Pincel", &config.brushSize, 1, 30);
 
-    int biomeSelection = (int)config.selectedBiome;
-    ImGui::RadioButton("Prado (Plano)", &biomeSelection, 1);
-    ImGui::SameLine();
-    ImGui::RadioButton("Montaña (Picos)", &biomeSelection, 2);
-    ImGui::SameLine();
-    ImGui::RadioButton("Río (Agua)", &biomeSelection, 3);
-
-    config.selectedBiome = (PaintBiome)biomeSelection;
+    // Biomas (Desplegable en lugar de RadioButtons)
+    const char *biomeNames[] = {"Prado (Llanura)", "Montaña (Picos)", "Río (Cauce)"};
+    int currentBiome = (int)config.selectedBiome - 1; // Ajustamos el enum (DEFAULT es 0)
+    if (currentBiome < 0)
+        currentBiome = 0;
+    if (ImGui::Combo("Bioma", &currentBiome, biomeNames, 3))
+    {
+        config.selectedBiome = (PaintBiome)(currentBiome + 1);
+    }
 
     ImGui::Separator();
 
@@ -76,6 +96,11 @@ void uiSys::Draw(TerrainConfig &config, RenderTexture2D *target3D, Texture2D *ma
         // Si mantenemos clic izquierdo SOBRE la imagen...
         if (ImGui::IsItemHovered() && ImGui::IsMouseDown(ImGuiMouseButton_Left))
         {
+            if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+            {
+                config.needsUndoSave = true;
+            }
+
             ImVec2 mousePos = ImGui::GetMousePos();
 
             // Calculamos el porcentaje (0.0 a 1.0) de dónde hemos hecho clic
