@@ -5,6 +5,7 @@
 #include "VoxelEngine/Systems/uiSys.h"
 #include "VoxelEngine/Systems/TerrainSystem.h"
 #include "Config/TerrainConfig.h"
+#include "utils/WorldExporter.h"
 
 int main()
 {
@@ -108,6 +109,11 @@ int main()
             // Restore the terrain to the last saved snapshot
             terrainSys.Undo(em, worldChunks, config);
             config.needsUndo = false;
+        }
+        if (config.needsExportUE5)
+        {
+            WorldExporter::ExportWorldToUE5(em, worldChunks, "ue5_world_export.json");
+            config.needsExportUE5 = false;
         }
 
         // ---------------------------------------------------------

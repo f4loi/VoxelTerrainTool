@@ -43,6 +43,11 @@ void uiSys::Draw(TerrainConfig &config, RenderTexture2D *target3D, Texture2D *ma
     }
 
     ImGui::Separator();
+    ImGui::Text("EXPORTACION");
+    if (ImGui::Button("Exportar a UE5 (JSON)"))
+    {
+        config.needsExportUE5 = true; 
+    }
 
     // --- BASE PROCEDURAL GENERATION ---
     ImGui::Text("GENERACIÓN BASE");

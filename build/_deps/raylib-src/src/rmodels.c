@@ -5348,7 +5348,7 @@ static Image LoadImageFromCgltfImage(cgltf_image *cgltfImage, const char *texPat
             image = LoadImage(TextFormat("%s/%s", texPath, cgltfImage->uri));
         }
     }
-    else if ((cgltfImage->buffer_view != NULL) && (cgltfImage->buffer_view->buffer->data != NULL))    // Check if image is provided as data buffer
+    else if ((cgltfImage->buffer_view != NULL) && (cgltfImage->buffer_view->buffer->data != NULL)) // Check if image is provided as data buffer
     {
         unsigned char *data = (unsigned char *)RL_MALLOC(cgltfImage->buffer_view->size);
         int offset = (int)cgltfImage->buffer_view->offset;
@@ -5776,7 +5776,7 @@ static Model LoadGLTF(const char *fileName)
                             else TRACELOG(LOG_WARNING, "MODEL: [%s] Vertices attribute data format not supported, use vec3 float", fileName);
                         }
                     }
-                    else if (mesh->primitives[p].attributes[j].type == cgltf_attribute_type_normal)   // NORMAL, vec3, float
+                    else if (mesh->primitives[p].attributes[j].type == cgltf_attribute_type_normal) // NORMAL, vec3, float
                     {
                         cgltf_accessor *attribute = mesh->primitives[p].attributes[j].data;
 
@@ -5876,7 +5876,7 @@ static Model LoadGLTF(const char *fileName)
                             else TRACELOG(LOG_WARNING, "MODEL: [%s] Normals attribute data format not supported, use vec3 float", fileName);
                         }
                     }
-                    else if (mesh->primitives[p].attributes[j].type == cgltf_attribute_type_tangent)   // TANGENT, vec4, float, w is tangent basis sign
+                    else if (mesh->primitives[p].attributes[j].type == cgltf_attribute_type_tangent) // TANGENT, vec4, float, w is tangent basis sign
                     {
                         cgltf_accessor *attribute = mesh->primitives[p].attributes[j].data;
 
@@ -5913,7 +5913,7 @@ static Model LoadGLTF(const char *fileName)
 
                         if (attribute->type == cgltf_type_vec2)
                         {
-                            if (attribute->component_type == cgltf_component_type_r_32f)  // vec2, float
+                            if (attribute->component_type == cgltf_component_type_r_32f) // vec2, float
                             {
                                 // Init raylib mesh texcoords to copy glTF attribute data
                                 texcoordPtr = (float *)RL_MALLOC(attribute->count*2*sizeof(float));
@@ -5962,7 +5962,7 @@ static Model LoadGLTF(const char *fileName)
                             if (texcoordPtr != NULL) RL_FREE(texcoordPtr);
                         }
                     }
-                    else if (mesh->primitives[p].attributes[j].type == cgltf_attribute_type_color)    // COLOR_n, vec3/vec4, float/u8n/u16n
+                    else if (mesh->primitives[p].attributes[j].type == cgltf_attribute_type_color) // COLOR_n, vec3/vec4, float/u8n/u16n
                     {
                         cgltf_accessor *attribute = mesh->primitives[p].attributes[j].data;
 
@@ -5971,7 +5971,7 @@ static Model LoadGLTF(const char *fileName)
                         if (model.meshes[meshIndex].colors != NULL) TRACELOG(LOG_WARNING, "MODEL: [%s] Colors attribute data already loaded", fileName);
                         else
                         {
-                            if (attribute->type == cgltf_type_vec3)  // RGB
+                            if (attribute->type == cgltf_type_vec3) // RGB
                             {
                                 if (attribute->component_type == cgltf_component_type_r_8u)
                                 {
@@ -6264,7 +6264,7 @@ static Model LoadGLTF(const char *fileName)
                         }
                         else TRACELOG(LOG_WARNING, "MODEL: [%s] Joint attribute data format not supported", fileName);
                     }
-                    else if (mesh->primitives[p].attributes[j].type == cgltf_attribute_type_weights)  // WEIGHTS_n (vec4, u8n/u16n/f32)
+                    else if (mesh->primitives[p].attributes[j].type == cgltf_attribute_type_weights) // WEIGHTS_n (vec4, u8n/u16n/f32)
                     {
                         cgltf_accessor *attribute = mesh->primitives[p].attributes[j].data;
 
@@ -6390,6 +6390,7 @@ static bool GetPoseAtTimeGLTF(cgltf_interpolation_type interpolationType, cgltf_
     float tstart = 0.0f;
     float tend = 0.0f;
     int keyframe = 0;       // Defaults to first pose
+    bool found = false;
 
     for (int i = 0; i < (int)input->count - 1; i++)
     {
@@ -6402,8 +6403,24 @@ static bool GetPoseAtTimeGLTF(cgltf_interpolation_type interpolationType, cgltf_
         if ((tstart <= time) && (time < tend))
         {
             keyframe = i;
+            found = true;
             break;
         }
+    }
+
+    // No interval contains a time at (or past) the last keyframe, because the
+    // search above requires time < tend: clamp to the edge interval instead of
+    // falling back to keyframe 0, which returns a pose from the start
+    if (!found && ((int)input->count >= 2))
+    {
+        keyframe = (int)input->count - 2;
+
+        float tfirst = 0.0f;
+        if (!cgltf_accessor_read_float(input, 0, &tfirst, 1)) return false;
+        if (time < tfirst) keyframe = 0;
+
+        if (!cgltf_accessor_read_float(input, keyframe, &tstart, 1)) return false;
+        if (!cgltf_accessor_read_float(input, keyframe + 1, &tend, 1)) return false;
     }
 
     // Constant animation, no need to interpolate

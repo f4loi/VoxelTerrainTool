@@ -11,6 +11,7 @@ _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_init.c.obj:
  C:/msys64/ucrt64/include/sdks/_mingw_ddk.h \
  C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdint.h \
  C:/msys64/ucrt64/include/stdint.h \
+ C:/msys64/ucrt64/lib/gcc/x86_64-w64-mingw32/15.2.0/include/stdbool.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\platform.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\null_platform.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\win32_platform.h \
@@ -206,21 +207,24 @@ _deps/raylib-build/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_init.c.obj:
  C:/msys64/ucrt64/include/virtdisk.h C:/msys64/ucrt64/include/stralign.h \
  C:/msys64/ucrt64/include/sec_api/stralign_s.h \
  C:/msys64/ucrt64/include/winsvc.h C:/msys64/ucrt64/include/mcx.h \
- C:/msys64/ucrt64/include/imm.h C:/msys64/ucrt64/include/dinput.h \
- C:/msys64/ucrt64/include/objbase.h C:/msys64/ucrt64/include/rpc.h \
+ C:/msys64/ucrt64/include/imm.h C:/msys64/ucrt64/include/dwmapi.h \
+ C:/msys64/ucrt64/include/wtypes.h C:/msys64/ucrt64/include/rpc.h \
  C:/msys64/ucrt64/include/rpcdce.h C:/msys64/ucrt64/include/rpcdcep.h \
  C:/msys64/ucrt64/include/rpcnsi.h C:/msys64/ucrt64/include/rpcnterr.h \
  C:/msys64/ucrt64/include/rpcasync.h C:/msys64/ucrt64/include/rpcndr.h \
  C:/msys64/ucrt64/include/rpcnsip.h C:/msys64/ucrt64/include/rpcsal.h \
+ C:/msys64/ucrt64/include/ole2.h C:/msys64/ucrt64/include/objbase.h \
  C:/msys64/ucrt64/include/combaseapi.h \
  C:/msys64/ucrt64/include/wtypesbase.h \
  C:/msys64/ucrt64/include/unknwnbase.h \
  C:/msys64/ucrt64/include/objidlbase.h C:/msys64/ucrt64/include/cguid.h \
  C:/msys64/ucrt64/include/objidl.h C:/msys64/ucrt64/include/unknwn.h \
- C:/msys64/ucrt64/include/wtypes.h C:/msys64/ucrt64/include/urlmon.h \
- C:/msys64/ucrt64/include/oleidl.h C:/msys64/ucrt64/include/servprov.h \
- C:/msys64/ucrt64/include/msxml.h C:/msys64/ucrt64/include/oaidl.h \
- C:/msys64/ucrt64/include/propidl.h \
+ C:/msys64/ucrt64/include/urlmon.h C:/msys64/ucrt64/include/oleidl.h \
+ C:/msys64/ucrt64/include/servprov.h C:/msys64/ucrt64/include/msxml.h \
+ C:/msys64/ucrt64/include/oaidl.h C:/msys64/ucrt64/include/propidl.h \
+ C:/msys64/ucrt64/include/oleauto.h C:/msys64/ucrt64/include/uxtheme.h \
+ C:/msys64/ucrt64/include/commctrl.h C:/msys64/ucrt64/include/prsht.h \
+ C:/msys64/ucrt64/include/dinput.h \
  C:/msys64/ucrt64/include/_mingw_dxhelper.h \
  C:/msys64/ucrt64/include/xinput.h C:/msys64/ucrt64/include/dbt.h \
  C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\build\_deps\raylib-src\src\external\glfw\src\null_joystick.h \

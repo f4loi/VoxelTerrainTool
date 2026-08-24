@@ -40,6 +40,7 @@ struct TerrainConfig
     bool needsSave = false;
     bool needsLoad = false;
     bool needsMapUpdate = true;
+    bool needsExportUE5 = false;
 
     int brushSize = 1;
     PaintBiome selectedBiome = PaintBiome::PLAINS;

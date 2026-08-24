@@ -269,4 +269,6 @@ CMakeFiles/VoxelEngine.dir/src/main.cpp.obj: \
  C:/msys64/ucrt64/include/c++/15.2.0/bits/stl_numeric.h \
  C:/msys64/ucrt64/include/c++/15.2.0/pstl/glue_numeric_defs.h \
  C:/msys64/ucrt64/include/c++/15.2.0/any \
- C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine/Systems/TerrainSystem.h
+ C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\VoxelEngine/Systems/TerrainSystem.h \
+ C:\Users\f4loi\Desktop\Portfolio\EnginePortfolio\src\utils/WorldExporter.h \
+ C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/src/Config/thirdParties/json.hpp

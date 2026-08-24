@@ -533,8 +533,9 @@ void CloseAudioDevice(void)
 {
     if (AUDIO.System.isReady)
     {
-        ma_mutex_uninit(&AUDIO.System.lock);
+        // Stop the device first (joins the callback thread) before destroying the mutex it locks
         ma_device_uninit(&AUDIO.System.device);
+        ma_mutex_uninit(&AUDIO.System.lock);
         ma_context_uninit(&AUDIO.System.context);
 
         AUDIO.System.isReady = false;
@@ -2660,7 +2661,7 @@ static void MixAudioFrames(float *framesOut, const float *framesIn, ma_uint32 fr
     const float localVolume = buffer->volume;
     const ma_uint32 channels = AUDIO.System.device.playback.channels;
 
-    if (channels == 2)  // Consider panning
+    if (channels == 2) // Consider panning
     {
         const float right = (buffer->pan + 1.0f)/2.0f; // Normalize: [-1..1] -> [0..1]
         const float left = 1.0f - right;
