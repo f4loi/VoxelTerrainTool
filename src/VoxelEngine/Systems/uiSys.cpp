@@ -7,6 +7,7 @@ void uiSys::Init()
 {
     rlImGuiSetup(true);
     ImGuiIO &io = ImGui::GetIO();
+    // Enable docking to allow windows to snap, split, and merge together dynamically
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 }
 
@@ -14,45 +15,78 @@ void uiSys::Draw(TerrainConfig &config, RenderTexture2D *target3D, Texture2D *ma
 {
     rlImGuiBegin();
 
-    // El contenedor principal magnético
+    // ==========================================
+    // MAIN WORKSPACE SETUP
+    // ==========================================
+    // The main docking workspace container (fills the entire viewport).
+    // PassthruCentralNode allows the background to be visible if no windows are docked in the center.
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 
     // ==========================================
-    // COLUMNA IZQUIERDA: ENTORNO 2D
+    // LEFT COLUMN: 2D ENVIRONMENT & TOOLS
     // ==========================================
     ImGui::Begin("Entorno 2D");
 
-    // --- 1. HERRAMIENTAS ZONA 2D ---
+    // --- FILE SYSTEM SETTINGS ---
     ImGui::Text("SISTEMA DE ARCHIVOS");
     if (ImGui::Button("Guardar Config (JSON)"))
+    {
+        // Triggers a request to serialize the current configuration to a JSON file
         config.needsSave = true;
+    }
+
     ImGui::SameLine();
     if (ImGui::Button("Cargar Config (JSON)"))
+    {
+        // Triggers a request to load settings from the JSON file and regenerate the world
         config.needsLoad = true;
+    }
 
     ImGui::Separator();
+
+    // --- BASE PROCEDURAL GENERATION ---
     ImGui::Text("GENERACIÓN BASE");
+
+    // Controls the zoom/frequency of the Perlin Noise
     ImGui::SliderFloat("Escala de Ruido", &config.noiseScale, 0.01f, 1.5f, "%.2f");
     if (ImGui::IsItemDeactivatedAfterEdit())
-        config.needsRegen = true;
+    {
+        config.needsRegen = true; // Regenerate the world only when the user releases the slider
+    }
 
+    // Controls the global water level height (Y-axis)
     ImGui::SliderInt("Nivel de Agua", &config.waterLevel, 1, 128);
     if (ImGui::IsItemDeactivatedAfterEdit())
+    {
         config.needsRegen = true;
+    }
 
     ImGui::Separator();
+
+    // --- BIOME BRUSH & SCULPTING TOOLS ---
     ImGui::Text("PINCEL DE BIOMAS");
 
-    // Atajo de teclado (Ctrl + Z)
+    // Undo system: Listens for Ctrl+Z keyboard shortcut
     if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_Z))
+    {
         config.needsUndo = true;
-    if (ImGui::Button("Deshacer (Ctrl+Z)"))
-        config.needsUndo = true;
-    ImGui::SameLine();
-    if (ImGui::Button("Resetear Mundo"))
-        config.needsRegen = true;
+    }
 
-    // Forma del Pincel (Desplegable)
+    // Undo system: Manual UI Button
+    if (ImGui::Button("Deshacer (Ctrl+Z)"))
+    {
+        config.needsUndo = true;
+    }
+
+    ImGui::SameLine();
+
+    // Completely resets the world back to its natural procedural state
+    if (ImGui::Button("Resetear Mundo"))
+    {
+        config.needsRegen = true;
+    }
+
+    // Brush Shape Dropdown (Circle vs Square/Cube)
     const char *shapeNames[] = {"Círculo (Suave)", "Cubo (Plano)"};
     int currentShape = config.isSquareBrush ? 1 : 0;
     if (ImGui::Combo("Forma", &currentShape, shapeNames, 2))
@@ -60,13 +94,20 @@ void uiSys::Draw(TerrainConfig &config, RenderTexture2D *target3D, Texture2D *ma
         config.isSquareBrush = (currentShape == 1);
     }
 
+    // Brush Radius parameter
     ImGui::SliderInt("Tamaño del Pincel", &config.brushSize, 1, 30);
 
-    // Biomas (Desplegable en lugar de RadioButtons)
+    // Biome Selection Dropdown
     const char *biomeNames[] = {"Prado (Llanura)", "Montaña (Picos)", "Río (Cauce)"};
-    int currentBiome = (int)config.selectedBiome - 1; // Ajustamos el enum (DEFAULT es 0)
+
+    // Adjust the enum index (DEFAULT is 0, so we shift by -1 to align with the UI array)
+    int currentBiome = (int)config.selectedBiome - 1;
     if (currentBiome < 0)
+    {
         currentBiome = 0;
+    }
+
+    // Update the selected biome configuration when the user picks a new option
     if (ImGui::Combo("Bioma", &currentBiome, biomeNames, 3))
     {
         config.selectedBiome = (PaintBiome)(currentBiome + 1);
@@ -74,28 +115,35 @@ void uiSys::Draw(TerrainConfig &config, RenderTexture2D *target3D, Texture2D *ma
 
     ImGui::Separator();
 
-    // --- 2. VIEWPORT 2D (Lienzo interactivo) ---
+    // --- 2D VIEWPORT ---
     ImGui::Text("VIEWPORT 2D (Vista Top-Down)");
+
+    // Get the remaining available space in the UI panel for the image
     ImVec2 size2D = ImGui::GetContentRegionAvail();
 
     if (mapTexture != nullptr && mapTexture->id != 0)
     {
+        // Calculate the maximum square size that fits within the available space
         float minSize = (size2D.x < size2D.y) ? size2D.x : size2D.y;
+
+        // Calculate offsets to center the square image horizontally and vertically
         float offsetX = (size2D.x - minSize) * 0.5f;
         float offsetY = (size2D.y - minSize) * 0.5f;
 
         ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() + offsetX, ImGui::GetCursorPosY() + offsetY));
 
-        // --- LA MAGIA DE LA PINTURA ---
-        // Guardamos dónde empieza la imagen para calcular el ratón
+        // ---  PAINTING CONFIGURATION (RAYCASTING & INTERACTION) ---
+
+        // Store the screen-space starting position of the image to calculate relative mouse clicks
         ImVec2 imgPos = ImGui::GetCursorScreenPos();
 
-        // Dibujamos la textura
+        // Render the 2D map texture generated by the TerrainSystem
         rlImGuiImageSize(mapTexture, (int)minSize, (int)minSize);
 
-        // Si mantenemos clic izquierdo SOBRE la imagen...
+        // Check if the user is holding the left mouse button over the image
         if (ImGui::IsItemHovered() && ImGui::IsMouseDown(ImGuiMouseButton_Left))
         {
+            // On the exact frame the click starts, trigger a snapshot for the Undo history
             if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
             {
                 config.needsUndoSave = true;
@@ -103,48 +151,58 @@ void uiSys::Draw(TerrainConfig &config, RenderTexture2D *target3D, Texture2D *ma
 
             ImVec2 mousePos = ImGui::GetMousePos();
 
-            // Calculamos el porcentaje (0.0 a 1.0) de dónde hemos hecho clic
+            // Calculate the normalized mouse UV coordinates (0.0 to 1.0) relative to the image bounds
             float u = (mousePos.x - imgPos.x) / minSize;
             float v = (mousePos.y - imgPos.y) / minSize;
 
+            // Ensure the click is strictly inside the bounds of the texture
             if (u >= 0.0f && u <= 1.0f && v >= 0.0f && v <= 1.0f)
             {
-                // Ahora multiplicamos por el tamaño TOTAL del mundo en píxeles (256)
+                // Multiply normalized coordinates by the TOTAL world size in pixels to get global map coordinates
                 config.paintX = (int)(u * WORLD_PIXELS);
                 config.paintZ = (int)(v * WORLD_PIXELS);
+
+                // Activate the painting flag for the TerrainSystem to process
                 config.isPainting = true;
             }
         }
         else
         {
+            // Stop painting when the mouse is released or leaves the image bounds
             config.isPainting = false;
         }
     }
     else
     {
+        // Render a dummy spacer if the texture isn't loaded yet to prevent layout collapse
         ImGui::Dummy(size2D);
     }
 
     ImGui::End();
 
     // ==========================================
-    // COLUMNA DERECHA: ENTORNO 3D
+    // RIGHT COLUMN: 3D ENVIRONMENT & RENDER
     // ==========================================
     ImGui::Begin("Entorno 3D");
 
-    // --- 1. HERRAMIENTAS ZONA 3D ---
+    // --- 3D AREA TOOLS (OVERLAYS) ---
     ImGui::Text("HERRAMIENTAS ZONA 3D");
-    // (Aquí irán estadísticas de FPS, botón de alambre (wireframe), etc.)
+
+    // Display current frames per second
     ImGui::Text("FPS: %d", GetFPS());
 
     ImGui::Separator();
 
-    // --- 2. VIEWPORT 3D ---
-    // Dibujamos el mundo 3D llenando todo el espacio sobrante debajo de las herramientas
+    // --- 3D VIEWPORT ---
+    // Render the 3D world by drawing the off-screen render texture.
+    // The 'true' parameter scales it to fit the remaining window space automatically.
     if (target3D != nullptr)
     {
         rlImGuiImageRenderTextureFit(target3D, true);
     }
+
+    // Track if the mouse is hovering the 3D viewport.
+    // This is sent to the CameraManager to determine if right-click should rotate the camera.
     isViewport3DHovered = ImGui::IsWindowHovered();
 
     ImGui::End();
@@ -154,5 +212,6 @@ void uiSys::Draw(TerrainConfig &config, RenderTexture2D *target3D, Texture2D *ma
 
 void uiSys::Close()
 {
+    // Properly shut down the ImGui context to free up memory and GPU resources
     rlImGuiShutdown();
 }

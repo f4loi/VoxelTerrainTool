@@ -10,10 +10,10 @@
 #include "VoxelEngine/CMP/ChunkCMP.h"
 #include "utils/slotmap.hpp"
 
-// 1. Definimos todos los componentes de nuestro juego aquí
+// define the list of component types used in the EntityManagerMeta
 using ComponentList = std::tuple<PhysicsCMP, RenderCMP, ChunkCMP>;
 
-// 2. Helper para transformar std::tuple<A, B> en std::tuple<Slotmap<A>, Slotmap<B>>
+// helper to create a tuple of Slotmaps for each component type
 template <typename Tuple>
 struct SlotmapTuple;
 template <typename... Ts>
@@ -22,7 +22,7 @@ struct SlotmapTuple<std::tuple<Ts...>>
     using type = std::tuple<Slotmap<Ts, 1000>...>;
 };
 
-// 3. Helper para transformar std::tuple<A, B> en std::tuple<vector<KeyA>, vector<KeyB>>
+// helper to create a tuple of vectors of keys for each component type
 template <typename Tuple>
 struct KeysTuple;
 template <typename... Ts>
@@ -31,11 +31,12 @@ struct KeysTuple<std::tuple<Ts...>>
     using type = std::tuple<std::vector<typename Slotmap<Ts, 1000>::key_type>...>;
 };
 
+// EntityManagerMeta class manages entities and their components in the voxel engine.
 class EntityManagerMeta
 {
     std::vector<EntityMeta> activeEntities;
 
-    // El compilador genera automáticamente todos los Slotmaps y Vectores
+    // Tuples to hold Slotmaps and keys for each component type
     SlotmapTuple<ComponentList>::type components;
     KeysTuple<ComponentList>::type keys;
 
@@ -44,12 +45,13 @@ public:
 
     EntityMeta createEntity();
 
-    // Template genérico único: No necesitamos especializaciones manuales
+    // Template function to add a component of type T to an entity with the given ID.
     template <typename T>
     void addComponent(EntityMeta::EntityID id, T const &cmp)
     {
-        // std::get extrae en tiempo de compilación el contenedor correcto de la tupla
+        // Get the Slotmap and keys for the component type T from the tuples
         auto &compSlotmap = std::get<Slotmap<T, 1000>>(components);
+        // Get the vector of keys for the component type T from the tuple of keys
         auto &compKeys = std::get<std::vector<typename Slotmap<T, 1000>::key_type>>(keys);
 
         if (id < compKeys.size())
@@ -59,6 +61,11 @@ public:
         }
     }
 
+    /*
+    Function: getComponent
+    Description: Retrieves a pointer to the component of type T associated with the given entity ID.
+    Returns: A pointer to the component if found, otherwise nullptr.
+    */
     template <typename T>
     T *getComponent(EntityMeta::EntityID id)
     {
