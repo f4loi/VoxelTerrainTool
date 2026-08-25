@@ -14,12 +14,9 @@
 */
 static void BuildColumn(ChunkCMP *chunkData, int x, int z, TerrainConfig &config)
 {
-    // Extract the noise and biome data for the current column
     int flatIndex = z * CHUNK_SIZE + x;
     uint8_t noiseValue = chunkData->noiseMap[flatIndex];
     BiomeType biome = chunkData->biomeMap[flatIndex];
-
-    // Normalize the noise value to a range of 0.0 to 1.0 for terrain height calculations
     float n = noiseValue / 255.0f;
 
     int terrainHeight = 0;
@@ -27,57 +24,66 @@ static void BuildColumn(ChunkCMP *chunkData, int x, int z, TerrainConfig &config
     VoxelType subSurface = VoxelType::DIRT;
 
     int waterLvl = config.waterLevel;
+    int dirtDepth = 3;
 
-    /*
-        TERRAIN GENERATION LOGIC BASED ON BIOME AND NOISE
-        This section determines the terrain height and voxel types based on the biome and noise value.
-        Different biomes have different terrain characteristics, such as mountains, plains, and rivers.
-    */
-    if (biome == BiomeType::DEFAULT)
+    // ==========================================
+    // 1. GEOLOGÍA (Se calcula siempre)
+    // ==========================================
+    int globalX = chunkData->chunkX * CHUNK_SIZE + x;
+    int globalZ = chunkData->chunkZ * CHUNK_SIZE + z;
+    float macroNoise = (sin(globalX * 0.08f) + cos(globalZ * 0.08f)) * 0.5f;
+    float microNoise = (sin(globalX * 0.25f) + cos(globalZ * 0.25f)) * 0.5f;
+
+    dirtDepth = 3 + (int)((macroNoise + microNoise) * 2.0f);
+    if (dirtDepth < 1)
+        dirtDepth = 1;
+
+    if (n < 0.35f)
     {
-        // Zone 1: Lowlands and Valleys (0.0 to 0.35)
-        if (n < 0.35f)
-        {
-            float localN = n / 0.35f;
-            terrainHeight = 10 + (int)(localN * (waterLvl - 5 - 10));
-            surface = VoxelType::DIRT;
-            subSurface = VoxelType::DIRT;
-        }
-        else if (n < 0.40f)
-        {
-            // Zone 2: Beaches and Coastlines (0.35 to 0.40)
-            float localN = (n - 0.35f) / 0.05f;
-            terrainHeight = (waterLvl - 5) + (int)(localN * 7);
-            surface = VoxelType::SAND;
-            subSurface = VoxelType::SAND;
-        }
-        else if (n < 0.60f)
-        {
-            // Zone 3: Plains and Gentle Hills (0.40 to 0.60)
-            float localN = (n - 0.40f) / 0.20f;
-            // Use a power function to create a more natural slope for the terrain height
-            float curve = pow(localN, 1.5f);
-            // Calculate the terrain height based on the water level and the curve value, allowing for gentle hills
-            terrainHeight = (waterLvl + 2) + (int)(curve * 30);
-            surface = VoxelType::GRASS;
-            subSurface = VoxelType::DIRT;
-        }
-        else
-        {
-            // Zone 4: Steep Mountains (0.60 to 1.0)
-            float localN = (n - 0.60f) / 0.40f;
-            // Use a combination of linear and cubic functions to create steep mountain peaks with more variation
-            float curve = (localN * 0.4f) + (pow(localN, 3.0f) * 0.6f);
-            // Calculate the terrain height based on the water level and the curve value, allowing for steep mountains with peaks
-            terrainHeight = (waterLvl + 32) + (int)(curve * 140);
+        float t = n / 0.35f;
+        terrainHeight = (waterLvl - 15) + (int)(t * 15.0f);
+        surface = VoxelType::SAND;
+        subSurface = VoxelType::SAND;
+    }
+    else if (n < 0.45f)
+    {
+        float t = (n - 0.35f) / 0.10f;
+        terrainHeight = waterLvl + (int)(t * 4.0f) + (int)(macroNoise * 1.5f);
+        surface = (terrainHeight <= waterLvl + 1) ? VoxelType::SAND : VoxelType::GRASS;
+        subSurface = (surface == VoxelType::SAND) ? VoxelType::SAND : VoxelType::DIRT;
+    }
+    else if (n < 0.65f)
+    {
+        float t = (n - 0.45f) / 0.20f;
+        float baseHeight = t * t * (3.0f - 2.0f * t);
+        float hillBumps = macroNoise * 5.0f * baseHeight + microNoise * 2.0f;
+        terrainHeight = (waterLvl + 4) + (int)(baseHeight * 18.0f) + (int)hillBumps;
+        surface = VoxelType::GRASS;
+        subSurface = VoxelType::DIRT;
+    }
+    else
+    {
+        float t = (n - 0.65f) / 0.35f;
+        float massif = t * t * (3.0f - 2.0f * t);
+        float wave1 = sin(globalX * 0.03f + globalZ * 0.02f);
+        float wave2 = cos(globalX * 0.02f - globalZ * 0.03f);
+        float ridges = 1.0f - (fabs(wave1) * fabs(wave2));
+        ridges = pow(ridges, 2.5f);
+        float mountainShape = (massif * 45.0f) + (ridges * 70.0f * t);
+        float ruggedness = (macroNoise + microNoise) * 6.0f * t;
+        terrainHeight = (waterLvl + 22) + (int)(mountainShape) + (int)ruggedness;
 
-            // Determine the surface and subsurface voxel types based on the terrain height, creating a transition from grass to stone to snow at higher elevations
-            if (terrainHeight > waterLvl + 80)
-            {
-                surface = VoxelType::SNOW;
-                subSurface = VoxelType::SNOW;
-            }
-            else if (terrainHeight > waterLvl + 50)
+        float snowLine = (waterLvl + 70) + macroNoise * 8.0f - (ridges * 10.0f);
+        float rockLine = (waterLvl + 35) + microNoise * 5.0f;
+
+        if (terrainHeight > snowLine)
+        {
+            surface = VoxelType::SNOW;
+            subSurface = VoxelType::SNOW;
+        }
+        else if (terrainHeight > rockLine)
+        {
+            if (ridges > 0.5f || terrainHeight > rockLine + 12.0f)
             {
                 surface = VoxelType::STONE;
                 subSurface = VoxelType::STONE;
@@ -88,20 +94,38 @@ static void BuildColumn(ChunkCMP *chunkData, int x, int z, TerrainConfig &config
                 subSurface = VoxelType::STONE;
             }
         }
+        else
+        {
+            surface = VoxelType::GRASS;
+            subSurface = VoxelType::DIRT;
+        }
     }
 
-    /*
-        Voxel Column Construction
-        This section constructs the vertical column of voxels based on the calculated terrain height and voxel types.
-        It iterates through the y-axis of the chunk, setting the appropriate voxel type for each level based on the terrain height and water level.
-    */
+    // ==========================================
+    // 2. MODIFICADORES DE BIOMA PINTADOS (El Río)
+    // ==========================================
+    if (biome == BiomeType::RIVER)
+    {
+        surface = VoxelType::WATER;   // El bloque superior será agua
+        subSurface = VoxelType::DIRT; // El fondo del río será barro
+        dirtDepth = 2;
+
+        // Hundimos físicamente el agua un bloque para dar sensación de profundidad
+        terrainHeight -= 1;
+        if (terrainHeight < waterLvl)
+            terrainHeight = waterLvl;
+    }
+
+    // ==========================================
+    // 3. CONSTRUCCIÓN DE LA COLUMNA
+    // ==========================================
     for (int y = 0; y < CHUNK_HEIGHT; y++)
     {
         if (y <= terrainHeight)
         {
             if (y == terrainHeight)
                 chunkData->SetVoxel(x, y, z, surface);
-            else if (y > terrainHeight - 5)
+            else if (y > terrainHeight - dirtDepth)
                 chunkData->SetVoxel(x, y, z, subSurface);
             else
                 chunkData->SetVoxel(x, y, z, VoxelType::STONE);
@@ -149,8 +173,8 @@ void TerrainSystem::GenerateTerrain(EntityManagerMeta &em, const std::vector<Ent
             continue;
         }
 
-        int offsetX = chunkData->chunkX * CHUNK_SIZE;
-        int offsetZ = chunkData->chunkZ * CHUNK_SIZE;
+        int offsetX = chunkData->chunkX * CHUNK_SIZE + config.seed;
+        int offsetZ = chunkData->chunkZ * CHUNK_SIZE + config.seed;
         // Generate Perlin noise for the chunk using the specified noise scale and offsets
         Image noiseImage = GenImagePerlinNoise(CHUNK_SIZE, CHUNK_SIZE, offsetX, offsetZ, config.noiseScale);
         Color *colors = LoadImageColors(noiseImage);
@@ -184,105 +208,130 @@ void TerrainSystem::GenerateTerrain(EntityManagerMeta &em, const std::vector<Ent
 
 void TerrainSystem::ApplyPaint(EntityManagerMeta &em, const std::vector<EntityMeta> &chunks, TerrainConfig &config)
 {
-    // brushCenter represents the center of the brush in world coordinates, and radius is the size of the brush.
+    static float paintTimer = 0.0f;
+    paintTimer += GetFrameTime();
+    if (paintTimer < 0.05f)
+        return;
+    paintTimer = 0.0f;
+
+    float paintSpeed = config.brushStrength * 0.05f;
+
+    // HELPER PARA LEER RUIDO GLOBAL
+    auto GetGlobalNoise = [&](int px, int pz, float fallback) -> float
+    {
+        if (px < 0 || px >= WORLD_PIXELS || pz < 0 || pz >= WORLD_PIXELS)
+            return fallback;
+        int chunkIndex = (px / CHUNK_SIZE) * WORLD_CHUNKS + (pz / CHUNK_SIZE);
+        if (chunkIndex >= 0 && chunkIndex < chunks.size())
+        {
+            EntityMeta ent = chunks[chunkIndex];
+            ChunkCMP *cData = em.getComponent<ChunkCMP>(ent.getNextId());
+            if (cData)
+                return cData->noiseMap[(pz % CHUNK_SIZE) * CHUNK_SIZE + (px % CHUNK_SIZE)] / 255.0f;
+        }
+        return fallback;
+    };
+
     Vector2 brushCenter = {(float)config.paintX, (float)config.paintZ};
     float radius = (float)config.brushSize;
 
-    /*
-        Iterate through the area affected by the brush, checking each voxel column within the brush's radius.
-        For each column, calculate the intensity of the painting effect based on the distance from the brush center.
-        Apply changes to the noise and biome maps of the affected chunks, and rebuild the voxel columns accordingly.
-    */
     for (int pZ = config.paintZ - config.brushSize - 1; pZ <= config.paintZ + config.brushSize + 1; pZ++)
     {
         for (int pX = config.paintX - config.brushSize - 1; pX <= config.paintX + config.brushSize + 1; pX++)
         {
-            // Check if the current position is within the bounds of the world
             if (pX >= 0 && pX < WORLD_PIXELS && pZ >= 0 && pZ < WORLD_PIXELS)
             {
-                float intensity = 1.0f;
+                float intensity = 0.0f;
+                float dist = Vector2Distance(brushCenter, {(float)pX, (float)pZ});
 
-                // Determine the intensity of the painting effect based on the brush shape (circular or square) and the distance from the brush center.
-                if (!config.isSquareBrush)
+                if (config.brushShape == BrushShape::CIRCLE_SOFT)
                 {
-                    // Circular Brush: Calculate the distance from the center
-                    float dist = Vector2Distance(brushCenter, {(float)pX, (float)pZ});
                     if (dist > radius)
-                    {
-                        continue; // Skip if outside the brush radius
-                    }
-                    // Linear falloff: 1.0 at the center, 0.0 at the edge
-                    intensity = 1.0f - (dist / radius);
-                    // Quadratic falloff: Squaring the intensity creates a much smoother transition from the center to the edge of the brush, resulting in a more natural painting effect.
-                    intensity = intensity * intensity;
+                        continue;
+                    intensity = 1.0f - ((dist / radius) * (dist / radius));
                 }
-                else
+                else if (config.brushShape == BrushShape::CIRCLE_HARD)
                 {
-                    // Square Brush (3D Cube): Straight boundaries using absolute distance
+                    if (dist > radius)
+                        continue;
+                    intensity = 1.0f;
+                }
+                else if (config.brushShape == BrushShape::SQUARE)
+                {
                     if (abs(pX - config.paintX) > radius || abs(pZ - config.paintZ) > radius)
-                    {
-                        continue; // Skip if outside the square brush area
-                    }
-
-                    intensity = 0.4f; // Plane intensity for the square brush
+                        continue;
+                    intensity = 1.0f;
                 }
-                // Calculate the chunk coordinates (cX, cZ) and local coordinates (lX, lZ) within the chunk for the current position (pX, pZ).
-                int cX = pX / CHUNK_SIZE;
-                int cZ = pZ / CHUNK_SIZE;
-                int lX = pX % CHUNK_SIZE;
-                int lZ = pZ % CHUNK_SIZE;
-
-                /*
-                    Iterate through the chunks to find the one that matches the calculated chunk coordinates (cX, cZ).
-                    Once the matching chunk is found, extract the noise value for the current local coordinates (lX, lZ) and apply biome-specific modifications based on the selected biome in the configuration.
-                    Update the noise and biome maps of the chunk, and rebuild the voxel column for the affected position.
-                */
-                for (EntityMeta ent : chunks)
+                else if (config.brushShape == BrushShape::NOISE)
                 {
+                    if (dist > radius)
+                        continue;
+                    if (((rand() % 100) / 100.0f) > 0.7f)
+                        intensity = 1.0f;
+                    else
+                        continue;
+                }
+
+                if (intensity <= 0.0f)
+                    continue;
+
+                int chunkIndex = (pX / CHUNK_SIZE) * WORLD_CHUNKS + (pZ / CHUNK_SIZE);
+                if (chunkIndex >= 0 && chunkIndex < chunks.size())
+                {
+                    EntityMeta ent = chunks[chunkIndex];
                     ChunkCMP *chunkData = em.getComponent<ChunkCMP>(ent.getNextId());
-                    if (chunkData && chunkData->chunkX == cX && chunkData->chunkZ == cZ)
+
+                    if (chunkData)
                     {
-                        // Calculate the flat index for the local coordinates (lX, lZ) within the chunk's noise and biome maps.
+                        int lX = pX % CHUNK_SIZE;
+                        int lZ = pZ % CHUNK_SIZE;
                         int flatIndex = lZ * CHUNK_SIZE + lX;
 
-                        // obtain the current noise value for the column and normalize it to a range of 0.0 to 1.0 for further processing.
                         float n = chunkData->noiseMap[flatIndex] / 255.0f;
+                        float finalPower = intensity * paintSpeed;
 
-                        // Apply biome-specific modifications to the noise value based on the selected biome in the configuration. Each biome has different characteristics that affect the terrain height and appearance.
-                        if (config.selectedBiome == PaintBiome::MOUNTAIN)
+                        if (config.activeBrush == BrushType::RAISE)
                         {
-                            // Increase the noise value to create higher terrain for mountains, with a stronger effect based on the intensity of the painting.
-                            n = n + (0.95f - n) * intensity * 0.6f;
+                            n = n + (1.0f - n) * finalPower;
                         }
-                        else if (config.selectedBiome == PaintBiome::RIVER)
+                        else if (config.activeBrush == BrushType::LOWER)
                         {
-                            // Decrease the noise value to create lower terrain for rivers, with a stronger effect based on the intensity of the painting.
-                            n = n + (0.25f - n) * intensity * 0.8f;
+                            n = n - n * finalPower;
                         }
-                        else if (config.selectedBiome == PaintBiome::PLAINS)
+                        else if (config.activeBrush == BrushType::FLATTEN)
                         {
-                            // Slightly increase the noise value to create gentle hills for plains, with a moderate effect based on the intensity of the painting.
-                            n = n + (0.45f - n) * intensity * 0.5f;
+                            n = n + (config.flattenTarget - n) * finalPower * 2.0f;
+                        }
+                        else if (config.activeBrush == BrushType::SMOOTH)
+                        {
+                            float avg = (GetGlobalNoise(pX - 1, pZ, n) + GetGlobalNoise(pX + 1, pZ, n) + GetGlobalNoise(pX, pZ - 1, n) + GetGlobalNoise(pX, pZ + 1, n)) / 4.0f;
+                            n = n + (avg - n) * finalPower * 4.0f;
+                        }
+                        else if (config.activeBrush == BrushType::ROUGHEN)
+                        {
+                            n = n + (((rand() % 100) / 100.0f - 0.5f) * 0.1f) * finalPower * 4.0f;
+                        }
+                        else if (config.activeBrush == BrushType::TERRACE)
+                        {
+                            float terraces = 15.0f;
+                            float stepped = round(n * terraces) / terraces;
+                            n = n + (stepped - n) * finalPower * 3.0f;
+                        }
+                        else if (config.activeBrush == BrushType::SHARPEN)
+                        {
+                            float avg = (GetGlobalNoise(pX - 1, pZ, n) + GetGlobalNoise(pX + 1, pZ, n) + GetGlobalNoise(pX, pZ - 1, n) + GetGlobalNoise(pX, pZ + 1, n)) / 4.0f;
+                            n = n + (n - avg) * finalPower * 5.0f;
                         }
 
                         if (n > 1.0f)
-                        {
                             n = 1.0f;
-                        }
-
                         if (n < 0.0f)
-                        {
                             n = 0.0f;
-                        }
 
-                        // Update the noise map of the chunk with the modified noise value, converting it back to an 8-bit unsigned integer representation (0-255) for storage.
                         chunkData->noiseMap[flatIndex] = (uint8_t)(n * 255.0f);
-
-                        // Reset the biome map for the affected column to the default biome, as the painting effect may have changed the terrain characteristics.
                         chunkData->biomeMap[flatIndex] = BiomeType::DEFAULT;
 
                         BuildColumn(chunkData, lX, lZ, config);
-                        break;
                     }
                 }
             }
@@ -301,16 +350,15 @@ void TerrainSystem::ApplyPaint(EntityManagerMeta &em, const std::vector<EntityMe
 */
 void TerrainSystem::UpdateMapTexture(EntityManagerMeta &em, const std::vector<EntityMeta> &chunks, TerrainConfig &config)
 {
-    // Allocate memory for the pixel data of the map texture, which will be filled based on the biome and noise data of the chunks.
-    Color *pixels = (Color *)malloc(WORLD_PIXELS * WORLD_PIXELS * sizeof(Color));
+    // OPTIMIZACIÓN PROFESIONAL: Usamos un vector estático para reservar la memoria SOLO UNA VEZ en la vida del programa.
+    // Esto elimina las costosas llamadas al Sistema Operativo (malloc/free) mientras el usuario pinta.
+    static std::vector<Color> pixels(WORLD_PIXELS * WORLD_PIXELS);
 
     for (EntityMeta ent : chunks)
     {
         ChunkCMP *chunkData = em.getComponent<ChunkCMP>(ent.getNextId());
         if (chunkData == nullptr)
-        {
             continue;
-        }
 
         int offsetX = chunkData->chunkX * CHUNK_SIZE;
         int offsetZ = chunkData->chunkZ * CHUNK_SIZE;
@@ -323,7 +371,6 @@ void TerrainSystem::UpdateMapTexture(EntityManagerMeta &em, const std::vector<En
                 BiomeType biome = chunkData->biomeMap[flatIndex];
                 Color c;
 
-                // Color the 2D map based on the explicit biome applied by the brush
                 if (biome == BiomeType::PLAINS)
                 {
                     c = GREEN;
@@ -338,18 +385,26 @@ void TerrainSystem::UpdateMapTexture(EntityManagerMeta &em, const std::vector<En
                 }
                 else
                 {
-                    // Default procedural generation: Use the Perlin noise value as a grayscale color
-                    uint8_t n = chunkData->noiseMap[flatIndex];
-                    c = Color{n, n, n, 255};
-                }
+                    uint8_t noiseVal = chunkData->noiseMap[flatIndex];
+                    float n = noiseVal / 255.0f;
 
+                    if (n < 0.35f)
+                        c = BLUE;
+                    else if (n < 0.40f)
+                        c = Color{238, 214, 175, 255};
+                    else if (n < 0.60f)
+                        c = GREEN;
+                    else if (n < 0.85f)
+                        c = GRAY;
+                    else
+                        c = WHITE;
+                }
                 pixels[(offsetZ + z) * WORLD_PIXELS + (offsetX + x)] = c;
             }
         }
     }
-
-    UpdateTexture(mapTexture, pixels);
-    free(pixels);
+    // Subimos los píxeles directamente desde el vector pre-alocado
+    UpdateTexture(mapTexture, pixels.data());
     config.needsMapUpdate = false;
 }
 

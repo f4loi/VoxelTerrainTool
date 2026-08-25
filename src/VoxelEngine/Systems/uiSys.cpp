@@ -18,198 +18,212 @@ void uiSys::Draw(TerrainConfig &config, RenderTexture2D *target3D, Texture2D *ma
     // ==========================================
     // MAIN WORKSPACE SETUP
     // ==========================================
-    // The main docking workspace container (fills the entire viewport).
-    // PassthruCentralNode allows the background to be visible if no windows are docked in the center.
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport()->ID, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 
     // ==========================================
     // LEFT COLUMN: 2D ENVIRONMENT & TOOLS
     // ==========================================
-    ImGui::Begin("Entorno 2D");
+    ImGui::Begin("2D Environment");
 
     // --- FILE SYSTEM SETTINGS ---
-    ImGui::Text("SISTEMA DE ARCHIVOS");
-    if (ImGui::Button("Guardar Config (JSON)"))
+    ImGui::Text("FILE SYSTEM");
+    if (ImGui::Button("Save Config (JSON)"))
     {
-        // Triggers a request to serialize the current configuration to a JSON file
         config.needsSave = true;
     }
-
     ImGui::SameLine();
-    if (ImGui::Button("Cargar Config (JSON)"))
+    if (ImGui::Button("Load Config (JSON)"))
     {
-        // Triggers a request to load settings from the JSON file and regenerate the world
         config.needsLoad = true;
     }
-
     ImGui::Separator();
-    ImGui::Text("EXPORTACION");
-    if (ImGui::Button("Exportar a UE5 (JSON)"))
+
+    ImGui::Text("EXPORT");
+    if (ImGui::Button("Export to UE5 (JSON)"))
     {
-        config.needsExportUE5 = true; 
+        config.needsExportUE5 = true;
     }
 
     // --- BASE PROCEDURAL GENERATION ---
-    ImGui::Text("GENERACIÓN BASE");
-
-    // Controls the zoom/frequency of the Perlin Noise
-    ImGui::SliderFloat("Escala de Ruido", &config.noiseScale, 0.01f, 1.5f, "%.2f");
-    if (ImGui::IsItemDeactivatedAfterEdit())
-    {
-        config.needsRegen = true; // Regenerate the world only when the user releases the slider
-    }
-
-    // Controls the global water level height (Y-axis)
-    ImGui::SliderInt("Nivel de Agua", &config.waterLevel, 1, 128);
+    ImGui::Text("BASE GENERATION");
+    ImGui::InputInt("Seed", &config.seed);
     if (ImGui::IsItemDeactivatedAfterEdit())
     {
         config.needsRegen = true;
     }
+    ImGui::SameLine();
+    
+    // Botón para generar una semilla aleatoria nueva
+    if (ImGui::Button("Random"))
+    {
+        config.seed = GetRandomValue(0, 9999999);
+        config.needsRegen = true;
+    }
 
+    // Controls the zoom/frequency of the Perlin Noise
+    ImGui::SliderFloat("Noise Scale", &config.noiseScale, 0.01f, 1.5f, "%.2f");
+    if (ImGui::IsItemDeactivatedAfterEdit())
+    {
+        config.needsRegen = true; 
+    }
+
+    // Controls the global water level height (Y-axis)
+    ImGui::SliderInt("Water Level", &config.waterLevel, 1, 128);
+    if (ImGui::IsItemDeactivatedAfterEdit())
+    {
+        config.needsRegen = true;
+    }
     ImGui::Separator();
 
-    // --- BIOME BRUSH & SCULPTING TOOLS ---
-    ImGui::Text("PINCEL DE BIOMAS");
+    // --- SCULPTING TOOLS ---
+    ImGui::Text("SCULPTING TOOLS");
+    ImGui::SameLine();
+    ImGui::TextDisabled("(?)");
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        ImGui::TextUnformatted("Keyboard Shortcuts:\n [ + / - ] Change brush size\n [ Up / Down ] Change brush strength\n [ Ctrl + Z ] Undo last stroke");
+        ImGui::EndTooltip();
+    }
 
-    // Undo system: Listens for Ctrl+Z keyboard shortcut
+    // --- QoL: KEYBOARD SHORTCUTS ---
+    if (IsKeyPressed(KEY_KP_ADD) || IsKeyPressed(KEY_EQUAL)) { config.brushSize++; }
+    if (IsKeyPressed(KEY_KP_SUBTRACT) || IsKeyPressed(KEY_MINUS)) { config.brushSize--; if(config.brushSize < 1) config.brushSize = 1; }
+    if (IsKeyPressed(KEY_UP)) { config.brushStrength += 0.05f; if(config.brushStrength > 1.0f) config.brushStrength = 1.0f; }
+    if (IsKeyPressed(KEY_DOWN)) { config.brushStrength -= 0.05f; if(config.brushStrength < 0.01f) config.brushStrength = 0.01f; }
+
     if (IsKeyDown(KEY_LEFT_CONTROL) && IsKeyPressed(KEY_Z))
     {
         config.needsUndo = true;
     }
-
-    // Undo system: Manual UI Button
-    if (ImGui::Button("Deshacer (Ctrl+Z)"))
+    if (ImGui::Button("Undo (Ctrl+Z)"))
     {
         config.needsUndo = true;
     }
-
     ImGui::SameLine();
-
-    // Completely resets the world back to its natural procedural state
-    if (ImGui::Button("Resetear Mundo"))
+    if (ImGui::Button("Reset World"))
     {
         config.needsRegen = true;
     }
 
-    // Brush Shape Dropdown (Circle vs Square/Cube)
-    const char *shapeNames[] = {"Círculo (Suave)", "Cubo (Plano)"};
-    int currentShape = config.isSquareBrush ? 1 : 0;
-    if (ImGui::Combo("Forma", &currentShape, shapeNames, 2))
+    // Tool selection
+    const char *brushNames[] = {
+        "Raise", "Lower", "Flatten",
+        "Smooth", "Roughen",
+        "Terrace", "Sharpen"};
+    int currentBrush = (int)config.activeBrush;
+    if (ImGui::Combo("Tool", &currentBrush, brushNames, 7))
     {
-        config.isSquareBrush = (currentShape == 1);
+        config.activeBrush = (BrushType)currentBrush;
+    }
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("Smooth: Softens peaks.\nTerrace: Creates geological steps.\nSharpen: Makes terrain sharp and steep.");
     }
 
-    // Brush Radius parameter
-    ImGui::SliderInt("Tamaño del Pincel", &config.brushSize, 1, 30);
-
-    // Biome Selection Dropdown
-    const char *biomeNames[] = {"Prado (Llanura)", "Montaña (Picos)", "Río (Cauce)"};
-
-    // Adjust the enum index (DEFAULT is 0, so we shift by -1 to align with the UI array)
-    int currentBiome = (int)config.selectedBiome - 1;
-    if (currentBiome < 0)
+    const char *shapeNames[] = {"Circle (Soft)", "Circle (Hard)", "Square (Flat)", "Noise (Splatter)"};
+    int currentShape = (int)config.brushShape;
+    if (ImGui::Combo("Shape", &currentShape, shapeNames, 4))
     {
-        currentBiome = 0;
+        config.brushShape = (BrushShape)currentShape;
     }
 
-    // Update the selected biome configuration when the user picks a new option
-    if (ImGui::Combo("Bioma", &currentBiome, biomeNames, 3))
+    ImGui::SliderInt("Brush Size", &config.brushSize, 1, 30);
+    ImGui::SliderFloat("Brush Strength", &config.brushStrength, 0.01f, 1.0f, "%.2f");
+
+    if (config.activeBrush == BrushType::FLATTEN)
     {
-        config.selectedBiome = (PaintBiome)(currentBiome + 1);
+        ImGui::SliderFloat("Flatten Target", &config.flattenTarget, 0.0f, 1.0f, "%.2f");
     }
 
     ImGui::Separator();
 
     // --- 2D VIEWPORT ---
-    ImGui::Text("VIEWPORT 2D (Vista Top-Down)");
+    ImGui::Text("2D VIEWPORT (Top-Down View)");
 
-    // Get the remaining available space in the UI panel for the image
     ImVec2 size2D = ImGui::GetContentRegionAvail();
-
     if (mapTexture != nullptr && mapTexture->id != 0)
     {
-        // Calculate the maximum square size that fits within the available space
         float minSize = (size2D.x < size2D.y) ? size2D.x : size2D.y;
-
-        // Calculate offsets to center the square image horizontally and vertically
         float offsetX = (size2D.x - minSize) * 0.5f;
         float offsetY = (size2D.y - minSize) * 0.5f;
-
         ImGui::SetCursorPos(ImVec2(ImGui::GetCursorPosX() + offsetX, ImGui::GetCursorPosY() + offsetY));
 
-        // ---  PAINTING CONFIGURATION (RAYCASTING & INTERACTION) ---
-
-        // Store the screen-space starting position of the image to calculate relative mouse clicks
         ImVec2 imgPos = ImGui::GetCursorScreenPos();
-
-        // Render the 2D map texture generated by the TerrainSystem
         rlImGuiImageSize(mapTexture, (int)minSize, (int)minSize);
 
-        // Check if the user is holding the left mouse button over the image
-        if (ImGui::IsItemHovered() && ImGui::IsMouseDown(ImGuiMouseButton_Left))
+        if (ImGui::IsItemHovered())
         {
-            // On the exact frame the click starts, trigger a snapshot for the Undo history
-            if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
-            {
-                config.needsUndoSave = true;
-            }
-
             ImVec2 mousePos = ImGui::GetMousePos();
 
-            // Calculate the normalized mouse UV coordinates (0.0 to 1.0) relative to the image bounds
-            float u = (mousePos.x - imgPos.x) / minSize;
-            float v = (mousePos.y - imgPos.y) / minSize;
+            // ==========================================
+            // QoL: BRUSH OVERLAY
+            // ==========================================
+            ImDrawList *drawList = ImGui::GetWindowDrawList();
+            float scale = minSize / (float)WORLD_PIXELS;
+            float screenRadius = config.brushSize * scale;
 
-            // Ensure the click is strictly inside the bounds of the texture
-            if (u >= 0.0f && u <= 1.0f && v >= 0.0f && v <= 1.0f)
+            if (config.brushShape == BrushShape::SQUARE)
             {
-                // Multiply normalized coordinates by the TOTAL world size in pixels to get global map coordinates
-                config.paintX = (int)(u * WORLD_PIXELS);
-                config.paintZ = (int)(v * WORLD_PIXELS);
+                ImVec2 pMin = ImVec2(mousePos.x - screenRadius, mousePos.y - screenRadius);
+                ImVec2 pMax = ImVec2(mousePos.x + screenRadius, mousePos.y + screenRadius);
+                drawList->AddRect(pMin, pMax, IM_COL32(255, 255, 255, 200), 0.0f, 0, 2.0f);
+            }
+            else
+            {
+                drawList->AddCircle(mousePos, screenRadius, IM_COL32(255, 255, 255, 200), 32, 2.0f);
+            }
 
-                // Activate the painting flag for the TerrainSystem to process
-                config.isPainting = true;
+            // ==========================================
+            // PAINTING INTERACTION
+            // ==========================================
+            if (ImGui::IsMouseDown(ImGuiMouseButton_Left))
+            {
+                if (ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+                {
+                    config.needsUndoSave = true;
+                }
+                float u = (mousePos.x - imgPos.x) / minSize;
+                float v = (mousePos.y - imgPos.y) / minSize;
+                if (u >= 0.0f && u <= 1.0f && v >= 0.0f && v <= 1.0f)
+                {
+                    config.paintX = (int)(u * WORLD_PIXELS);
+                    config.paintZ = (int)(v * WORLD_PIXELS);
+                    config.isPainting = true;
+                }
+            }
+            else 
+            {
+                config.isPainting = false; 
             }
         }
         else
         {
-            // Stop painting when the mouse is released or leaves the image bounds
             config.isPainting = false;
         }
     }
     else
     {
-        // Render a dummy spacer if the texture isn't loaded yet to prevent layout collapse
         ImGui::Dummy(size2D);
     }
-
     ImGui::End();
 
     // ==========================================
     // RIGHT COLUMN: 3D ENVIRONMENT & RENDER
     // ==========================================
-    ImGui::Begin("Entorno 3D");
+    ImGui::Begin("3D Environment");
 
     // --- 3D AREA TOOLS (OVERLAYS) ---
-    ImGui::Text("HERRAMIENTAS ZONA 3D");
-
-    // Display current frames per second
+    ImGui::Text("3D AREA TOOLS");
     ImGui::Text("FPS: %d", GetFPS());
-
     ImGui::Separator();
 
     // --- 3D VIEWPORT ---
-    // Render the 3D world by drawing the off-screen render texture.
-    // The 'true' parameter scales it to fit the remaining window space automatically.
     if (target3D != nullptr)
     {
         rlImGuiImageRenderTextureFit(target3D, true);
     }
 
-    // Track if the mouse is hovering the 3D viewport.
-    // This is sent to the CameraManager to determine if right-click should rotate the camera.
     isViewport3DHovered = ImGui::IsWindowHovered();
-
     ImGui::End();
 
     rlImGuiEnd();
@@ -217,6 +231,5 @@ void uiSys::Draw(TerrainConfig &config, RenderTexture2D *target3D, Texture2D *ma
 
 void uiSys::Close()
 {
-    // Properly shut down the ImGui context to free up memory and GPU resources
     rlImGuiShutdown();
 }

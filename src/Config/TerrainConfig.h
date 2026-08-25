@@ -7,15 +7,23 @@
 // Json library
 using json = nlohmann::json;
 
-/*
-    enum class PaintBiome: represents the different biomes that can be painted on the terrain.
-*/
-enum class PaintBiome
+enum class BrushType
 {
-    DEFAULT,
-    PLAINS,
-    MOUNTAIN,
-    RIVER
+    RAISE,
+    LOWER,
+    FLATTEN,
+    SMOOTH,
+    ROUGHEN,
+    TERRACE, // Crea escalones geológicos
+    SHARPEN  // Afila y levanta las crestas
+};
+
+enum class BrushShape
+{
+    CIRCLE_SOFT,
+    CIRCLE_HARD,
+    SQUARE,
+    NOISE
 };
 
 /*
@@ -33,7 +41,7 @@ struct TerrainConfig
     /*
         tool and brush configuration parameters
     */
-    bool isSquareBrush = false;
+
     bool needsRegen{true};
     bool needsUndoSave = false;
     bool needsUndo = false;
@@ -42,8 +50,11 @@ struct TerrainConfig
     bool needsMapUpdate = true;
     bool needsExportUE5 = false;
 
+    BrushShape brushShape = BrushShape::CIRCLE_SOFT;
+    float brushStrength = 0.5f;
     int brushSize = 1;
-    PaintBiome selectedBiome = PaintBiome::PLAINS;
+    BrushType activeBrush = BrushType::RAISE;
+    float flattenTarget = 0.5f;
 
     /*
         painting configuration parameters

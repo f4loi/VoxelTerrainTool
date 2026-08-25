@@ -85,6 +85,10 @@ Model ChunkMeshBuilder::BuildMesh(const ChunkCMP &chunk)
     std::vector<float> normals;        // Vector to hold normal vectors for lighting calculations (x, y, z)
     std::vector<unsigned char> colors; // Vector to hold vertex colors (r, g, b, a)
 
+    vertices.reserve(4000);
+    normals.reserve(4000);
+    colors.reserve(4000);
+
     /*
         Function: AddFace
         Description: Adds a face to the mesh with the specified vertices, normal, and color.
