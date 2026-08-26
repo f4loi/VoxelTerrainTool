@@ -17,6 +17,8 @@ static void BuildColumn(ChunkCMP *chunkData, int x, int z, TerrainConfig &config
     int flatIndex = z * CHUNK_SIZE + x;
     uint8_t noiseValue = chunkData->noiseMap[flatIndex];
     BiomeType biome = chunkData->biomeMap[flatIndex];
+
+    // Normalize the noise value to a range of 0.0 to 1.0 for terrain height calculations
     float n = noiseValue / 255.0f;
 
     int terrainHeight = 0;
@@ -27,17 +29,21 @@ static void BuildColumn(ChunkCMP *chunkData, int x, int z, TerrainConfig &config
     int dirtDepth = 3;
 
     // ==========================================
-    // 1. GEOLOGÍA (Se calcula siempre)
+    //           BASE TERRAIN
     // ==========================================
     int globalX = chunkData->chunkX * CHUNK_SIZE + x;
     int globalZ = chunkData->chunkZ * CHUNK_SIZE + z;
+
+    // Generate spatial noise
     float macroNoise = (sin(globalX * 0.08f) + cos(globalZ * 0.08f)) * 0.5f;
     float microNoise = (sin(globalX * 0.25f) + cos(globalZ * 0.25f)) * 0.5f;
 
+    // Variable dirt depth
     dirtDepth = 3 + (int)((macroNoise + microNoise) * 2.0f);
     if (dirtDepth < 1)
         dirtDepth = 1;
 
+    // ZONE 1: Deep Ocean to Shallows
     if (n < 0.35f)
     {
         float t = n / 0.35f;
@@ -45,6 +51,7 @@ static void BuildColumn(ChunkCMP *chunkData, int x, int z, TerrainConfig &config
         surface = VoxelType::SAND;
         subSurface = VoxelType::SAND;
     }
+    // ZONE 2: Coastlines and Low Plains
     else if (n < 0.45f)
     {
         float t = (n - 0.35f) / 0.10f;
@@ -52,27 +59,37 @@ static void BuildColumn(ChunkCMP *chunkData, int x, int z, TerrainConfig &config
         surface = (terrainHeight <= waterLvl + 1) ? VoxelType::SAND : VoxelType::GRASS;
         subSurface = (surface == VoxelType::SAND) ? VoxelType::SAND : VoxelType::DIRT;
     }
+    // ZONE 3: Rolling Hills and Meadows
     else if (n < 0.65f)
     {
         float t = (n - 0.45f) / 0.20f;
-        float baseHeight = t * t * (3.0f - 2.0f * t);
+        float baseHeight = t * t * (3.0f - 2.0f * t); // Smoothstep
         float hillBumps = macroNoise * 5.0f * baseHeight + microNoise * 2.0f;
+
         terrainHeight = (waterLvl + 4) + (int)(baseHeight * 18.0f) + (int)hillBumps;
         surface = VoxelType::GRASS;
         subSurface = VoxelType::DIRT;
     }
+    // ZONE 4: Mountain Ranges and Peaks
     else
     {
         float t = (n - 0.65f) / 0.35f;
+
+        // Massif: The base volumetric uplift of the mountain range
         float massif = t * t * (3.0f - 2.0f * t);
+
+        // Ridges: Intersecting wave formulas
         float wave1 = sin(globalX * 0.03f + globalZ * 0.02f);
         float wave2 = cos(globalX * 0.02f - globalZ * 0.03f);
         float ridges = 1.0f - (fabs(wave1) * fabs(wave2));
-        ridges = pow(ridges, 2.5f);
+        ridges = pow(ridges, 2.5f); // Sharpen crests
+
         float mountainShape = (massif * 45.0f) + (ridges * 70.0f * t);
         float ruggedness = (macroNoise + microNoise) * 6.0f * t;
+
         terrainHeight = (waterLvl + 22) + (int)(mountainShape) + (int)ruggedness;
 
+        // Dynamic snow and rock lines based on spatial noise and ridge depth
         float snowLine = (waterLvl + 70) + macroNoise * 8.0f - (ridges * 10.0f);
         float rockLine = (waterLvl + 35) + microNoise * 5.0f;
 
@@ -83,6 +100,7 @@ static void BuildColumn(ChunkCMP *chunkData, int x, int z, TerrainConfig &config
         }
         else if (terrainHeight > rockLine)
         {
+            // Bare rock is exposed on sharp ridges or high altitudes
             if (ridges > 0.5f || terrainHeight > rockLine + 12.0f)
             {
                 surface = VoxelType::STONE;
@@ -102,22 +120,22 @@ static void BuildColumn(ChunkCMP *chunkData, int x, int z, TerrainConfig &config
     }
 
     // ==========================================
-    // 2. MODIFICADORES DE BIOMA PINTADOS (El Río)
+    //       EXPLICIT PAINTED BIOME MODIFIERS
     // ==========================================
     if (biome == BiomeType::RIVER)
     {
-        surface = VoxelType::WATER;   // El bloque superior será agua
-        subSurface = VoxelType::DIRT; // El fondo del río será barro
+        surface = VoxelType::WATER;   // Top layer is water
+        subSurface = VoxelType::DIRT; // Riverbed is dirt
         dirtDepth = 2;
 
-        // Hundimos físicamente el agua un bloque para dar sensación de profundidad
+        // Physically lower the terrain to carve a trench for the river
         terrainHeight -= 1;
         if (terrainHeight < waterLvl)
             terrainHeight = waterLvl;
     }
 
     // ==========================================
-    // 3. CONSTRUCCIÓN DE LA COLUMNA
+    // 3. COLUMN CONSTRUCTION (Voxel Assignment)
     // ==========================================
     for (int y = 0; y < CHUNK_HEIGHT; y++)
     {
@@ -143,12 +161,10 @@ static void BuildColumn(ChunkCMP *chunkData, int x, int z, TerrainConfig &config
 
 /*
     Function: TerrainSystem::Init
-    Description: Initializes the terrain system by creating a dummy texture for the map.
-    This function generates a plain black image and loads it as a texture, which will be used to represent the terrain map in the user interface.
+    Description: Initializes the terrain system by creating a dummy texture for the 2D map.
 */
 void TerrainSystem::Init()
 {
-
     Image dummy = GenImageColor(WORLD_PIXELS, WORLD_PIXELS, BLACK);
     mapTexture = LoadTextureFromImage(dummy);
     SetTextureFilter(mapTexture, TEXTURE_FILTER_POINT);
@@ -157,11 +173,7 @@ void TerrainSystem::Init()
 
 /*
     Function: TerrainSystem::GenerateTerrain
-    Description: Generates terrain for the specified chunks based on noise and biome data.
-    Parameters:
-        - EntityManagerMeta &em: Reference to the entity manager that manages the chunks.
-        - const std::vector<EntityMeta> &chunks: Vector of entity metadata representing the chunks to generate terrain for.
-        - TerrainConfig &config: Reference to the terrain configuration settings.
+    Description: Populates chunks with procedural Perlin noise and builds the initial 3D mesh.
 */
 void TerrainSystem::GenerateTerrain(EntityManagerMeta &em, const std::vector<EntityMeta> &chunks, TerrainConfig &config)
 {
@@ -173,12 +185,13 @@ void TerrainSystem::GenerateTerrain(EntityManagerMeta &em, const std::vector<Ent
             continue;
         }
 
+        // Apply seed to global offsets to generate different infinite worlds
         int offsetX = chunkData->chunkX * CHUNK_SIZE + config.seed;
         int offsetZ = chunkData->chunkZ * CHUNK_SIZE + config.seed;
-        // Generate Perlin noise for the chunk using the specified noise scale and offsets
+
         Image noiseImage = GenImagePerlinNoise(CHUNK_SIZE, CHUNK_SIZE, offsetX, offsetZ, config.noiseScale);
         Color *colors = LoadImageColors(noiseImage);
-        // Iterate through each voxel column in the chunk and build the terrain based on the noise and biome data
+
         for (int z = 0; z < CHUNK_SIZE; z++)
         {
             for (int x = 0; x < CHUNK_SIZE; x++)
@@ -186,48 +199,51 @@ void TerrainSystem::GenerateTerrain(EntityManagerMeta &em, const std::vector<Ent
                 chunkData->noiseMap[z * CHUNK_SIZE + x] = colors[z * CHUNK_SIZE + x].r;
                 chunkData->biomeMap[z * CHUNK_SIZE + x] = BiomeType::DEFAULT;
 
-                // Build the voxel column for the current (x, z) position in the chunk
                 BuildColumn(chunkData, x, z, config);
             }
         }
         UnloadImageColors(colors);
         UnloadImage(noiseImage);
     }
-    // Mark the configuration as not needing regeneration and indicate that the map texture needs to be updated
     config.needsRegen = false;
     config.needsMapUpdate = true;
 }
+
 /*
     Function: TerrainSystem::ApplyPaint
-    Description: Applies painting to the terrain for the specified chunks based on the paint configuration.
-    Parameters:
-        - EntityManagerMeta &em: Reference to the entity manager that manages the chunks.
-        - const std::vector<EntityMeta> &chunks: Vector of entity metadata representing the chunks to apply painting to.
-        - TerrainConfig &config: Reference to the terrain configuration settings.
+    Description: Central hub for all topological sculpting tools and area-of-effect brushes.
 */
-
 void TerrainSystem::ApplyPaint(EntityManagerMeta &em, const std::vector<EntityMeta> &chunks, TerrainConfig &config)
 {
+    // RATE LIMITER: Process brush strokes at ~20 FPS to prevent GPU mesh-rebuild bottlenecks
     static float paintTimer = 0.0f;
     paintTimer += GetFrameTime();
     if (paintTimer < 0.05f)
+    {
         return;
+    }
+
     paintTimer = 0.0f;
 
     float paintSpeed = config.brushStrength * 0.05f;
 
-    // HELPER PARA LEER RUIDO GLOBAL
+    // Safely read global noise data across chunk boundaries (Used by smoothing tools)
     auto GetGlobalNoise = [&](int px, int pz, float fallback) -> float
     {
         if (px < 0 || px >= WORLD_PIXELS || pz < 0 || pz >= WORLD_PIXELS)
+        {
             return fallback;
+        }
+
         int chunkIndex = (px / CHUNK_SIZE) * WORLD_CHUNKS + (pz / CHUNK_SIZE);
         if (chunkIndex >= 0 && chunkIndex < chunks.size())
         {
             EntityMeta ent = chunks[chunkIndex];
             ChunkCMP *cData = em.getComponent<ChunkCMP>(ent.getNextId());
             if (cData)
+            {
                 return cData->noiseMap[(pz % CHUNK_SIZE) * CHUNK_SIZE + (px % CHUNK_SIZE)] / 255.0f;
+            }
         }
         return fallback;
     };
@@ -235,46 +251,61 @@ void TerrainSystem::ApplyPaint(EntityManagerMeta &em, const std::vector<EntityMe
     Vector2 brushCenter = {(float)config.paintX, (float)config.paintZ};
     float radius = (float)config.brushSize;
 
+    // Iterate over the bounding box of the brush
     for (int pZ = config.paintZ - config.brushSize - 1; pZ <= config.paintZ + config.brushSize + 1; pZ++)
     {
         for (int pX = config.paintX - config.brushSize - 1; pX <= config.paintX + config.brushSize + 1; pX++)
         {
+            // Ensure we stay within world boundaries
             if (pX >= 0 && pX < WORLD_PIXELS && pZ >= 0 && pZ < WORLD_PIXELS)
             {
                 float intensity = 0.0f;
                 float dist = Vector2Distance(brushCenter, {(float)pX, (float)pZ});
 
+                // --- BRUSH SHAPE EVALUATION ---
                 if (config.brushShape == BrushShape::CIRCLE_SOFT)
                 {
                     if (dist > radius)
+                    {
                         continue;
+                    }
+
+                    // Quadratic falloff for smooth blending
                     intensity = 1.0f - ((dist / radius) * (dist / radius));
                 }
                 else if (config.brushShape == BrushShape::CIRCLE_HARD)
                 {
                     if (dist > radius)
+                    {
                         continue;
+                    }
                     intensity = 1.0f;
                 }
                 else if (config.brushShape == BrushShape::SQUARE)
                 {
                     if (abs(pX - config.paintX) > radius || abs(pZ - config.paintZ) > radius)
+                    {
                         continue;
+                    }
                     intensity = 1.0f;
                 }
                 else if (config.brushShape == BrushShape::NOISE)
                 {
                     if (dist > radius)
+                    {
                         continue;
+                    }
+                    // Splatter effect: Only affect ~30% of pixels randomly
                     if (((rand() % 100) / 100.0f) > 0.7f)
                         intensity = 1.0f;
-                    else
-                        continue;
                 }
 
                 if (intensity <= 0.0f)
+                {
                     continue;
+                }
 
+                // chunk lookup
                 int chunkIndex = (pX / CHUNK_SIZE) * WORLD_CHUNKS + (pZ / CHUNK_SIZE);
                 if (chunkIndex >= 0 && chunkIndex < chunks.size())
                 {
@@ -290,6 +321,7 @@ void TerrainSystem::ApplyPaint(EntityManagerMeta &em, const std::vector<EntityMe
                         float n = chunkData->noiseMap[flatIndex] / 255.0f;
                         float finalPower = intensity * paintSpeed;
 
+                        // --- SCULPTING TOOL APPLICATION ---
                         if (config.activeBrush == BrushType::RAISE)
                         {
                             n = n + (1.0f - n) * finalPower;
@@ -304,33 +336,45 @@ void TerrainSystem::ApplyPaint(EntityManagerMeta &em, const std::vector<EntityMe
                         }
                         else if (config.activeBrush == BrushType::SMOOTH)
                         {
-                            float avg = (GetGlobalNoise(pX - 1, pZ, n) + GetGlobalNoise(pX + 1, pZ, n) + GetGlobalNoise(pX, pZ - 1, n) + GetGlobalNoise(pX, pZ + 1, n)) / 4.0f;
+                            // Box Blur: Averages the adjacent cells to soften geometry
+                            float avg = (GetGlobalNoise(pX - 1, pZ, n) + GetGlobalNoise(pX + 1, pZ, n) +
+                                         GetGlobalNoise(pX, pZ - 1, n) + GetGlobalNoise(pX, pZ + 1, n)) /
+                                        4.0f;
                             n = n + (avg - n) * finalPower * 4.0f;
                         }
                         else if (config.activeBrush == BrushType::ROUGHEN)
                         {
+                            // Adds micro-jitter to create rough, natural rock formations
                             n = n + (((rand() % 100) / 100.0f - 0.5f) * 0.1f) * finalPower * 4.0f;
                         }
                         else if (config.activeBrush == BrushType::TERRACE)
                         {
+                            // Quantize the noise to create geological steps
                             float terraces = 15.0f;
                             float stepped = round(n * terraces) / terraces;
                             n = n + (stepped - n) * finalPower * 3.0f;
                         }
                         else if (config.activeBrush == BrushType::SHARPEN)
                         {
-                            float avg = (GetGlobalNoise(pX - 1, pZ, n) + GetGlobalNoise(pX + 1, pZ, n) + GetGlobalNoise(pX, pZ - 1, n) + GetGlobalNoise(pX, pZ + 1, n)) / 4.0f;
+                            // Pushes the terrain away from the local average, sharpening ridges
+                            float avg = (GetGlobalNoise(pX - 1, pZ, n) + GetGlobalNoise(pX + 1, pZ, n) +
+                                         GetGlobalNoise(pX, pZ - 1, n) + GetGlobalNoise(pX, pZ + 1, n)) /
+                                        4.0f;
                             n = n + (n - avg) * finalPower * 5.0f;
                         }
 
+                        // Clamp values to prevent heightmap overflow
                         if (n > 1.0f)
                             n = 1.0f;
                         if (n < 0.0f)
                             n = 0.0f;
 
                         chunkData->noiseMap[flatIndex] = (uint8_t)(n * 255.0f);
+
+                        // Clear explicit biomes (like rivers) when sculpting over them
                         chunkData->biomeMap[flatIndex] = BiomeType::DEFAULT;
 
+                        // Rebuild the physical 3D column with the new noise value
                         BuildColumn(chunkData, lX, lZ, config);
                     }
                 }
@@ -342,16 +386,12 @@ void TerrainSystem::ApplyPaint(EntityManagerMeta &em, const std::vector<EntityMe
 
 /*
     Function: TerrainSystem::UpdateMapTexture
-    Description: Updates the 2D map texture based on the current state of the terrain in the specified chunks.
-    Parameters:
-        - EntityManagerMeta &em: Reference to the entity manager that manages the chunks.
-        - const std::vector<EntityMeta> &chunks: Vector of entity metadata representing the chunks to update the map texture for.
-        - TerrainConfig &config: Reference to the terrain configuration settings.
+    Description: Updates the 2D map texture based on the current state of the terrain.
 */
 void TerrainSystem::UpdateMapTexture(EntityManagerMeta &em, const std::vector<EntityMeta> &chunks, TerrainConfig &config)
 {
-    // OPTIMIZACIÓN PROFESIONAL: Usamos un vector estático para reservar la memoria SOLO UNA VEZ en la vida del programa.
-    // Esto elimina las costosas llamadas al Sistema Operativo (malloc/free) mientras el usuario pinta.
+    // Static vector prevents allocating/freeing memory (malloc/free)
+    // 60 times per second during painting. Memory is allocated only once.
     static std::vector<Color> pixels(WORLD_PIXELS * WORLD_PIXELS);
 
     for (EntityMeta ent : chunks)
@@ -371,6 +411,7 @@ void TerrainSystem::UpdateMapTexture(EntityManagerMeta &em, const std::vector<En
                 BiomeType biome = chunkData->biomeMap[flatIndex];
                 Color c;
 
+                // Apply explicit painted biome colors
                 if (biome == BiomeType::PLAINS)
                 {
                     c = GREEN;
@@ -385,6 +426,7 @@ void TerrainSystem::UpdateMapTexture(EntityManagerMeta &em, const std::vector<En
                 }
                 else
                 {
+                    // Procedural generation: Map the height (noise) to a topographical color palette
                     uint8_t noiseVal = chunkData->noiseMap[flatIndex];
                     float n = noiseVal / 255.0f;
 
@@ -399,19 +441,20 @@ void TerrainSystem::UpdateMapTexture(EntityManagerMeta &em, const std::vector<En
                     else
                         c = WHITE;
                 }
+
                 pixels[(offsetZ + z) * WORLD_PIXELS + (offsetX + x)] = c;
             }
         }
     }
-    // Subimos los píxeles directamente desde el vector pre-alocado
+
+    // Upload the pixels directly from the pre-allocated vector to the GPU
     UpdateTexture(mapTexture, pixels.data());
     config.needsMapUpdate = false;
 }
 
 /*
     Function: TerrainSystem::Unload
-    Description: Unloads the map texture from GPU memory to free up resources.
-    This function checks if the map texture has been loaded (i.e., its ID is not zero) and calls the appropriate function to unload it from GPU memory (VRAM).
+    Description: Unloads the map texture from GPU memory to free up VRAM resources.
 */
 void TerrainSystem::Unload()
 {
@@ -424,7 +467,7 @@ void TerrainSystem::Unload()
 /*
     Function: TerrainSystem::SaveUndoState
     Description: Captures a snapshot of the current 2D noise map across all chunks
-                 and stores it in the undo history stack.
+                 and stores it in the undo history stack before a brush stroke begins.
 */
 void TerrainSystem::SaveUndoState(EntityManagerMeta &em, const std::vector<EntityMeta> &chunks)
 {
@@ -435,9 +478,7 @@ void TerrainSystem::SaveUndoState(EntityManagerMeta &em, const std::vector<Entit
     {
         ChunkCMP *chunkData = em.getComponent<ChunkCMP>(ent.getNextId());
         if (!chunkData)
-        {
             continue;
-        }
 
         int offsetX = chunkData->chunkX * CHUNK_SIZE;
         int offsetZ = chunkData->chunkZ * CHUNK_SIZE;
@@ -451,9 +492,11 @@ void TerrainSystem::SaveUndoState(EntityManagerMeta &em, const std::vector<Entit
             }
         }
     }
+
     // Add the captured state to the undo history stack
     undoHistory.push_back(state);
 
+    // Limit history stack size to prevent excessive RAM usage
     if (undoHistory.size() > 20)
     {
         undoHistory.erase(undoHistory.begin());
@@ -462,15 +505,13 @@ void TerrainSystem::SaveUndoState(EntityManagerMeta &em, const std::vector<Entit
 
 /*
     Function: TerrainSystem::Undo
-    Description: Restores the terrain to the previous state by applying the last saved noise map from the undo history.
-                 This function iterates through all chunks, restoring their noise and biome maps, and rebuilding the voxel columns accordingly.
+    Description: Restores the terrain to the previous snapshot by popping the undo history stack.
 */
 void TerrainSystem::Undo(EntityManagerMeta &em, const std::vector<EntityMeta> &chunks, TerrainConfig &config)
 {
     if (undoHistory.empty())
-    {
         return;
-    }
+
     // Retrieve and remove the most recent snapshot from the history stack
     TerrainState state = undoHistory.back();
     undoHistory.pop_back();
@@ -479,9 +520,7 @@ void TerrainSystem::Undo(EntityManagerMeta &em, const std::vector<EntityMeta> &c
     {
         ChunkCMP *chunkData = em.getComponent<ChunkCMP>(ent.getNextId());
         if (!chunkData)
-        {
             continue;
-        }
 
         int offsetX = chunkData->chunkX * CHUNK_SIZE;
         int offsetZ = chunkData->chunkZ * CHUNK_SIZE;
@@ -496,10 +535,10 @@ void TerrainSystem::Undo(EntityManagerMeta &em, const std::vector<EntityMeta> &c
                 // Restore the previous noise value from the global history state
                 chunkData->noiseMap[flatIndex] = state.noise[globalIndex];
 
-                // Reset the biome map to DEFAULT so the procedural rules take over again
+                // Reset the biome map to DEFAULT so procedural rules take over
                 chunkData->biomeMap[flatIndex] = BiomeType::DEFAULT;
 
-                // Force the complete regeneration of the 3D voxel column based on the restored noise
+                // Force a complete regeneration of the 3D voxel column based on restored noise
                 BuildColumn(chunkData, x, z, config);
             }
         }

@@ -7,10 +7,8 @@ set(CMAKE_DEPENDS_GENERATOR "MinGW Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeDetermineSystem.cmake"
   "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeGenericSystem.cmake"
   "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeInitializeConfigs.cmake"
-  "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeSystem.cmake.in"
   "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeSystemSpecificInformation.cmake"
   "C:/Program Files/CMake/share/cmake-4.4/Modules/CMakeSystemSpecificInitialize.cmake"
   "C:/Program Files/CMake/share/cmake-4.4/Modules/ExternalProject.cmake"
@@ -18,8 +16,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/Program Files/CMake/share/cmake-4.4/Modules/ExternalProject/RepositoryInfo.txt.in"
   "C:/Program Files/CMake/share/cmake-4.4/Modules/ExternalProject/UpdateInfo.txt.in"
   "C:/Program Files/CMake/share/cmake-4.4/Modules/ExternalProject/cfgcmd.txt.in"
-  "C:/Program Files/CMake/share/cmake-4.4/Modules/ExternalProject/download.cmake.in"
-  "C:/Program Files/CMake/share/cmake-4.4/Modules/ExternalProject/extractfile.cmake.in"
+  "C:/Program Files/CMake/share/cmake-4.4/Modules/ExternalProject/gitclone.cmake.in"
+  "C:/Program Files/CMake/share/cmake-4.4/Modules/ExternalProject/gitupdate.cmake.in"
   "C:/Program Files/CMake/share/cmake-4.4/Modules/ExternalProject/mkdirs.cmake.in"
   "C:/Program Files/CMake/share/cmake-4.4/Modules/ExternalProject/shared_internal_commands.cmake"
   "C:/Program Files/CMake/share/cmake-4.4/Modules/Platform/Windows-Initialize.cmake"
@@ -38,12 +36,10 @@ set(CMAKE_MAKEFILE_OUTPUTS
 
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
-  "CMakeFiles/4.4.2/CMakeSystem.cmake"
   "raylib-populate-prefix/tmp/raylib-populate-mkdirs.cmake"
-  "raylib-populate-prefix/src/raylib-populate-stamp/download-raylib-populate.cmake"
-  "raylib-populate-prefix/src/raylib-populate-stamp/verify-raylib-populate.cmake"
-  "raylib-populate-prefix/src/raylib-populate-stamp/extract-raylib-populate.cmake"
-  "raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-urlinfo.txt"
+  "raylib-populate-prefix/tmp/raylib-populate-gitclone.cmake"
+  "raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-gitinfo.txt"
+  "raylib-populate-prefix/tmp/raylib-populate-gitupdate.cmake"
   "raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-update-info.txt"
   "raylib-populate-prefix/src/raylib-populate-stamp/raylib-populate-patch-info.txt"
   "raylib-populate-prefix/tmp/raylib-populate-cfgcmd.txt"

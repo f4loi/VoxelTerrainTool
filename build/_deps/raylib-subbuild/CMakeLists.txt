@@ -16,10 +16,18 @@ unset(ENV{CMAKE_TOOLCHAIN_FILE})
 project(raylib-populate NONE)
 
 
+# Pass through things we've already detected in the main project to avoid
+# paying the cost of redetecting them again in ExternalProject_Add()
+set(GIT_EXECUTABLE [==[C:/Program Files/Git/cmd/git.exe]==])
+set(Git_VERSION [==[2.55.0.windows.3]==])
+set_property(GLOBAL PROPERTY _CMAKE_FindGit_GIT_EXECUTABLE_VERSION
+  [==[C:/Program Files/Git/cmd/git.exe;2.55.0.windows.3]==]
+)
+
 
 include(ExternalProject)
 ExternalProject_Add(raylib-populate
-                     "UPDATE_DISCONNECTED" "False" "DOWNLOAD_EXTRACT_TIMESTAMP" "TRUE" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "URL" "https://github.com/raysan5/raylib/archive/refs/heads/master.tar.gz"
+                     "UPDATE_DISCONNECTED" "False" "GIT_REPOSITORY" "https://github.com/raysan5/raylib.git" "EXTERNALPROJECT_INTERNAL_ARGUMENT_SEPARATOR" "GIT_TAG" "master"
                     SOURCE_DIR          "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-src"
                     BINARY_DIR          "C:/Users/f4loi/Desktop/Portfolio/EnginePortfolio/build/_deps/raylib-build"
                     CONFIGURE_COMMAND   ""

@@ -14,8 +14,8 @@ enum class BrushType
     FLATTEN,
     SMOOTH,
     ROUGHEN,
-    TERRACE, // Crea escalones geológicos
-    SHARPEN  // Afila y levanta las crestas
+    TERRACE, 
+    SHARPEN  
 };
 
 enum class BrushShape
