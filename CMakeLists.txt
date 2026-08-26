@@ -91,3 +91,16 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
         target_compile_options(${PROJECT_NAME} PRIVATE -O3 -ffast-math)
     endif()
 endif()
+
+if(WIN32)
+    if(MSVC)
+        # Para Visual Studio (Incrusta el C Runtime)
+        set_property(TARGET ${PROJECT_NAME} PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+    elseif(MINGW OR CMAKE_COMPILER_IS_GNUCXX)
+        # Para MinGW / GCC (Incrusta las librerías de C++)
+        target_link_options(${PROJECT_NAME} PRIVATE -static -static-libgcc -static-libstdc++)
+        
+        # Opcional: Descomenta la siguiente línea si quieres ocultar la ventana negra de la consola al abrir el juego
+        # target_link_options(${PROJECT_NAME} PRIVATE -Wl,--subsystem,windows)
+    endif()
+endif()
