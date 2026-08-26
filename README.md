@@ -93,7 +93,7 @@ Whether you want to generate rolling hills, carve rivers, or raise jagged mounta
 You don't need to compile the code to try the editor! A pre-compiled executable is available for Windows.
 
 1. Go to the [Releases page](../../releases/latest).
-2. Download the `VoxelBiomeEditor_Windows.zip` file.
+2. Download the `VoxelTerrainTool.zip` file.
 3. Extract the contents to any folder.
 4. Run `VoxelEngine.exe` and start sculpting!
 
